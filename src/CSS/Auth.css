@@ -1,0 +1,72 @@
+.Auth {
+    /* border: #f7a400 1px solid; */
+    height: 100%;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Auth-title::before {
+    content: "뭘 고를지 고민될 때";
+    font-size: 40px;
+    display: inline-block;
+    animation: changeTitle 4s 0.3s both ease-in-out;
+}
+
+.Auth-greet {
+    color: #8797ad;
+    animation: changeButton 2s 4.3s both ease-in-out;
+}
+
+.Auth-google {
+    all: unset;
+    box-sizing: border-box;
+    color: white;
+    padding: 10px;
+    margin-top: 30px;
+    height: 60px;
+    width: 200px;
+    border-radius: 30px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f7a400;
+    animation: changeButton 2s 4.3s both ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@keyframes changeTitle {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+        content: "CHOICEWEB";
+    }
+
+    75% {
+        transform: translate(0);
+        opacity: 1;
+        content: "ChoiceWeb";
+    }
+
+    100% {
+        transform: translate(0, -50px);
+        content: "ChoiceWeb";
+    }
+}
+
+@keyframes changeButton {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
