@@ -12,10 +12,10 @@ const AppRouter = ({ isLoggedin, userObj }) => {
             {isLoggedin ? (
                 <Switch>
                     <Route exact path="/">
-                        <Home />
+                        <Home userObj={userObj} />
                     </Route>
-                    <Route path="/profile" serObj={userObj}>
-                        <Profile />
+                    <Route path="/profile">
+                        <Profile userObj={userObj} />
                     </Route>
                 </Switch>
             ) : (

@@ -25,7 +25,7 @@ const Auth = () => {
 
     return (
         <div className="Auth">
-            <h1 className="Auth-title"></h1>
+            <div className="Auth-title"></div>
             <h2 className="Auth-greet">환영합니다</h2>
             <button className="Auth-google" onClick={onSocialGoogleClick}>
                 Sign up with Google

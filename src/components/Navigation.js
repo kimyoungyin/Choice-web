@@ -7,12 +7,12 @@ const Navigation = () => {
         <nav className="Navigation">
             <ul className="Navigation-ul">
                 <li>
-                    <Link className="Navigation-Link" to="/">
+                    <Link replace className="Navigation-Link" to="/">
                         HOME
                     </Link>
                 </li>
                 <li>
-                    <Link className="Navigation-Link" to="/profile">
+                    <Link replace className="Navigation-Link" to="/profile">
                         PROFILE
                     </Link>
                 </li>

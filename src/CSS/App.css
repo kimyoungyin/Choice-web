@@ -6,7 +6,7 @@
     align-items: center;
     height: 100%;
     width: 80%;
-    /* max-width: 600px; */
+    border-radius: 5px;
     margin-bottom: 40px;
     background-color: white;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;

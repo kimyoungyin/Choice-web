@@ -10,8 +10,11 @@
 }
 
 .Auth-title::before {
-    content: "뭘 고를지 고민될 때";
+    content: "뭘 고를지\A고민될 때";
+    text-align: center;
+    white-space: pre;
     font-size: 40px;
+    font-weight: 700;
     display: inline-block;
     animation: changeTitle 4s 0.3s both ease-in-out;
 }
@@ -47,7 +50,7 @@
 
     50% {
         opacity: 1;
-        content: "CHOICEWEB";
+        content: "ChoiceWeb";
     }
 
     75% {
