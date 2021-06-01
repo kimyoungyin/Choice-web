@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../fb";
 import "../CSS/Home.css";
-import ChoiceContent from "../components/ChoiceContent";
+import Content from "../components/Content";
 const Home = ({ userObj }) => {
     const [uploadMode, setUploadMode] = useState(false);
     const [question, setQuestion] = useState("");
@@ -52,8 +52,6 @@ const Home = ({ userObj }) => {
             question: question,
             choice1: choice1,
             choice2: choice2,
-            select1: 0,
-            select2: 0,
             when: Date.now(),
         });
         setQuestion("");
@@ -67,7 +65,7 @@ const Home = ({ userObj }) => {
                 <>
                     <div className="Home-list">
                         {choiceItems.map((item) => (
-                            <ChoiceContent
+                            <Content
                                 key={item.id}
                                 item={item}
                                 userObj={userObj}

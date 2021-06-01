@@ -1,0 +1,10 @@
+.ChoiceInfo {
+    width: 100%;
+    /* position: absolute;
+    top: 30px; */
+}
+
+.ChoiceInfo-ul {
+    background-color: aqua;
+    width: 100%;
+}
