@@ -53,6 +53,7 @@ const Home = ({ userObj }) => {
             choice1: choice1,
             choice2: choice2,
             when: Date.now(),
+            writer: userObj.displayName,
         });
         setQuestion("");
         setChoice1("");

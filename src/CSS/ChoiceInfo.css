@@ -1,10 +1,24 @@
 .ChoiceInfo {
-    width: 100%;
-    /* position: absolute;
-    top: 30px; */
+    width: 80%;
+    position: absolute;
 }
 
 .ChoiceInfo-ul {
-    background-color: aqua;
     width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ChoiceInfo-ul li {
+    flex: 1;
+}
+
+.ChoiceInfo-choice1 {
+    background-color: coral;
+}
+
+.ChoiceInfo-choice2 {
+    text-align: end;
+    background-color: burlywood;
 }
