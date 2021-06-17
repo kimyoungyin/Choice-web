@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { dbService } from "../fb";
 import "../CSS/Home.css";
 import Content from "../components/Content";
+import AddForm from "../components/AddForm";
 const Home = ({ userObj }) => {
     const [uploadMode, setUploadMode] = useState(false);
+    const [choiceItems, setChoiceItems] = useState([]);
     const [question, setQuestion] = useState("");
     const [choice1, setChoice1] = useState("");
     const [choice2, setChoice2] = useState("");
-    const [choiceItems, setChoiceItems] = useState([]);
+
     useEffect(() => {
         dbService.collection("questions").onSnapshot((snapshot) => {
             const questions = snapshot.docs.map((doc) => ({
@@ -60,6 +62,10 @@ const Home = ({ userObj }) => {
         setChoice2("");
     };
 
+    const cancelAdd = () => {
+        setUploadMode(false);
+    };
+
     return (
         <div className="Home">
             {!uploadMode ? (
@@ -78,37 +84,13 @@ const Home = ({ userObj }) => {
                     </button>
                 </>
             ) : (
-                <form className="Home-form" onSubmit={onSubmit}>
-                    <input
-                        className="Home-question"
-                        type="text"
-                        value={question}
-                        name="question"
-                        onChange={onChange}
-                        required
-                    />
-                    <div className="Home-choices">
-                        <input
-                            className="Home-choice1"
-                            type="text"
-                            value={choice1}
-                            name="choice1"
-                            onChange={onChange}
-                            required
-                        />
-                        <input
-                            className="Home-choice2"
-                            type="text"
-                            value={choice2}
-                            name="choice2"
-                            onChange={onChange}
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="Home-button">
-                        Upload
-                    </button>
-                </form>
+                <AddForm
+                    onChange={onChange}
+                    onSubmit={onSubmit}
+                    choice1={choice1}
+                    choice2={choice2}
+                    cancelAdd={cancelAdd}
+                />
             )}
         </div>
     );

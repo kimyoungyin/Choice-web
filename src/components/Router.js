@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import Auth from "../routes/Auth";
 import Home from "../routes/Home";
 import Profile from "../routes/Profile";
-import ChoiceInfo from "./ChoiceInfo";
+import ChoiceInfo from "../routes/ChoiceInfo";
 import Navigation from "./Navigation";
 import Title from "./Title";
 const AppRouter = ({ isLoggedin, userObj }) => {
