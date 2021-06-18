@@ -17,7 +17,7 @@ function App() {
                     email: user.email,
                 });
             } else {
-                setIsLoggedIn(false);
+                setIsLoggedIn(false); // 임시 변경
             }
             setInit(true);
         });

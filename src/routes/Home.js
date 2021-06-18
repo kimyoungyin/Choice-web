@@ -37,78 +37,6 @@ const Home = ({ userObj }) => {
         setUploadMode((prev) => !prev);
     };
 
-    const onChange = (e) => {
-        const {
-            target: { name, value },
-        } = e;
-        if (name === "question") {
-            setQuestion(value);
-        } else if (name === "choice1") {
-            setChoice1(value);
-        } else if (name === "choice2") {
-            setChoice2(value);
-        }
-    };
-
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        setUploadMode(false);
-        let attachment1Url = "";
-        let attachment2Url = "";
-        if (attachment1 !== "" && attachment2 !== "") {
-            const attachmentRef = storageService
-                .ref()
-                .child(`${userObj.email}/${uuidv4()}`);
-            const response1 = await attachmentRef.putString(
-                attachment1,
-                "data_url"
-            );
-            const response2 = await attachmentRef.putString(
-                attachment2,
-                "data_url"
-            );
-            attachment1Url = await response1.ref.getDownloadURL();
-            attachment2Url = await response2.ref.getDownloadURL();
-        } else if (attachment1 !== "") {
-            const attachmentRef = storageService
-                .ref()
-                .child(`${userObj.email}/${uuidv4()}`);
-            const response1 = await attachmentRef.putString(
-                attachment1,
-                "data_url"
-            );
-            attachment1Url = await response1.ref.getDownloadURL();
-        } else if (attachment2 !== "") {
-            const attachmentRef = storageService
-                .ref()
-                .child(`${userObj.email}/${uuidv4()}`);
-            const response2 = await attachmentRef.putString(
-                attachment2,
-                "data_url"
-            );
-            attachment2Url = await response2.ref.getDownloadURL();
-        }
-        const contentObj = {
-            question: question,
-            choice1: choice1,
-            choice2: choice2,
-            when: Date.now(),
-            writer: userObj.displayName,
-            attachment1Url,
-            attachment2Url,
-        };
-        await dbService.collection("questions").add(contentObj);
-        setQuestion("");
-        setChoice1("");
-        setChoice2("");
-        setAttachment1("");
-        setAttachment2("");
-    };
-
-    const cancelAdd = () => {
-        setUploadMode(false);
-    };
-
     const onFileChange = (event) => {
         const {
             target: { files, className },
@@ -138,6 +66,79 @@ const Home = ({ userObj }) => {
         const file = document.querySelector(".AddForm-choice2Img");
         file.value = "";
         setAttachment2("");
+    };
+
+    const onChange = (e) => {
+        const {
+            target: { name, value },
+        } = e;
+        if (name === "question") {
+            setQuestion(value);
+        } else if (name === "choice1") {
+            setChoice1(value);
+        } else if (name === "choice2") {
+            setChoice2(value);
+        }
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setUploadMode(false);
+        let attachment1Url = "";
+        let attachment2Url = "";
+        const attachmentRef1 = storageService
+            .ref()
+            .child(`${userObj.uid}/${uuidv4()}`);
+        const attachmentRef2 = storageService
+            .ref()
+            .child(`${userObj.uid}/${uuidv4()}`);
+        if (attachment1 !== "" && attachment2 !== "") {
+            const response1 = await attachmentRef1.putString(
+                attachment1,
+                "data_url"
+            );
+            attachment1Url = await response1.ref.getDownloadURL();
+            const response2 = await attachmentRef2.putString(
+                attachment2,
+                "data_url"
+            );
+            attachment2Url = await response2.ref.getDownloadURL();
+        } else if (attachment1 !== "") {
+            console.log("1만 빈칸 아님");
+            const response1 = await attachmentRef1.putString(
+                attachment1,
+                "data_url"
+            );
+            attachment1Url = await response1.ref.getDownloadURL();
+        } else if (attachment2 !== "") {
+            console.log("2만 빈칸 아님");
+            const response2 = await attachmentRef2.putString(
+                attachment2,
+                "data_url"
+            );
+            attachment2Url = await response2.ref.getDownloadURL();
+        }
+
+        const contentObj = {
+            question: question,
+            choice1: choice1,
+            choice2: choice2,
+            when: Date.now(),
+            writer: userObj.displayName,
+            attachment1Url,
+            attachment2Url,
+        };
+        await dbService.collection("questions").add(contentObj);
+        setQuestion("");
+        setChoice1("");
+        setChoice2("");
+        alert("업로드 완료");
+        setAttachment1("");
+        setAttachment2("");
+    };
+
+    const cancelAdd = () => {
+        setUploadMode(false);
     };
 
     return (

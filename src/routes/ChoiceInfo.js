@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { dbService } from "../fb";
+import { dbService, storageService } from "../fb";
 import "../CSS/ChoiceInfo.css";
 import { useHistory } from "react-router";
 
@@ -51,7 +51,7 @@ const ChoiceInfo = ({ match, userObj }) => {
             ...itemRef,
             id: idRef,
         };
-        documentRef
+        await documentRef
             .get()
             .then(() => {
                 documentRef
@@ -157,6 +157,16 @@ const ChoiceInfo = ({ match, userObj }) => {
     const goToHome = () => {
         history.push("/");
     };
+
+    const deleteContent = async () => {
+        const ok = window.confirm("정말 이 질문을 삭제하겠습니까?");
+        if (ok) {
+            await document.delete();
+            await storageService.refFromURL(item.attachment1Url).delete();
+            await storageService.refFromURL(item.attachment2Url).delete();
+            goToHome();
+        }
+    };
     return (
         <>
             {init && (
@@ -168,6 +178,13 @@ const ChoiceInfo = ({ match, userObj }) => {
                             <section className="ChoiceInfo-choice1">
                                 <h4>{item.choice1}</h4>
                                 <h5>{choice1Users}</h5>
+                                {item.attachment1Url && (
+                                    <img
+                                        src={item.attachment1Url}
+                                        alt="choice1"
+                                        width="100%"
+                                    />
+                                )}
                                 <button onClick={addChoice1User}>
                                     {selected1 ? "선택함" : "선택하기"}
                                 </button>
@@ -177,6 +194,13 @@ const ChoiceInfo = ({ match, userObj }) => {
                             <section className="ChoiceInfo-choice2">
                                 <h4>{item.choice2} </h4>
                                 <h5>{choice2Users}</h5>
+                                {item.attachment2Url && (
+                                    <img
+                                        src={item.attachment2Url}
+                                        alt="choice2"
+                                        width="100%"
+                                    />
+                                )}
                                 <button onClick={addChoice2User}>
                                     {selected2 ? "선택함" : "선택하기"}
                                 </button>
@@ -187,7 +211,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                     <button onClick={completeSelect}>
                         {selected1 || selected2 ? "변경" : "취소"}
                     </button>
-
+                    <button onClick={deleteContent}>Delete</button>
                     <button onClick={goToHome}>Home으로</button>
                 </article>
             )}
