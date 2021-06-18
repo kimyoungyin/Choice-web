@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { dbService } from "../fb";
+import { v4 as uuidv4 } from "uuid";
+import { dbService, storageService } from "../fb";
 import "../CSS/Home.css";
 import Content from "../components/Content";
 import AddForm from "../components/AddForm";
@@ -9,6 +10,8 @@ const Home = ({ userObj }) => {
     const [question, setQuestion] = useState("");
     const [choice1, setChoice1] = useState("");
     const [choice2, setChoice2] = useState("");
+    const [attachment1, setAttachment1] = useState("");
+    const [attachment2, setAttachment2] = useState("");
 
     useEffect(() => {
         dbService.collection("questions").onSnapshot((snapshot) => {
@@ -47,23 +50,94 @@ const Home = ({ userObj }) => {
         }
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         setUploadMode(false);
-        dbService.collection("questions").add({
+        let attachment1Url = "";
+        let attachment2Url = "";
+        if (attachment1 !== "" && attachment2 !== "") {
+            const attachmentRef = storageService
+                .ref()
+                .child(`${userObj.email}/${uuidv4()}`);
+            const response1 = await attachmentRef.putString(
+                attachment1,
+                "data_url"
+            );
+            const response2 = await attachmentRef.putString(
+                attachment2,
+                "data_url"
+            );
+            attachment1Url = await response1.ref.getDownloadURL();
+            attachment2Url = await response2.ref.getDownloadURL();
+        } else if (attachment1 !== "") {
+            const attachmentRef = storageService
+                .ref()
+                .child(`${userObj.email}/${uuidv4()}`);
+            const response1 = await attachmentRef.putString(
+                attachment1,
+                "data_url"
+            );
+            attachment1Url = await response1.ref.getDownloadURL();
+        } else if (attachment2 !== "") {
+            const attachmentRef = storageService
+                .ref()
+                .child(`${userObj.email}/${uuidv4()}`);
+            const response2 = await attachmentRef.putString(
+                attachment2,
+                "data_url"
+            );
+            attachment2Url = await response2.ref.getDownloadURL();
+        }
+        const contentObj = {
             question: question,
             choice1: choice1,
             choice2: choice2,
             when: Date.now(),
             writer: userObj.displayName,
-        });
+            attachment1Url,
+            attachment2Url,
+        };
+        await dbService.collection("questions").add(contentObj);
         setQuestion("");
         setChoice1("");
         setChoice2("");
+        setAttachment1("");
+        setAttachment2("");
     };
 
     const cancelAdd = () => {
         setUploadMode(false);
+    };
+
+    const onFileChange = (event) => {
+        const {
+            target: { files, className },
+        } = event;
+        const theFile = files[0];
+        const reader = new FileReader();
+        reader.onloadend = (finishedEvent) => {
+            const {
+                currentTarget: { result },
+            } = finishedEvent;
+            if (className === "AddForm-choice1Img") {
+                setAttachment1(result);
+            } else if (className === "AddForm-choice2Img") {
+                setAttachment2(result);
+            }
+        };
+        reader.readAsDataURL(theFile);
+    };
+
+    const onClearAttachment1 = () => {
+        const file = document.querySelector(".AddForm-choice1Img");
+        file.value = "";
+        setAttachment1("");
+    };
+
+    const onClearAttachment2 = () => {
+        const file = document.querySelector(".AddForm-choice2Img");
+        file.value = "";
+        setAttachment2("");
     };
 
     return (
@@ -90,6 +164,11 @@ const Home = ({ userObj }) => {
                     choice1={choice1}
                     choice2={choice2}
                     cancelAdd={cancelAdd}
+                    onFileChange={onFileChange}
+                    attachment1={attachment1}
+                    attachment2={attachment2}
+                    onClearAttachment1={onClearAttachment1}
+                    onClearAttachment2={onClearAttachment2}
                 />
             )}
         </div>

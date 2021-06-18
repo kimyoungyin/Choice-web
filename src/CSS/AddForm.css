@@ -18,13 +18,24 @@
 .AddForm-form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
-.AddForm-choices {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+/* .AddForm-questionBox {
+
+} */
+
+.AddForm-Box {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.input {
+    outline: none;
+    width: 100%;
+    padding: 0.8em 0.5em;
 }
 
 .AddForm-cancelButton {
