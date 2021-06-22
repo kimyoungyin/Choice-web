@@ -1,3 +1,10 @@
+:root {
+    --pastel-brown: #ffc996;
+    --pastel-tomato: #ff8474;
+    --pastel-lightPurple: #9f5f80;
+    --pastel-purple: #583d72;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,7 +29,7 @@ body,
     justify-content: flex-end;
     position: relative;
     background-color: #f7a400;
-    padding-top: 50px;
+    /* padding-top: 50px; */
 }
 
 /* App.js */
@@ -33,11 +40,10 @@ body,
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     background-color: white;
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 /* Auth.js */
@@ -53,10 +59,10 @@ body,
 }
 
 .Auth-title::before {
-    content: "뭘 고를지\A고민될 때";
+    content: "뭘 고를지 고민될 때";
     text-align: center;
     white-space: pre;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 700;
     display: inline-block;
     animation: changeTitle 4s 0.3s both ease-in-out;
@@ -67,7 +73,6 @@ body,
     animation: changeButton 2s 4.3s both ease-in-out;
 }
 
-/* Auth.js */
 .Auth-google {
     all: unset;
     box-sizing: border-box;
@@ -118,32 +123,56 @@ body,
     }
 }
 
+/* Title.js */
+.Title {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--pastel-purple);
+    color: white;
+    /* border-bottom: gray 0.5px solid; */
+}
+
 /* Home.js */
 .Home {
-    position: relative;
+    background-color: var(--pastel-lightPurple);
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2em;
+    margin: 50px 0 40px 0;
+    padding: 1.5em 2em;
 }
 
 .Home-button {
     all: unset;
-    box-sizing: border-box;
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    background-color: #feedd5;
-    color: #f7a400;
+    position: fixed;
+    z-index: 1;
+    bottom: 10px;
+    background-color: white;
+    color: var(--pastel-tomato);
     width: 60px;
     height: 60px;
+    cursor: pointer;
     text-align: center;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
         rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
         rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    transition: 1s;
+}
+
+.Home-button:hover {
+    transform: scale(1.1);
+    background-color: var(--pastel-brown);
 }
 
 .Home-list {
@@ -152,6 +181,57 @@ body,
     flex-direction: column;
     align-items: center;
     height: 100%;
+}
+
+/* Content.js */
+.Content {
+    width: 100%;
+    height: 20%;
+    cursor: pointer;
+    border-top: 3px solid var(--pastel-tomato);
+    border-bottom: 3px solid var(--pastel-tomato);
+    /* background-color: var(--pastel-tomato); */
+    color: white;
+    padding: 5px 10px;
+    margin-bottom: 2em;
+    line-height: 1.5;
+    /* border-radius: 5px; */
+    transition: 0.8s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Navigation.js  */
+.Navigation {
+    background-color: var(--pastel-purple);
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+}
+
+.Navigation-ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.Navigation-ul li {
+    flex: 1;
+    text-align: center;
+    height: 100%;
+    /* border: #f7a400 1px solid; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Navigation-Link {
+    color: white;
+    font-size: 15px;
 }
 
 /* ChoiceInfo.js */
@@ -198,61 +278,6 @@ body,
 
 img {
     width: 100%;
-}
-
-/* Title.js */
-.Title {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 50px;
-    font-size: 20px;
-    font-weight: 800;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f7a400;
-    /* border-bottom: gray 0.5px solid; */
-}
-
-/* Navigation.js  */
-.Navigation {
-    background-color: #2e3b52;
-    /* border-top: white 1px solid; */
-    /* border-radius: 5px; */
-    width: 100%;
-    height: 40px;
-    position: absolute;
-    bottom: 0;
-}
-
-.Navigation-ul {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-}
-
-.Navigation-ul li {
-    flex: 1;
-    text-align: center;
-    height: 100%;
-    /* border: #f7a400 1px solid; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.Navigation-Link {
-    color: white;
-    font-size: 15px;
-}
-
-/* Content.js */
-.Content {
-    width: 100%;
-    height: 100%;
 }
 
 /* AddForm.js */
