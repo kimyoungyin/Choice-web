@@ -1,24 +1,44 @@
 .ChoiceInfo {
     width: 80%;
-    position: absolute;
-}
-
-.ChoiceInfo-ul {
-    width: 100%;
+    height: 100%;
+    /* position: absolute; */
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
 }
 
-.ChoiceInfo-ul li {
-    flex: 1;
+.ChoiceInfo-choices {
+    height: 100%;
+    display: flex;
 }
 
 .ChoiceInfo-choice1 {
+    flex: 1;
     background-color: coral;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .ChoiceInfo-choice2 {
+    flex: 1;
     text-align: end;
     background-color: burlywood;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ChoiceInfo-btns {
+    width: 100%;
+    display: flex;
+}
+
+.ChoiceInfo-btns button {
+    flex: 1;
+}
+
+img {
+    width: 100%;
 }

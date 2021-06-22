@@ -26,6 +26,7 @@ const AddForm = ({
                     name="question"
                     onChange={onChange}
                     required
+                    autoComplete="off"
                 />
             </div>
             <div className="AddForm-Box">
@@ -57,6 +58,7 @@ const AddForm = ({
                     name="choice1"
                     onChange={onChange}
                     required
+                    autoComplete="off"
                 />
             </div>
             <div className="AddForm-Box">
@@ -88,6 +90,7 @@ const AddForm = ({
                     name="choice2"
                     onChange={onChange}
                     required
+                    autoComplete="off"
                 />
             </div>
 

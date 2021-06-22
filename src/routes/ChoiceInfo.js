@@ -173,46 +173,36 @@ const ChoiceInfo = ({ match, userObj }) => {
                 <article className="ChoiceInfo">
                     <h2>{item.question}</h2>
                     <h3>작성자 {item.writer}</h3>
-                    <ul className="ChoiceInfo-ul">
-                        <li>
-                            <section className="ChoiceInfo-choice1">
-                                <h4>{item.choice1}</h4>
-                                <h5>{choice1Users}</h5>
-                                {item.attachment1Url && (
-                                    <img
-                                        src={item.attachment1Url}
-                                        alt="choice1"
-                                        width="100%"
-                                    />
-                                )}
-                                <button onClick={addChoice1User}>
-                                    {selected1 ? "선택함" : "선택하기"}
-                                </button>
-                            </section>
-                        </li>
-                        <li>
-                            <section className="ChoiceInfo-choice2">
-                                <h4>{item.choice2} </h4>
-                                <h5>{choice2Users}</h5>
-                                {item.attachment2Url && (
-                                    <img
-                                        src={item.attachment2Url}
-                                        alt="choice2"
-                                        width="100%"
-                                    />
-                                )}
-                                <button onClick={addChoice2User}>
-                                    {selected2 ? "선택함" : "선택하기"}
-                                </button>
-                            </section>
-                        </li>
-                    </ul>
+                    <div className="ChoiceInfo-choices">
+                        <section className="ChoiceInfo-choice1">
+                            <h4>{item.choice1}</h4>
+                            <h5>{choice1Users}</h5>
+                            {item.attachment1Url && (
+                                <img src={item.attachment1Url} alt="choice1" />
+                            )}
+                            <button onClick={addChoice1User}>
+                                {selected1 ? "선택함" : "선택하기"}
+                            </button>
+                        </section>
+                        <section className="ChoiceInfo-choice2">
+                            <h4>{item.choice2} </h4>
+                            <h5>{choice2Users}</h5>
+                            {item.attachment2Url && (
+                                <img src={item.attachment2Url} alt="choice2" />
+                            )}
+                            <button onClick={addChoice2User}>
+                                {selected2 ? "선택함" : "선택하기"}
+                            </button>
+                        </section>
+                    </div>
 
-                    <button onClick={completeSelect}>
-                        {selected1 || selected2 ? "변경" : "취소"}
-                    </button>
-                    <button onClick={deleteContent}>Delete</button>
-                    <button onClick={goToHome}>Home으로</button>
+                    <div className="choiceInfo-btns">
+                        <button onClick={completeSelect}>
+                            {selected1 || selected2 ? "변경" : "취소"}
+                        </button>
+                        <button onClick={deleteContent}>Delete</button>
+                        <button onClick={goToHome}>Home으로</button>
+                    </div>
                 </article>
             )}
         </>
