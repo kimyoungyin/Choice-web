@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fb";
-import "../CSS/Home.css";
+import "../style.css";
 import Content from "../components/Content";
 import AddForm from "../components/AddForm";
 const Home = ({ userObj }) => {

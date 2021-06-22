@@ -1,5 +1,5 @@
 import React from "react";
-import "../CSS/Title.css";
+import "../style.css";
 const Title = () => {
     return <div className="Title">ChoiceWeb</div>;
 };

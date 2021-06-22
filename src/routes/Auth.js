@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { firebaseInstance, authService } from "../fb";
-import "../CSS/Auth.css";
+import "../style.css";
 
 const Auth = () => {
     const [errorMessage, setErrorMessage] = useState("");

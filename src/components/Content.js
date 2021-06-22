@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router";
-import "../CSS/Content.css";
+import "../style.css";
 
 const Content = ({ item, userObj }) => {
     const history = useHistory();

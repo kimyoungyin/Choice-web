@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AppRouter from "./Router";
-import "../CSS/App.css";
+import "../style.css";
 import { authService } from "../fb";
 function App() {
     const [init, setInit] = useState(false);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "../fb";
-import "../CSS/ChoiceInfo.css";
+import "../style.css";
 import { useHistory } from "react-router";
 
 const ChoiceInfo = ({ match, userObj }) => {

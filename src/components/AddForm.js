@@ -1,5 +1,5 @@
 import React from "react";
-import "../CSS/AddForm.css";
+import "../style.css";
 
 const AddForm = ({
     onChange,
