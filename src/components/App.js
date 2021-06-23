@@ -15,6 +15,7 @@ function App() {
                     displayName: user.displayName,
                     uid: user.uid,
                     email: user.email,
+                    photo: user.photoURL,
                 });
             } else {
                 setIsLoggedIn(false); // 임시 변경

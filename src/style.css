@@ -28,7 +28,6 @@ body,
     flex-direction: column;
     justify-content: flex-end;
     position: relative;
-    background-color: #f7a400;
     /* padding-top: 50px; */
 }
 
@@ -41,7 +40,7 @@ body,
     align-items: center;
     height: 100%;
     width: 100%;
-    border-radius: 5px;
+
     /* margin-bottom: 40px; */
     background-color: white;
 }
@@ -135,30 +134,39 @@ body,
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--pastel-purple);
-    color: white;
-    /* border-bottom: gray 0.5px solid; */
+    color: var(--pastel-tomato);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 /* Home.js */
 .Home {
-    background-color: var(--pastel-lightPurple);
+    /* background-color: var(--pastel-lightPurple); */
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 50px 0 40px 0;
-    padding: 1.5em 2em;
+    padding: 50px 0 50px 0;
+}
+
+.Home-tip {
+    width: 100%;
+    height: 40px;
+    /* padding: 10px; */
+    background-color: rgba(0, 0, 0, 0.1);
+    line-height: 40px;
+    text-align: center;
 }
 
 .Home-button {
     all: unset;
     position: fixed;
-    z-index: 1;
-    bottom: 10px;
-    background-color: white;
-    color: var(--pastel-tomato);
+    right: 10px;
+    bottom: 50px;
+    background-color: var(--pastel-tomato);
+    color: white;
+    font-size: 30px;
     width: 60px;
     height: 60px;
     cursor: pointer;
@@ -167,7 +175,7 @@ body,
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
         rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
         rgba(0, 0, 0, 0.09) 0px 32px 16px;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .Home-button:hover {
@@ -176,35 +184,65 @@ body,
 }
 
 .Home-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 90%;
     height: 100%;
+    overflow: auto;
+}
+
+.Home-list {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.Home-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
 }
 
 /* Content.js */
 .Content {
     width: 100%;
-    height: 20%;
+    height: 24%;
     cursor: pointer;
-    border-top: 3px solid var(--pastel-tomato);
-    border-bottom: 3px solid var(--pastel-tomato);
-    /* background-color: var(--pastel-tomato); */
-    color: white;
-    padding: 5px 10px;
-    margin-bottom: 2em;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px 10px;
+    /* margin-bottom: 2em; */
     line-height: 1.5;
     /* border-radius: 5px; */
     transition: 0.8s;
     display: flex;
+    align-items: center;
+}
+
+.Content:active {
+    background-color: var(--pastel-brown);
+}
+
+.Content-imageBox {
+    height: 100%;
+    margin-right: 20px;
+    display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.Content-image {
+    height: 25%;
+    border: var(--pastel-brown) 1px solid;
+    border-radius: 50%;
+}
+
+.Content-when {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 15px;
 }
 
 /* Navigation.js  */
 .Navigation {
-    background-color: var(--pastel-purple);
+    background-color: var(--pastel-lightPurple);
     width: 100%;
     height: 40px;
     position: absolute;
@@ -275,10 +313,10 @@ body,
 .ChoiceInfo-btns button {
     flex: 1;
 }
-
+/* 
 img {
     width: 100%;
-}
+} */
 
 /* AddForm.js */
 .AddForm-button {

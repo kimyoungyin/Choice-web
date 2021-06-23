@@ -145,6 +145,9 @@ const Home = ({ userObj }) => {
         <div className="Home">
             {!uploadMode ? (
                 <>
+                    <h2 className="Home-tip">
+                        선택에 참여하여 고민하는 사람들을 도와주세요!
+                    </h2>
                     <div className="Home-list">
                         {choiceItems.map((item) => (
                             <Content
