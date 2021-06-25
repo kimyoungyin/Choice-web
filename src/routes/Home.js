@@ -125,6 +125,7 @@ const Home = ({ userObj }) => {
             choice2: choice2,
             when: Date.now(),
             writer: userObj.displayName,
+            photo: userObj.photo,
             attachment1Url,
             attachment2Url,
         };

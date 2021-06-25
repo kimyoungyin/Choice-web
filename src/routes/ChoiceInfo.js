@@ -24,12 +24,12 @@ const ChoiceInfo = ({ match, userObj }) => {
                 querySnapshot.forEach((doc) => {
                     if (doc.data().user === userObj.displayName) {
                         if (choiceType === 1) {
-                            console.log("1 발견");
+                            // console.log("1 발견");
                             setSelected1(true);
                             setAlready(1);
                             setAlreadyId(doc.id);
                         } else if (choiceType === 2) {
-                            console.log("2 발견");
+                            // console.log("2 발견");
                             setSelected2(true);
                             setAlready(2);
                             setAlreadyId(doc.id);
@@ -171,38 +171,58 @@ const ChoiceInfo = ({ match, userObj }) => {
         <>
             {init && (
                 <article className="ChoiceInfo">
-                    <h2>{item.question}</h2>
-                    <h3>작성자 {item.writer}</h3>
+                    <h2 className="Home-tip">
+                        이미지를 자세히 보고 싶으면 클릭해보세요!
+                    </h2>
+                    <h2 className="ChoiceInfo-writer">
+                        {item.writer} 님의 고민!
+                    </h2>
+                    <h3 className="ChoiceInfo-question">Q. {item.question}</h3>
                     <div className="ChoiceInfo-choices">
-                        <section className="ChoiceInfo-choice1">
-                            <h4>{item.choice1}</h4>
-                            <h5>{choice1Users}</h5>
+                        <div className="ChoiceInfo-choice1">
                             {item.attachment1Url && (
-                                <img src={item.attachment1Url} alt="choice1" />
+                                <img
+                                    className="ChoiceInfo-img"
+                                    src={item.attachment1Url}
+                                    alt="choice1"
+                                />
                             )}
-                            <button onClick={addChoice1User}>
+                            <div className="ChoiceInfo-text">
+                                <div>{item.choice1}</div>
+                            </div>
+                            <button
+                                className="ChoiceInfo-choiceBtn"
+                                onClick={addChoice1User}
+                            >
                                 {selected1 ? "선택함" : "선택하기"}
                             </button>
-                        </section>
-                        <section className="ChoiceInfo-choice2">
-                            <h4>{item.choice2} </h4>
-                            <h5>{choice2Users}</h5>
+                        </div>
+                        <div className="ChoiceInfo-choice2">
                             {item.attachment2Url && (
-                                <img src={item.attachment2Url} alt="choice2" />
+                                <img
+                                    className="ChoiceInfo-img"
+                                    src={item.attachment2Url}
+                                    alt="choice2"
+                                />
                             )}
-                            <button onClick={addChoice2User}>
+                            <div className="ChoiceInfo-text">
+                                <div>{item.choice2}</div>
+                            </div>
+                            <button
+                                className="ChoiceInfo-choiceBtn"
+                                onClick={addChoice2User}
+                            >
                                 {selected2 ? "선택함" : "선택하기"}
                             </button>
-                        </section>
+                        </div>
                     </div>
-
-                    <div className="choiceInfo-btns">
-                        <button onClick={completeSelect}>
-                            {selected1 || selected2 ? "변경" : "취소"}
-                        </button>
+                    <button onClick={completeSelect}>
+                        {selected1 || selected2 ? "변경" : "취소"}
+                    </button>
+                    {userObj.displayName === item.writer && (
                         <button onClick={deleteContent}>Delete</button>
-                        <button onClick={goToHome}>Home으로</button>
-                    </div>
+                    )}
+                    <button onClick={goToHome}>Home으로</button>
                 </article>
             )}
         </>

@@ -200,7 +200,7 @@ body,
 /* Content.js */
 .Content {
     width: 100%;
-    height: 24%;
+    height: 22%;
     cursor: pointer;
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -228,7 +228,7 @@ body,
 
 .Content-image {
     height: 25%;
-    border: var(--pastel-brown) 1px solid;
+    /* border: var(--pastel-brown) 1px solid; */
     border-radius: 50%;
 }
 
@@ -274,49 +274,87 @@ body,
 
 /* ChoiceInfo.js */
 .ChoiceInfo {
-    width: 80%;
+    width: 100%;
     height: 100%;
     /* position: absolute; */
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    justify-content: center;
+    align-items: center;
+    /* justify-content: space-around; */
+    padding: 50px 0 50px 0;
+}
+
+.ChoiceInfo-writer {
+    font-size: 1.2em;
+    /* color: var(--pastel-purple); */
+    margin: 20px 0 20px 0;
+}
+
+.ChoiceInfo-question {
+    color: var(--pastel-lightPurple);
+    font-size: 2em;
+    font-weight: 600;
+    text-align: center;
+    word-break: keep-all;
+    margin-bottom: 20px;
+    width: 95%;
 }
 
 .ChoiceInfo-choices {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 60%;
+    background-color: var(--pastel-brown);
+    /* border-radius: 20px; */
+}
+
+.ChoiceInfo-choice1,
+.ChoiceInfo-choice2 {
+    width: 50%;
+    max-width: 400px;
     height: 100%;
     display: flex;
-}
-
-.ChoiceInfo-choice1 {
-    flex: 1;
-    background-color: coral;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.ChoiceInfo-choice2 {
-    flex: 1;
-    text-align: end;
-    background-color: burlywood;
+.ChoiceInfo-img {
+    width: 90%;
+    height: 50%;
+    border-radius: 5px;
+    background-color: var(--pastel-tomato);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.ChoiceInfo-text {
+    color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    word-break: keep-all;
+    line-height: 1.2;
+    width: 90%;
+    height: 100px;
+    margin-top: -15px;
+    padding: 5px 10px;
+    z-index: 1;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 }
 
-.ChoiceInfo-btns {
-    width: 100%;
-    display: flex;
+.ChoiceInfo-choiceBtn {
+    all: unset;
+    position: absolute;
+    bottom: -25px;
+    height: 50px;
+    color: var(--pastel-purple);
 }
-
-.ChoiceInfo-btns button {
-    flex: 1;
-}
-/* 
-img {
-    width: 100%;
-} */
 
 /* AddForm.js */
 .AddForm-button {

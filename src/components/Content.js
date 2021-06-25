@@ -35,8 +35,8 @@ const Content = ({ item, userObj }) => {
             <div className="Content-imageBox">
                 <img
                     className="Content-image"
-                    src={userObj.photo}
-                    alt={userObj.displayName}
+                    src={item.photo}
+                    alt={item.writer}
                 />
             </div>
             <div className="Content-question">{item.question}</div>
