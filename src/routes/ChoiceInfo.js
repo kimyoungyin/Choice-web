@@ -12,8 +12,10 @@ const ChoiceInfo = ({ match, userObj }) => {
     const [item, setItem] = useState(null);
     const [selected1, setSelected1] = useState(false);
     const [selected2, setSelected2] = useState(false);
-    const [already, setAlready] = useState(0);
+    const [already, setAlready] = useState(null);
     const [alreadyId, setAlreadyId] = useState(null);
+    const [btn1Id, setBtn1Id] = useState("");
+    const [btn2Id, setBtn2Id] = useState("");
 
     const checkSelected = async (choiceType, documentRef) => {
         await documentRef
@@ -26,12 +28,14 @@ const ChoiceInfo = ({ match, userObj }) => {
                         if (choiceType === 1) {
                             // console.log("1 발견");
                             setSelected1(true);
-                            setAlready(1);
+                            setBtn1Id("selected");
+                            setAlready("selected1");
                             setAlreadyId(doc.id);
                         } else if (choiceType === 2) {
                             // console.log("2 발견");
                             setSelected2(true);
-                            setAlready(2);
+                            setBtn2Id("selected");
+                            setAlready("selected2");
                             setAlreadyId(doc.id);
                         }
                     }
@@ -96,14 +100,18 @@ const ChoiceInfo = ({ match, userObj }) => {
         if (!selected1 && !selected2) {
             setChoice1Users(choice1Users + 1);
             setSelected1(true);
+            setBtn1Id("selected");
         } else if (selected1 && !selected2) {
             setChoice1Users(choice1Users - 1);
             setSelected1(false);
+            setBtn1Id("");
         } else if (!selected1 && selected2) {
             setChoice1Users(choice1Users + 1);
             setChoice2Users(choice2Users - 1);
             setSelected1(true);
             setSelected2(false);
+            setBtn2Id("");
+            setBtn1Id("selected");
         }
     };
 
@@ -111,46 +119,66 @@ const ChoiceInfo = ({ match, userObj }) => {
         if (!selected1 && !selected2) {
             setChoice2Users(choice2Users + 1);
             setSelected2(true);
+            setBtn2Id("selected");
         } else if (selected2 && !selected1) {
             setChoice2Users(choice2Users - 1);
             setSelected2(false);
+            setBtn2Id("");
         } else if (!selected2 && selected1) {
             setChoice2Users(choice2Users + 1);
             setChoice1Users(choice1Users - 1);
             setSelected2(true);
             setSelected1(false);
+            setBtn1Id("");
+            setBtn2Id("selected");
         }
     };
 
     const completeSelect = () => {
-        if (already === 0) {
+        if (already === null) {
             if (selected1) {
                 document
                     .collection("choice1Users")
                     .add({ user: userObj.displayName });
+                setAlready("selected1");
             } else if (selected2) {
                 document
                     .collection("choice2Users")
                     .add({ user: userObj.displayName });
+                setAlready("selected2");
             }
-        } else if (already === 1) {
+        } else if (already === "selected1") {
             if (selected2) {
                 document
                     .collection("choice2Users")
                     .add({ user: userObj.displayName });
                 document.collection("choice1Users").doc(alreadyId).delete();
+                setAlready("selected2");
             } else if (!selected1 && !selected2) {
                 document.collection("choice1Users").doc(alreadyId).delete();
+                setAlready(null);
             }
-        } else if (already === 2) {
+        } else if (already === "selected2") {
             if (selected1) {
                 document
                     .collection("choice1Users")
                     .add({ user: userObj.displayName });
                 document.collection("choice2Users").doc(alreadyId).delete();
+                setAlready("selected1");
             } else if (!selected1 && !selected2) {
                 document.collection("choice2Users").doc(alreadyId).delete();
+                setAlready(null);
             }
+        }
+    };
+
+    const checkChangeSelected = (already) => {
+        if (selected1) {
+            return already !== "selected1";
+        } else if (selected2) {
+            return already !== "selected2";
+        } else {
+            return already !== null;
         }
     };
 
@@ -192,9 +220,10 @@ const ChoiceInfo = ({ match, userObj }) => {
                             </div>
                             <button
                                 className="ChoiceInfo-choiceBtn"
+                                id={btn1Id}
                                 onClick={addChoice1User}
                             >
-                                {selected1 ? "선택함" : "선택하기"}
+                                {selected1 ? "선택됨" : "선택하기"}
                             </button>
                         </div>
                         <div className="ChoiceInfo-choice2">
@@ -210,17 +239,34 @@ const ChoiceInfo = ({ match, userObj }) => {
                             </div>
                             <button
                                 className="ChoiceInfo-choiceBtn"
+                                id={btn2Id}
                                 onClick={addChoice2User}
                             >
-                                {selected2 ? "선택함" : "선택하기"}
+                                {selected2 ? "선택됨" : "선택하기"}
                             </button>
                         </div>
                     </div>
-                    <button onClick={completeSelect}>
-                        {selected1 || selected2 ? "변경" : "취소"}
+
+                    <button
+                        onClick={completeSelect}
+                        className="ChoiceInfo-completeBtn"
+                        id={
+                            checkChangeSelected(already)
+                                ? "selectedComplete"
+                                : ""
+                        }
+                        disabled={!checkChangeSelected(already)}
+                    >
+                        {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
                     </button>
+
                     {userObj.displayName === item.writer && (
-                        <button onClick={deleteContent}>Delete</button>
+                        <button
+                            onClick={deleteContent}
+                            className="ChoiceInfo-deleteBtn"
+                        >
+                            질문 삭제하기
+                        </button>
                     )}
                     <button onClick={goToHome}>Home으로</button>
                 </article>

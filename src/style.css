@@ -282,6 +282,7 @@ body,
     align-items: center;
     /* justify-content: space-around; */
     padding: 50px 0 50px 0;
+    overflow: auto;
 }
 
 .ChoiceInfo-writer {
@@ -292,7 +293,7 @@ body,
 
 .ChoiceInfo-question {
     color: var(--pastel-lightPurple);
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 600;
     text-align: center;
     word-break: keep-all;
@@ -326,7 +327,7 @@ body,
     width: 90%;
     height: 50%;
     border-radius: 5px;
-    background-color: var(--pastel-tomato);
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -353,7 +354,56 @@ body,
     position: absolute;
     bottom: -25px;
     height: 50px;
-    color: var(--pastel-purple);
+    width: 50%;
+    padding: 5px 15px;
+    border-radius: 2em;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    background-color: rgb(128, 128, 128);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+.ChoiceInfo-choiceBtn:active {
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+#selected {
+    background-color: var(--pastel-tomato);
+    /* color: rgba(255, 255, 255, 0.5); */
+}
+
+.ChoiceInfo-completeBtn {
+    all: unset;
+    color: white;
+    width: 100px;
+    height: 25px;
+    padding: 5px 15px;
+    border-radius: 1em;
+    text-align: center;
+    background-color: var(--pastel-purple);
+    opacity: 0.5;
+    margin-top: 50px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#selectedComplete {
+    background-color: var(--pastel-purple);
+    opacity: 1;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+#selectedComplete:active {
+    box-shadow: none;
+    transform: scale(0.95);
+}
+
+.ChoiceInfo-deleteBtn {
+    all: unset;
 }
 
 /* AddForm.js */
