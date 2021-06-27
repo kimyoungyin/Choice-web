@@ -276,19 +276,26 @@ body,
 .ChoiceInfo {
     width: 100%;
     height: 100%;
-    /* position: absolute; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: space-around; */
-    padding: 50px 0 50px 0;
-    overflow: auto;
+    margin: 50px 0 40px;
+}
+
+.ChoiceInfo-tip {
+    width: 100%;
+    height: 40px;
+    /* padding: 10px; */
+    background-color: rgba(0, 0, 0, 0.1);
+    line-height: 40px;
+    text-align: center;
 }
 
 .ChoiceInfo-writer {
     font-size: 1.2em;
     /* color: var(--pastel-purple); */
-    margin: 20px 0 20px 0;
+    margin: 20px 0;
+    border-bottom: 1px solid var(--pastel-tomato);
 }
 
 .ChoiceInfo-question {
@@ -327,7 +334,7 @@ body,
     width: 90%;
     height: 50%;
     border-radius: 5px;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.1);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -382,11 +389,11 @@ body,
     width: 100px;
     height: 25px;
     padding: 5px 15px;
+    margin-top: 60px;
     border-radius: 1em;
     text-align: center;
     background-color: var(--pastel-purple);
     opacity: 0.5;
-    margin-top: 50px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -402,8 +409,33 @@ body,
     transform: scale(0.95);
 }
 
+.ChoiceInfo-fixedBtns {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content: space-between;
+    padding: 0 1em;
+    background-color: white;
+}
+
 .ChoiceInfo-deleteBtn {
     all: unset;
+    height: 50px;
+    color: red;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.ChoiceInfo-homeBtn {
+    all: unset;
+
+    height: 50px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.9em;
+    font-weight: 600;
 }
 
 /* AddForm.js */

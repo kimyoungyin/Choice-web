@@ -199,7 +199,7 @@ const ChoiceInfo = ({ match, userObj }) => {
         <>
             {init && (
                 <article className="ChoiceInfo">
-                    <h2 className="Home-tip">
+                    <h2 className="ChoiceInfo-tip">
                         이미지를 자세히 보고 싶으면 클릭해보세요!
                     </h2>
                     <h2 className="ChoiceInfo-writer">
@@ -260,15 +260,22 @@ const ChoiceInfo = ({ match, userObj }) => {
                         {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
                     </button>
 
-                    {userObj.displayName === item.writer && (
+                    <div className="ChoiceInfo-fixedBtns">
                         <button
-                            onClick={deleteContent}
-                            className="ChoiceInfo-deleteBtn"
+                            className="ChoiceInfo-homeBtn"
+                            onClick={goToHome}
                         >
-                            질문 삭제하기
+                            HOME
                         </button>
-                    )}
-                    <button onClick={goToHome}>Home으로</button>
+                        {userObj.displayName === item.writer && (
+                            <button
+                                onClick={deleteContent}
+                                className="ChoiceInfo-deleteBtn"
+                            >
+                                DELETE
+                            </button>
+                        )}
+                    </div>
                 </article>
             )}
         </>
