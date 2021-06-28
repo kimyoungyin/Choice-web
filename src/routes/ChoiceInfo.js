@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { dbService, storageService } from "../fb";
 import "../style.css";
 import { useHistory } from "react-router";
+import Alert from "../components/Alert";
+import Modal from "../components/Modal";
 
 const ChoiceInfo = ({ match, userObj }) => {
     const history = useHistory();
@@ -16,6 +18,9 @@ const ChoiceInfo = ({ match, userObj }) => {
     const [alreadyId, setAlreadyId] = useState(null);
     const [btn1Id, setBtn1Id] = useState("");
     const [btn2Id, setBtn2Id] = useState("");
+    const [floatingAlert, setFloatingAlert] = useState(false);
+    const [floatingDeleteAlert, setFloatingDeleteAlert] = useState(false);
+    const [modaling, setModaling] = useState(false);
 
     const checkSelected = async (choiceType, documentRef) => {
         await documentRef
@@ -26,13 +31,11 @@ const ChoiceInfo = ({ match, userObj }) => {
                 querySnapshot.forEach((doc) => {
                     if (doc.data().user === userObj.displayName) {
                         if (choiceType === 1) {
-                            // console.log("1 발견");
                             setSelected1(true);
                             setBtn1Id("selected");
                             setAlready("selected1");
                             setAlreadyId(doc.id);
                         } else if (choiceType === 2) {
-                            // console.log("2 발견");
                             setSelected2(true);
                             setBtn2Id("selected");
                             setAlready("selected2");
@@ -94,7 +97,7 @@ const ChoiceInfo = ({ match, userObj }) => {
         fetchData();
 
         return () => setDocument(null);
-    }, []);
+    }, [already]);
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
@@ -134,42 +137,56 @@ const ChoiceInfo = ({ match, userObj }) => {
         }
     };
 
-    const completeSelect = () => {
+    const completeSelect = async () => {
+        setFloatingAlert(true);
         if (already === null) {
             if (selected1) {
-                document
+                await document
                     .collection("choice1Users")
                     .add({ user: userObj.displayName });
                 setAlready("selected1");
             } else if (selected2) {
-                document
+                await document
                     .collection("choice2Users")
                     .add({ user: userObj.displayName });
                 setAlready("selected2");
             }
         } else if (already === "selected1") {
             if (selected2) {
-                document
+                await document
                     .collection("choice2Users")
                     .add({ user: userObj.displayName });
-                document.collection("choice1Users").doc(alreadyId).delete();
+                await document
+                    .collection("choice1Users")
+                    .doc(alreadyId)
+                    .delete();
                 setAlready("selected2");
             } else if (!selected1 && !selected2) {
-                document.collection("choice1Users").doc(alreadyId).delete();
+                await document
+                    .collection("choice1Users")
+                    .doc(alreadyId)
+                    .delete();
                 setAlready(null);
             }
         } else if (already === "selected2") {
             if (selected1) {
-                document
+                await document
                     .collection("choice1Users")
                     .add({ user: userObj.displayName });
-                document.collection("choice2Users").doc(alreadyId).delete();
+                await document
+                    .collection("choice2Users")
+                    .doc(alreadyId)
+                    .delete();
                 setAlready("selected1");
             } else if (!selected1 && !selected2) {
-                document.collection("choice2Users").doc(alreadyId).delete();
+                await document
+                    .collection("choice2Users")
+                    .doc(alreadyId)
+                    .delete();
                 setAlready(null);
             }
         }
+        setTimeout(() => setFloatingAlert(false), 3000);
     };
 
     const checkChangeSelected = (already) => {
@@ -186,15 +203,45 @@ const ChoiceInfo = ({ match, userObj }) => {
         history.push("/");
     };
 
-    const deleteContent = async () => {
-        const ok = window.confirm("정말 이 질문을 삭제하겠습니까?");
-        if (ok) {
+    const toggleModal = () => {
+        setModaling((prev) => !prev);
+    };
+
+    // const deleteContent = async () => {
+    //     const ok = window.confirm("정말 이 질문을 삭제하겠습니까?");
+    //     if (ok) {
+    //         await document.delete();
+    //         if (item.attachment1Url !== "") {
+    //             await storageService.refFromURL(item.attachment1Url).delete();
+    //         }
+    //         if (item.attachment2Url !== "") {
+    //             await storageService.refFromURL(item.attachment2Url).delete();
+    //         }
+    //         history.push("/");
+    //     }
+    // };
+
+    const deleteContent = async (e) => {
+        const {
+            target: { className },
+        } = e;
+        if (className === "Modal-yesBtn") {
+            setModaling(false);
+            setFloatingDeleteAlert(true);
             await document.delete();
-            await storageService.refFromURL(item.attachment1Url).delete();
-            await storageService.refFromURL(item.attachment2Url).delete();
-            goToHome();
+            if (item.attachment1Url !== "") {
+                await storageService.refFromURL(item.attachment1Url).delete();
+            }
+            if (item.attachment2Url !== "") {
+                await storageService.refFromURL(item.attachment2Url).delete();
+            }
+            setFloatingDeleteAlert(false);
+            history.push("/");
+        } else if (className === "Modal-noBtn" || className === "Modal") {
+            setModaling(false);
         }
     };
+
     return (
         <>
             {init && (
@@ -247,18 +294,22 @@ const ChoiceInfo = ({ match, userObj }) => {
                         </div>
                     </div>
 
-                    <button
-                        onClick={completeSelect}
-                        className="ChoiceInfo-completeBtn"
-                        id={
-                            checkChangeSelected(already)
-                                ? "selectedComplete"
-                                : ""
-                        }
-                        disabled={!checkChangeSelected(already)}
-                    >
-                        {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
-                    </button>
+                    {!floatingAlert && (
+                        <button
+                            onClick={completeSelect}
+                            className="ChoiceInfo-completeBtn"
+                            id={
+                                checkChangeSelected(already)
+                                    ? "selectedComplete"
+                                    : ""
+                            }
+                            disabled={!checkChangeSelected(already)}
+                        >
+                            {checkChangeSelected(already)
+                                ? "COMPLETE"
+                                : "DISABLED"}
+                        </button>
+                    )}
 
                     <div className="ChoiceInfo-fixedBtns">
                         <button
@@ -269,13 +320,21 @@ const ChoiceInfo = ({ match, userObj }) => {
                         </button>
                         {userObj.displayName === item.writer && (
                             <button
-                                onClick={deleteContent}
+                                onClick={toggleModal}
                                 className="ChoiceInfo-deleteBtn"
                             >
                                 DELETE
                             </button>
                         )}
                     </div>
+                    {floatingAlert && <Alert text="선택 완료!" />}
+                    {floatingDeleteAlert && <Alert text="삭제중.." />}
+                    {modaling && (
+                        <Modal
+                            text="정말 이 질문을 삭제할까요?"
+                            deleteContent={deleteContent}
+                        />
+                    )}
                 </article>
             )}
         </>

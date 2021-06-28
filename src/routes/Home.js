@@ -4,6 +4,8 @@ import { dbService, storageService } from "../fb";
 import "../style.css";
 import Content from "../components/Content";
 import AddForm from "../components/AddForm";
+import Alert from "../components/Alert";
+
 const Home = ({ userObj }) => {
     const [uploadMode, setUploadMode] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
@@ -12,6 +14,12 @@ const Home = ({ userObj }) => {
     const [choice2, setChoice2] = useState("");
     const [attachment1, setAttachment1] = useState("");
     const [attachment2, setAttachment2] = useState("");
+    const [floatingAlert, setFloatingAlert] = useState(false);
+    const [floatingIngAlert, setFloatingIngAlert] = useState(false);
+    const [filters, setFilters] = useState([]);
+    const [filtering, setFiltering] = useState("");
+    const [value, setValue] = useState("");
+    const activated = document.querySelector(".active");
 
     useEffect(() => {
         dbService.collection("questions").onSnapshot((snapshot) => {
@@ -19,6 +27,12 @@ const Home = ({ userObj }) => {
                 id: doc.id,
                 ...doc.data(),
             }));
+            // let filtered = questions.filter(
+            //     (question) => question.category === filtering
+            // );
+            // if (filtering === "") {
+            //     filtered = questions;
+            // }
             questions.sort((a, b) => {
                 if (a.when > b.when) return -1;
                 if (a.when < b.when) return 1;
@@ -28,8 +42,18 @@ const Home = ({ userObj }) => {
             setChoiceItems(questions);
         });
 
+        dbService.collection("category").onSnapshot((snapshot) => {
+            const categorys = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            categorys.sort();
+            setFilters(categorys);
+        });
+
         return () => {
             setChoiceItems([]);
+            setFilters([]);
         };
     }, []);
 
@@ -84,6 +108,7 @@ const Home = ({ userObj }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         setUploadMode(false);
+        setFloatingIngAlert(true);
         let attachment1Url = "";
         let attachment2Url = "";
         const attachmentRef1 = storageService
@@ -133,13 +158,38 @@ const Home = ({ userObj }) => {
         setQuestion("");
         setChoice1("");
         setChoice2("");
-        alert("업로드 완료");
         setAttachment1("");
         setAttachment2("");
+        setFloatingIngAlert(false);
+        setFloatingAlert(true);
+        setTimeout(() => setFloatingAlert(false), 3000);
     };
 
     const cancelAdd = () => {
         setUploadMode(false);
+    };
+
+    const onChangeFilter = (e) => {
+        const {
+            target: { value },
+        } = e;
+        setValue(value);
+    };
+
+    const getFilter = (e) => {
+        const {
+            target: { innerText, className },
+        } = e;
+        if (className === "Home-categoryBtn") {
+            if (activated !== null) {
+                activated.classList.remove("active");
+            }
+            setFiltering(innerText);
+            e.target.classList.add("active");
+        } else if (className === "Home-categoryBtn active") {
+            setFiltering("");
+            e.target.classList.remove("active");
+        }
     };
 
     return (
@@ -149,14 +199,52 @@ const Home = ({ userObj }) => {
                     <h2 className="Home-tip">
                         선택에 참여하여 고민하는 사람들을 도와주세요!
                     </h2>
+                    <nav className="Home-category">
+                        {false && (
+                            <>
+                                <label htmlFor="filter">카테고리 찾기</label>
+                                <input
+                                    id="filter"
+                                    type="text"
+                                    value={value}
+                                    onChange={onChangeFilter}
+                                />
+                            </>
+                        )}
+                        <div className="Home-categoryList">
+                            {filters.map((filter) => (
+                                <button
+                                    className="Home-categoryBtn"
+                                    key={filter.id}
+                                    onClick={getFilter}
+                                >
+                                    {filter.text}
+                                </button>
+                            ))}
+                        </div>
+                    </nav>
                     <div className="Home-list">
-                        {choiceItems.map((item) => (
-                            <Content
-                                key={item.id}
-                                item={item}
-                                userObj={userObj}
-                            />
-                        ))}
+                        {choiceItems.map((item) => {
+                            if (filtering === "") {
+                                return (
+                                    <Content
+                                        key={item.id}
+                                        item={item}
+                                        userObj={userObj}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    item.category === filtering && (
+                                        <Content
+                                            key={item.id}
+                                            item={item}
+                                            userObj={userObj}
+                                        />
+                                    )
+                                );
+                            }
+                        })}
                     </div>
                     <button className="Home-button" onClick={toggleUpload}>
                         +
@@ -176,6 +264,8 @@ const Home = ({ userObj }) => {
                     onClearAttachment2={onClearAttachment2}
                 />
             )}
+            {floatingAlert && <Alert text="업로드 완료" />}
+            {floatingIngAlert && <Alert text="업로드 중.." />}
         </div>
     );
 };
