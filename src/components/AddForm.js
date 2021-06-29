@@ -15,11 +15,11 @@ const AddForm = ({
     onClearAttachment2,
 }) => {
     return (
-        <form className="AddForm-form" onSubmit={onSubmit}>
+        <form className="AddForm" onSubmit={onSubmit}>
             <div className="AddForm-Box">
                 <label htmlFor="AddForm-question">질문</label>
                 <input
-                    className="AddForm-question input"
+                    className="AddForm-question"
                     id="AddForm-question"
                     type="text"
                     value={question}
@@ -38,12 +38,11 @@ const AddForm = ({
                     onChange={onFileChange}
                 />
                 {attachment1 && (
-                    <div>
+                    <div className="AddForm-imgData">
                         <img
+                            className="AddForm-img"
                             src={attachment1}
                             alt="choice1Img"
-                            width="50px"
-                            height="50px"
                         />
                         <button onClick={onClearAttachment1}>
                             Clear image
@@ -51,7 +50,7 @@ const AddForm = ({
                     </div>
                 )}
                 <input
-                    className="AddForm-choice1 input"
+                    className="AddForm-choice1"
                     id="AddForm-choice1"
                     type="text"
                     value={choice1}
@@ -70,12 +69,11 @@ const AddForm = ({
                     onChange={onFileChange}
                 />
                 {attachment2 && (
-                    <div>
+                    <div className="AddForm-imgData">
                         <img
+                            className="AddForm-img"
                             src={attachment2}
                             alt="choice2Img"
-                            width="50px"
-                            height="50px"
                         />
                         <button onClick={onClearAttachment2}>
                             Clear image
@@ -83,7 +81,7 @@ const AddForm = ({
                     </div>
                 )}
                 <input
-                    className="AddForm-choice2 input"
+                    className="AddForm-choice2 "
                     id="AddForm-choice2"
                     type="text"
                     value={choice2}
