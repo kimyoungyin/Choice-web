@@ -21,6 +21,8 @@ const ChoiceInfo = ({ match, userObj }) => {
     const [floatingAlert, setFloatingAlert] = useState(false);
     const [floatingDeleteAlert, setFloatingDeleteAlert] = useState(false);
     const [modaling, setModaling] = useState(false);
+    const [clickedImg, setClickedImg] = useState("");
+    const [imgModaling, setImgModaling] = useState(false);
 
     const checkSelected = async (choiceType, documentRef) => {
         await documentRef
@@ -186,7 +188,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                 setAlready(null);
             }
         }
-        setTimeout(() => setFloatingAlert(false), 3000);
+        setTimeout(() => setFloatingAlert(false), 2000);
     };
 
     const checkChangeSelected = (already) => {
@@ -242,6 +244,14 @@ const ChoiceInfo = ({ match, userObj }) => {
         }
     };
 
+    const toggleImgModal = (e) => {
+        const {
+            target: { src },
+        } = e;
+        setImgModaling((prev) => !prev);
+        setClickedImg(src);
+    };
+
     return (
         <>
             {init && (
@@ -257,6 +267,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                         <div className="ChoiceInfo-choice1">
                             {item.attachment1Url && (
                                 <img
+                                    onClick={toggleImgModal}
                                     className="ChoiceInfo-img"
                                     src={item.attachment1Url}
                                     alt="choice1"
@@ -272,10 +283,21 @@ const ChoiceInfo = ({ match, userObj }) => {
                             >
                                 {selected1 ? "선택됨" : "선택하기"}
                             </button>
+
+                            <h4 className="ChoiceInfo-percentage">
+                                {choice1Users === 0 && choice2Users === 0
+                                    ? 0
+                                    : Math.floor(
+                                          (100 * choice1Users) /
+                                              (choice1Users + choice2Users)
+                                      )}
+                                %<div>{choice1Users}명</div>
+                            </h4>
                         </div>
                         <div className="ChoiceInfo-choice2">
                             {item.attachment2Url && (
                                 <img
+                                    onClick={toggleImgModal}
                                     className="ChoiceInfo-img"
                                     src={item.attachment2Url}
                                     alt="choice2"
@@ -291,6 +313,24 @@ const ChoiceInfo = ({ match, userObj }) => {
                             >
                                 {selected2 ? "선택됨" : "선택하기"}
                             </button>
+                            {/* {selected1 || selected2 ? (
+                                <h4 className="ChoiceInfo-percentage">
+                                    {Math.floor(
+                                        (100 * choice2Users) /
+                                            (choice1Users + choice2Users)
+                                    )}
+                                    %
+                                </h4>
+                            ) : null} */}
+                            <h4 className="ChoiceInfo-percentage">
+                                {choice1Users === 0 && choice2Users === 0
+                                    ? 0
+                                    : Math.floor(
+                                          (100 * choice2Users) /
+                                              (choice1Users + choice2Users)
+                                      )}
+                                %<div>{choice2Users}명</div>
+                            </h4>
                         </div>
                     </div>
 
@@ -331,8 +371,16 @@ const ChoiceInfo = ({ match, userObj }) => {
                     {floatingDeleteAlert && <Alert text="삭제중.." />}
                     {modaling && (
                         <Modal
+                            type="delete"
                             text="정말 이 질문을 삭제할까요?"
                             deleteContent={deleteContent}
+                        />
+                    )}
+                    {imgModaling && (
+                        <Modal
+                            type="img"
+                            img={clickedImg}
+                            deleteContent={toggleImgModal}
                         />
                     )}
                 </article>

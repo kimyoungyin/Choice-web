@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap");
+
 :root {
     --pastel-brown: #ffc996;
     --pastel-tomato: #ff8474;
@@ -11,6 +13,11 @@
     padding: 0;
     list-style: none;
     text-decoration: none;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+*::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
 }
 
 /* index.js */
@@ -22,6 +29,7 @@ body,
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Open Sans", sans-serif;
 }
 #root {
     display: flex;
@@ -141,15 +149,17 @@ body,
 
 .Alert {
     position: fixed;
-    top: 100px;
-    right: 10px;
+    bottom: 50px;
+    left: 1em;
     height: 40px;
     width: 150px;
     text-align: center;
+    /* color: var(--pastel-purple); */
     padding: 0.9em;
     z-index: 1;
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.1);
     font-weight: 700;
+    border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -210,6 +220,11 @@ body,
     background-color: var(--pastel-tomato);
 }
 
+.Modal-img {
+    width: 250px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 /* Home.js */
 .Home {
     /* background-color: var(--pastel-lightPurple); */
@@ -243,11 +258,6 @@ body,
     align-items: center;
     white-space: nowrap;
     overflow: auto;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
-.Home-categoryList::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
 }
 
 .Home-categoryBtn {
@@ -296,14 +306,6 @@ body,
     width: 90%;
     height: 100%;
     overflow: auto;
-}
-
-.Home-list {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
-.Home-list::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
 }
 
 /* Content.js */
@@ -379,6 +381,9 @@ body,
 .Navigation-Link {
     color: white;
     font-size: 15px;
+    width: 100%;
+    height: 100%;
+    padding: 0.8em 0;
 }
 
 /* ChoiceInfo.js */
@@ -445,6 +450,7 @@ body,
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
 }
 
 .ChoiceInfo-text {
@@ -487,6 +493,24 @@ body,
     transform: scale(0.95);
 }
 
+.ChoiceInfo-percentage {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0.8em;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: red;
+}
+
+.ChoiceInfo-percentage div {
+    font-size: 0.8em;
+    color: black;
+    margin-top: 0.3em;
+}
+
 #selected {
     background-color: var(--pastel-tomato);
     /* color: rgba(255, 255, 255, 0.5); */
@@ -502,7 +526,7 @@ body,
     border-radius: 1em;
     text-align: center;
     background-color: var(--pastel-purple);
-    opacity: 0.5;
+    opacity: 0.3;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
@@ -550,12 +574,18 @@ body,
 .AddForm {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     height: 100%;
     width: 100%;
-
     overflow: auto;
+    padding-top: 2em;
+}
+
+.AddForm h2 {
+    font-size: 2em;
+    font-weight: 500;
+    color: var(--pastel-purple);
 }
 
 .AddForm-Box {
@@ -563,13 +593,60 @@ body,
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* align-items: center; */
+    padding: 2em 0 1em 0;
+    border-bottom: 1px solid var(--pastel-lightPurple);
+}
+
+.AddForm-Box h3 {
+    color: var(--pastel-tomato);
+    font-weight: 600;
     margin-bottom: 1em;
+}
+
+#category {
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    outline: none;
 }
 
 .AddForm-Box input {
     outline: none;
+    box-sizing: border-box;
     width: 100%;
-    padding: 0.8em 0.5em;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    transition: 0.5s;
+    /* font-size: 1.2em; */
+}
+
+.AddForm-Box #category,
+.AddForm-Box input[type="text"] {
+    border: 0.5px solid var(--pastel-brown);
+}
+
+#category:focus,
+.AddForm-Box input[type="text"]:focus {
+    border: 0.5px solid var(--pastel-tomato);
+}
+
+.AddForm-Box label {
+    background-color: var(--pastel-purple);
+    color: white;
+    padding: 1em;
+    font-size: 0.8em;
+    font-weight: 600;
+    width: 30%;
+    text-align: center;
+    border-radius: 0.8em;
+    margin: 0 auto 0.8em;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+}
+
+.AddForm-Box input[type="file"] {
+    display: none;
 }
 
 .AddForm-imgData {
@@ -580,29 +657,44 @@ body,
     align-items: center;
 }
 
-.AddForm-img {
-    width: 50%;
+.AddForm-imgData .AddForm-img {
+    height: 100px;
+    border-radius: 0.5em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-.AddForm-button {
+.AddForm-imgData button {
     all: unset;
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 50px;
+    color: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 1em 0;
+    cursor: pointer;
+}
+
+.AddForm-btns {
+    margin: 2em 0 1em 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.AddForm-button,
+.AddForm-cancelButton {
+    all: unset;
     background-color: var(--pastel-tomato);
-    color: var(--pastel-brown);
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    font-weight: 800;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
-        rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
-        rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    padding: 1em 1.5em;
+    color: white;
+    border-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 0.5s;
 }
 
 .AddForm-cancelButton {
-    all: unset;
-    position: fixed;
-    bottom: 40px;
+    background-color: gray;
+}
+
+.AddForm-button:active,
+.AddForm-cancelButton:active {
+    box-shadow: none;
 }

@@ -9,6 +9,7 @@ import Alert from "../components/Alert";
 const Home = ({ userObj }) => {
     const [uploadMode, setUploadMode] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
+    const [categoryInput, setCategoryInput] = useState("");
     const [question, setQuestion] = useState("");
     const [choice1, setChoice1] = useState("");
     const [choice2, setChoice2] = useState("");
@@ -67,17 +68,25 @@ const Home = ({ userObj }) => {
         } = event;
         const theFile = files[0];
         const reader = new FileReader();
-        reader.onloadend = (finishedEvent) => {
-            const {
-                currentTarget: { result },
-            } = finishedEvent;
+        try {
+            reader.onloadend = (finishedEvent) => {
+                const {
+                    currentTarget: { result },
+                } = finishedEvent;
+                if (className === "AddForm-choice1Img") {
+                    setAttachment1(result);
+                } else if (className === "AddForm-choice2Img") {
+                    setAttachment2(result);
+                }
+            };
+            reader.readAsDataURL(theFile);
+        } catch {
             if (className === "AddForm-choice1Img") {
-                setAttachment1(result);
+                setAttachment1("");
             } else if (className === "AddForm-choice2Img") {
-                setAttachment2(result);
+                setAttachment2("");
             }
-        };
-        reader.readAsDataURL(theFile);
+        }
     };
 
     const onClearAttachment1 = () => {
@@ -96,7 +105,9 @@ const Home = ({ userObj }) => {
         const {
             target: { name, value },
         } = e;
-        if (name === "question") {
+        if (name === "category") {
+            setCategoryInput(value);
+        } else if (name === "question") {
             setQuestion(value);
         } else if (name === "choice1") {
             setChoice1(value);
@@ -145,6 +156,7 @@ const Home = ({ userObj }) => {
         }
 
         const contentObj = {
+            category: categoryInput,
             question: question,
             choice1: choice1,
             choice2: choice2,
@@ -155,6 +167,7 @@ const Home = ({ userObj }) => {
             attachment2Url,
         };
         await dbService.collection("questions").add(contentObj);
+        setCategoryInput("");
         setQuestion("");
         setChoice1("");
         setChoice2("");
@@ -254,6 +267,8 @@ const Home = ({ userObj }) => {
                 <AddForm
                     onChange={onChange}
                     onSubmit={onSubmit}
+                    categoryInput={categoryInput}
+                    question={question}
                     choice1={choice1}
                     choice2={choice2}
                     cancelAdd={cancelAdd}
@@ -262,6 +277,7 @@ const Home = ({ userObj }) => {
                     attachment2={attachment2}
                     onClearAttachment1={onClearAttachment1}
                     onClearAttachment2={onClearAttachment2}
+                    filters={filters}
                 />
             )}
             {floatingAlert && <Alert text="업로드 완료" />}
