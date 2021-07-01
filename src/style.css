@@ -267,7 +267,7 @@ body,
   background-color: rgba(0, 0, 0, 0.05);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 15px;
-  padding: 0.8em;
+  padding: 0.5em;
   margin: 0 0.8em;
   box-sizing: border-box;
   transition: 0.1s;
@@ -322,25 +322,25 @@ body,
   transition: 0.8s;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
-.Content:active {
-  background-color: var(--pastel-brown);
-}
-
-.Content-imageBox {
+.Content-question {
+  width: 60%;
   height: 100%;
-  margin-right: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  word-break: keep-all;
+  /* justify-content: center; */
   align-items: center;
 }
 
-.Content-image {
-  height: 25%;
-  /* border: var(--pastel-brown) 1px solid; */
-  border-radius: 50%;
+.Content-category {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.25em 0.5em;
+  border-radius: 0.5em;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  font-size: 0.8em;
 }
 
 .Content-when {
@@ -725,4 +725,80 @@ body,
 .AddForm-button:active,
 .AddForm-cancelButton:active {
   box-shadow: none;
+}
+
+/* Profile.js  */
+.Profile {
+  width: 100%;
+  height: 100%;
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+
+.Profile-title {
+  font-size: 2em;
+  font-weight: 100;
+  width: 100%;
+  padding-top: 10px;
+  text-align: center;
+  color: var(--pastel-purple);
+  /* background-color: var(--pastel-brown); */
+}
+
+.Profile-mail {
+  margin-top: 1em;
+  font-size: 0.8em;
+}
+
+.Profile-mail a {
+  text-decoration: none;
+  color: red;
+}
+
+.Profile-userInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  background-color: var(--pastel-brown);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin: 1em 0;
+}
+
+.Profile-userInfo img {
+  height: 50%;
+  border-radius: 1em;
+}
+
+.Profile-text {
+  line-height: 1.5;
+  font-size: 0.9em;
+}
+
+.Profile-text button {
+  all: unset;
+  position: fixed;
+  top: 0;
+  right: 1em;
+  height: 50px;
+  color: red;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.Profile-myTitle {
+  font-size: 1.4em;
+  /* font-weight: 600; */
+  margin-top: 1em;
+  color: var(--pastel-tomato);
+  text-align: center;
+}
+
+.Profile-questions {
+  width: 90%;
+  height: 100%;
 }

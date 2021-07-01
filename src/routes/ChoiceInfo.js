@@ -148,25 +148,6 @@ const ChoiceInfo = ({ match, userObj }) => {
     }
   };
 
-  const styleChange = (e) => {
-    const {
-      target: { className },
-    } = e;
-    if (className === "ChoiceInfo-choice1Per") {
-      e.target.style.flex = `${
-        choice1Users === 0 && choice2Users === 0
-          ? 1
-          : Math.floor((100 * choice1Users) / (choice1Users + choice2Users))
-      }`;
-    } else {
-      e.target.style.flex = `${
-        choice1Users === 0 && choice2Users === 0
-          ? 1
-          : Math.floor((100 * choice2Users) / (choice1Users + choice2Users))
-      }`;
-    }
-  };
-
   const completeSelect = async () => {
     setFloatingAlert(true);
     if (already === null) {
