@@ -9,6 +9,7 @@ import Alert from "../components/Alert";
 const Home = ({ userObj }) => {
   const [uploadMode, setUploadMode] = useState(false);
   const [choiceItems, setChoiceItems] = useState([]);
+  const [categoryValue, setCategoryValue] = useState("current");
   const [categoryInput, setCategoryInput] = useState("");
   const [question, setQuestion] = useState("");
   const [choice1, setChoice1] = useState("");
@@ -23,34 +24,32 @@ const Home = ({ userObj }) => {
   const activated = document.querySelector(".active");
 
   useEffect(() => {
-    dbService.collection("questions").onSnapshot((snapshot) => {
-      const questions = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      // let filtered = questions.filter(
-      //     (question) => question.category === filtering
-      // );
-      // if (filtering === "") {
-      //     filtered = questions;
-      // }
-      questions.sort((a, b) => {
-        if (a.when > b.when) return -1;
-        if (a.when < b.when) return 1;
+    const asyncFunction = async () => {
+      await dbService.collection("questions").onSnapshot((snapshot) => {
+        const questions = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        questions.sort((a, b) => {
+          if (a.when > b.when) return -1;
+          if (a.when < b.when) return 1;
 
-        return 0;
+          return 0;
+        });
+        setChoiceItems(questions);
       });
-      setChoiceItems(questions);
-    });
 
-    dbService.collection("category").onSnapshot((snapshot) => {
-      const categorys = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      categorys.sort();
-      setFilters(categorys);
-    });
+      await dbService.collection("category").onSnapshot((snapshot) => {
+        const categorys = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        categorys.sort();
+        setFilters(categorys);
+      });
+    };
+
+    asyncFunction();
 
     return () => {
       setChoiceItems([]);
@@ -101,11 +100,22 @@ const Home = ({ userObj }) => {
     setAttachment2("");
   };
 
+  const categoryRadio = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    setCategoryValue(value);
+    console.log(value);
+  };
+
   const onChange = (e) => {
     const {
       target: { name, value },
     } = e;
-    if (name === "category") {
+    if (name === "newCategory") {
+      setCategoryInput(value);
+    } else if (name === "category") {
       setCategoryInput(value);
     } else if (name === "question") {
       setQuestion(value);
@@ -141,6 +151,10 @@ const Home = ({ userObj }) => {
       console.log("2만 빈칸 아님");
       const response2 = await attachmentRef2.putString(attachment2, "data_url");
       attachment2Url = await response2.ref.getDownloadURL();
+    }
+
+    if (categoryValue === "new") {
+      await dbService.collection("category").add({ text: categoryInput });
     }
 
     const contentObj = {
@@ -224,19 +238,27 @@ const Home = ({ userObj }) => {
               ))}
             </div>
           </nav>
+
           <div className="Home-list">
-            {choiceItems.map((item) => {
-              if (filtering === "") {
-                return <Content key={item.id} item={item} userObj={userObj} />;
-              } else {
-                return (
-                  item.category === filtering && (
+            {choiceItems.length !== 0 ? (
+              choiceItems.map((item) => {
+                if (filtering === "") {
+                  return (
                     <Content key={item.id} item={item} userObj={userObj} />
-                  )
-                );
-              }
-            })}
+                  );
+                } else {
+                  return (
+                    item.category === filtering && (
+                      <Content key={item.id} item={item} userObj={userObj} />
+                    )
+                  );
+                }
+              })
+            ) : (
+              <div className="Home-noList">업로드된 고민거리가 없어요..</div>
+            )}
           </div>
+
           <button className="Home-button" onClick={toggleUpload}>
             +
           </button>
@@ -245,6 +267,8 @@ const Home = ({ userObj }) => {
         <AddForm
           onChange={onChange}
           onSubmit={onSubmit}
+          categoryValue={categoryValue}
+          categoryRadio={categoryRadio}
           categoryInput={categoryInput}
           question={question}
           choice1={choice1}

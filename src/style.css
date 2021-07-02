@@ -248,7 +248,7 @@ body,
 .Home-category {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   width: 100%;
-  height: 60px;
+  height: 50px;
 }
 
 .Home-categoryList {
@@ -306,6 +306,13 @@ body,
   width: 90%;
   height: 100%;
   overflow: auto;
+}
+
+.Home-noList {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-top: 50%;
 }
 
 /* Content.js */
@@ -598,6 +605,11 @@ body,
   font-weight: 600;
 }
 
+.ChoiceInfo-disqus {
+  width: 90%;
+  overflow: auto;
+}
+
 /* AddForm.js */
 .AddForm {
   display: flex;
@@ -632,13 +644,34 @@ body,
   margin-bottom: 1em;
 }
 
+.AddForm-categoryRadio {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.AddForm-categoryRadio .AddForm-categoryLabel {
+  all: unset;
+  cursor: pointer;
+  color: gray;
+  padding: 1em;
+}
+
+.AddForm-categoryLabel > input {
+  margin-right: 1em;
+}
+
 #category {
   padding: 0.5em 1em;
   border-radius: 0.5em;
   outline: none;
 }
 
-.AddForm-Box input {
+.AddForm-newCategory,
+.AddForm-question,
+.AddForm-choice1Img,
+.AddForm-choice1,
+.AddForm-choice2Img,
+.AddForm-choice2 {
   outline: none;
   box-sizing: border-box;
   width: 100%;

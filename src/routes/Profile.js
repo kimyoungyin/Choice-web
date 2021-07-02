@@ -32,7 +32,7 @@ const Profile = ({ userObj }) => {
         });
         setWritedData(list);
       });
-  }, []);
+  }, [userObj.displayName]);
 
   return (
     <div className="Profile">

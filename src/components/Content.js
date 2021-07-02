@@ -27,7 +27,7 @@ const Content = ({ item, userObj }) => {
     } else if (Number(hours) !== 0) {
       return `${hours}시간 ${minutes}분 전`;
     } else {
-      return `${minutes}분 전`;
+      return minutes !== "00" ? `${minutes}분 전` : "방금 전";
     }
   };
   return (

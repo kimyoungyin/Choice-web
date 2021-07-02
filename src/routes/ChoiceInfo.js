@@ -6,6 +6,7 @@ import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 
 const ChoiceInfo = ({ match, userObj }) => {
+  const idRef = match.params.id;
   const history = useHistory();
   const [init, setInit] = useState(false);
   const [document, setDocument] = useState(null);
@@ -33,82 +34,81 @@ const ChoiceInfo = ({ match, userObj }) => {
       ? 1
       : Math.floor((100 * choice2Users) / (choice1Users + choice2Users));
 
-  const checkSelected = async (choiceType, documentRef) => {
-    await documentRef
-      .collection(`choice${choiceType}Users`)
-      .where("user", "==", userObj.displayName)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.data().user === userObj.displayName) {
-            if (choiceType === 1) {
-              setSelected1(true);
-              setBtn1Id("selected");
-              setAlready("selected1");
-              setAlreadyId(doc.id);
-            } else if (choiceType === 2) {
-              setSelected2(true);
-              setBtn2Id("selected");
-              setAlready("selected2");
-              setAlreadyId(doc.id);
-            }
-          }
-          setInit(true);
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-  };
-
-  const fetchData = async () => {
-    const idRef = match.params.id;
-    const documentRef = await dbService.collection("questions").doc(idRef);
-    const itemRef = await documentRef.get().then((doc) => doc.data());
-    const itemWithId = {
-      ...itemRef,
-      id: idRef,
-    };
-    await documentRef
-      .get()
-      .then(() => {
-        documentRef
-          .collection("choice1Users")
-          .limit(1)
-          .get()
-          .then((sub) => {
-            setChoice1Users(sub.size);
-            if (sub.size !== 0) {
-              checkSelected(1, documentRef);
-            } else {
-              setInit(true);
-            }
-          });
-        documentRef
-          .collection("choice2Users")
-          .limit(1)
-          .get()
-          .then((sub) => {
-            setChoice2Users(sub.size);
-            if (sub.size !== 0) {
-              checkSelected(2, documentRef);
-            } else {
-              setInit(true);
-            }
-          });
-      })
-      .catch(function (error) {
-        console.log("Error getting document:", error);
-      });
-    setDocument(documentRef);
-    setItem(itemWithId);
-  };
-
   useEffect(() => {
-    fetchData();
+    const checkSelected = async (choiceType, documentRef) => {
+      await documentRef
+        .collection(`choice${choiceType}Users`)
+        .where("user", "==", userObj.displayName)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data().user === userObj.displayName) {
+              if (choiceType === 1) {
+                setSelected1(true);
+                setBtn1Id("selected");
+                setAlready("selected1");
+                setAlreadyId(doc.id);
+              } else if (choiceType === 2) {
+                setSelected2(true);
+                setBtn2Id("selected");
+                setAlready("selected2");
+                setAlreadyId(doc.id);
+              }
+            }
+            setInit(true);
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    };
+    const fetchData = async () => {
+      const documentRef = await dbService.collection("questions").doc(idRef);
+      const itemRef = await documentRef.get().then((doc) => doc.data());
+      const itemWithId = {
+        ...itemRef,
+        id: idRef,
+      };
+      await documentRef
+        .get()
+        .then(() => {
+          documentRef
+            .collection("choice1Users")
+            .limit(1)
+            .get()
+            .then((sub) => {
+              setChoice1Users(sub.size);
+              if (sub.size !== 0) {
+                checkSelected(1, documentRef);
+              } else {
+                setInit(true);
+              }
+            });
+          documentRef
+            .collection("choice2Users")
+            .limit(1)
+            .get()
+            .then((sub) => {
+              setChoice2Users(sub.size);
+              if (sub.size !== 0) {
+                checkSelected(2, documentRef);
+              } else {
+                setInit(true);
+              }
+            });
+        })
+        .catch(function (error) {
+          console.log("Error getting document:", error);
+        });
+      setDocument(documentRef);
+      setItem(itemWithId);
+    };
 
-    return () => setDocument(null);
-  }, [already]);
+    fetchData();
+    return () => {
+      setDocument(null);
+    };
+  }, [already, idRef, userObj.displayName]);
 
   const addChoice1User = () => {
     if (!selected1 && !selected2) {
@@ -310,13 +310,13 @@ const ChoiceInfo = ({ match, userObj }) => {
                 className="ChoiceInfo-choice1Per"
                 style={{ flex: choice1Ratio }}
               >
-                {choice1Ratio !== 1 && choice1Ratio}
+                {choice1Ratio !== 1 && `${choice1Ratio}%`}
               </div>
               <div
                 className="ChoiceInfo-choice2Per"
                 style={{ flex: choice2Ratio }}
               >
-                {choice2Ratio !== 1 && choice2Ratio}
+                {choice2Ratio !== 1 && `${choice2Ratio}%`}
               </div>
             </div>
           </div>
