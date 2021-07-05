@@ -36,7 +36,35 @@ body,
   flex-direction: column;
   justify-content: flex-end;
   position: relative;
-  /* padding-top: 50px; */
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid var(--pastel-brown);
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* App.js */
@@ -55,7 +83,6 @@ body,
 
 /* Auth.js */
 .Auth {
-  /* border: #f7a400 1px solid; */
   height: 100%;
   width: 100%;
   max-width: 600px;
@@ -68,10 +95,12 @@ body,
 .Auth-title::before {
   content: "뭘 고를지 고민될 때";
   text-align: center;
+  color: var(--pastel-tomato);
   white-space: pre;
-  font-size: 35px;
+  font-size: 2em;
   font-weight: 700;
   display: inline-block;
+  margin-top: 50px;
   animation: changeTitle 4s 0.3s both ease-in-out;
 }
 
@@ -84,14 +113,15 @@ body,
   all: unset;
   box-sizing: border-box;
   color: white;
-  padding: 10px;
+  font-weight: 600;
+  padding: 1em;
   margin-top: 30px;
-  height: 60px;
+  height: 4em;
   width: 200px;
-  border-radius: 30px;
+  border-radius: 2em;
   text-align: center;
   cursor: pointer;
-  background-color: #f7a400;
+  background-color: var(--pastel-lightPurple);
   animation: changeButton 2s 4.3s both ease-in-out;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -106,18 +136,18 @@ body,
 
   50% {
     opacity: 1;
-    content: "ChoiceWeb";
+    content: "CHOICEWEB";
   }
 
   75% {
     transform: translate(0);
     opacity: 1;
-    content: "ChoiceWeb";
+    content: "CHOICEWEB";
   }
 
   100% {
     transform: translate(0, -50px);
-    content: "ChoiceWeb";
+    content: "CHOICEWEB";
   }
 }
 
@@ -149,18 +179,34 @@ body,
 
 .Alert {
   position: fixed;
-  bottom: 50px;
+  bottom: -3em;
   left: 1em;
-  height: 40px;
+  height: 3em;
   width: 150px;
   text-align: center;
-  /* color: var(--pastel-purple); */
-  padding: 0.9em;
+  padding: 1em;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: white;
   font-weight: 700;
   border-radius: 0.5em;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  animation: popAlert 4s;
+}
+
+@keyframes popAlert {
+  0% {
+    bottom: -3em;
+  }
+  12.5% {
+    bottom: 50px;
+  }
+  87.5% {
+    bottom: 50px;
+  }
+
+  100% {
+    bottom: -3em;
+  }
 }
 
 .Modal {
@@ -187,10 +233,20 @@ body,
   align-items: center;
   flex-direction: column;
   text-align: center;
+  animation: popModal 0.8s;
+}
+
+@keyframes popModal {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .Modal-text {
-  font-size: 2em;
+  font-size: 1.5em;
   line-height: 1.5;
   word-break: keep-all;
 }
@@ -333,6 +389,10 @@ body,
   cursor: pointer;
 }
 
+.Content:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .Content-question {
   width: 60%;
   height: 100%;
@@ -401,6 +461,8 @@ body,
   flex-direction: column;
   align-items: center;
   margin: 50px 0 40px;
+  overflow: auto;
+  position: relative;
 }
 
 .ChoiceInfo-tip {
@@ -413,9 +475,9 @@ body,
 }
 
 .ChoiceInfo-totalUsers {
-  position: fixed;
+  position: absolute;
   right: 10px;
-  top: 100px;
+  top: 3em;
   font-size: 1em;
   color: rgba(0, 0, 0, 0.5);
   /* text-decoration: underline; */
@@ -447,8 +509,9 @@ body,
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 60%;
+  height: 700px;
   background-color: var(--pastel-brown);
+  padding: 0 1em;
   /* border-radius: 20px; */
 }
 
@@ -494,8 +557,8 @@ body,
 .ChoiceInfo-choiceBtn {
   all: unset;
   position: absolute;
-  bottom: -25px;
-  height: 50px;
+  bottom: -1em;
+  height: 2em;
   width: 50%;
   padding: 5px 15px;
   border-radius: 2em;
@@ -522,8 +585,9 @@ body,
   width: 100%;
   height: 20px;
   padding: 0 1em;
-  position: absolute;
-  bottom: -55px;
+  margin-top: 3em;
+  /* position: absolute;
+  bottom: -55px; */
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -555,9 +619,9 @@ body,
   all: unset;
   color: white;
   width: 100px;
-  height: 25px;
+  height: 2em;
   padding: 5px 15px;
-  margin-top: 60px;
+  margin: 3em 0 1em 0;
   border-radius: 1em;
   text-align: center;
   background-color: var(--pastel-purple);
@@ -693,9 +757,9 @@ body,
 }
 
 .AddForm-Box label {
-  background-color: var(--pastel-purple);
+  background-color: var(--pastel-lightPurple);
   color: white;
-  padding: 1em;
+  padding: 0.5em;
   font-size: 0.8em;
   font-weight: 600;
   width: 30%;
@@ -788,7 +852,7 @@ body,
 
 .Profile-mail a {
   text-decoration: none;
-  color: red;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .Profile-userInfo {
@@ -796,7 +860,7 @@ body,
   align-items: center;
   justify-content: space-around;
   width: 100%;
-  background-color: var(--pastel-brown);
+  background-color: rgba(0, 0, 0, 0.05);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   margin: 1em 0;
@@ -804,7 +868,7 @@ body,
 
 .Profile-userInfo img {
   height: 50%;
-  border-radius: 1em;
+  border-radius: 0.5em;
 }
 
 .Profile-text {

@@ -17,7 +17,6 @@ const Home = ({ userObj }) => {
   const [attachment1, setAttachment1] = useState("");
   const [attachment2, setAttachment2] = useState("");
   const [floatingAlert, setFloatingAlert] = useState(false);
-  const [floatingIngAlert, setFloatingIngAlert] = useState(false);
   const [filters, setFilters] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [value, setValue] = useState("");
@@ -104,9 +103,7 @@ const Home = ({ userObj }) => {
     const {
       target: { value },
     } = e;
-
     setCategoryValue(value);
-    console.log(value);
   };
 
   const onChange = (e) => {
@@ -126,10 +123,9 @@ const Home = ({ userObj }) => {
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const startSubmit = async () => {
     setUploadMode(false);
-    setFloatingIngAlert(true);
+
     let attachment1Url = "";
     let attachment2Url = "";
     const attachmentRef1 = storageService
@@ -153,10 +149,6 @@ const Home = ({ userObj }) => {
       attachment2Url = await response2.ref.getDownloadURL();
     }
 
-    if (categoryValue === "new") {
-      await dbService.collection("category").add({ text: categoryInput });
-    }
-
     const contentObj = {
       category: categoryInput,
       question: question,
@@ -168,6 +160,7 @@ const Home = ({ userObj }) => {
       attachment1Url,
       attachment2Url,
     };
+
     await dbService.collection("questions").add(contentObj);
     setCategoryInput("");
     setQuestion("");
@@ -175,13 +168,31 @@ const Home = ({ userObj }) => {
     setChoice2("");
     setAttachment1("");
     setAttachment2("");
-    setFloatingIngAlert(false);
     setFloatingAlert(true);
-    setTimeout(() => setFloatingAlert(false), 3000);
+    setTimeout(() => setFloatingAlert(false), 4000);
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const filterText = filters.map((filter) => filter.text);
+    if (categoryValue === "new" && filterText.includes(categoryInput)) {
+      alert("이미 카테고리가 있습니다");
+    } else if (categoryValue === "new") {
+      await dbService.collection("category").add({ text: categoryInput });
+      startSubmit();
+    } else if (categoryValue === "current") {
+      startSubmit();
+    }
   };
 
   const cancelAdd = () => {
     setUploadMode(false);
+    setCategoryInput("");
+    setQuestion("");
+    setChoice1("");
+    setChoice2("");
+    setAttachment1("");
+    setAttachment2("");
   };
 
   const onChangeFilter = (e) => {
@@ -255,7 +266,7 @@ const Home = ({ userObj }) => {
                 }
               })
             ) : (
-              <div className="Home-noList">업로드된 고민거리가 없어요..</div>
+              <div className="Home-noList">업로드된 고민거리가 없어요</div>
             )}
           </div>
 
@@ -283,7 +294,6 @@ const Home = ({ userObj }) => {
         />
       )}
       {floatingAlert && <Alert text="업로드 완료" />}
-      {floatingIngAlert && <Alert text="업로드 중.." />}
     </div>
   );
 };

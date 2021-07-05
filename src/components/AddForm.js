@@ -64,6 +64,7 @@ const AddForm = ({
             onChange={onChange}
             required
             autoComplete="off"
+            placeholder="기존에 없던 새 카테고리를 입력해주세요"
           />
         )}
       </div>
@@ -78,6 +79,7 @@ const AddForm = ({
           onChange={onChange}
           required
           autoComplete="off"
+          placeholder="고민 제목을 입력해주세요"
         />
       </div>
       <div className="AddForm-Box">
@@ -105,6 +107,7 @@ const AddForm = ({
           onChange={onChange}
           required
           autoComplete="off"
+          placeholder="고민되는 선택지 중 하나를 입력해주세요"
         />
       </div>
       <div className="AddForm-Box">
@@ -132,6 +135,7 @@ const AddForm = ({
           onChange={onChange}
           required
           autoComplete="off"
+          placeholder="고민되는 선택지 중 다른 하나를 입력해주세요"
         />
       </div>
 

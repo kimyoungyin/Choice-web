@@ -20,7 +20,6 @@ const ChoiceInfo = ({ match, userObj }) => {
   const [btn1Id, setBtn1Id] = useState("");
   const [btn2Id, setBtn2Id] = useState("");
   const [floatingAlert, setFloatingAlert] = useState(false);
-  const [floatingDeleteAlert, setFloatingDeleteAlert] = useState(false);
   const [modaling, setModaling] = useState(false);
   const [clickedImg, setClickedImg] = useState("");
   const [imgModaling, setImgModaling] = useState(false);
@@ -185,7 +184,7 @@ const ChoiceInfo = ({ match, userObj }) => {
         setAlready(null);
       }
     }
-    setTimeout(() => setFloatingAlert(false), 2000);
+    setTimeout(() => setFloatingAlert(false), 4000);
   };
 
   const checkChangeSelected = (already) => {
@@ -212,7 +211,6 @@ const ChoiceInfo = ({ match, userObj }) => {
     } = e;
     if (className === "Modal-yesBtn") {
       setModaling(false);
-      setFloatingDeleteAlert(true);
       await document.delete();
       if (item.attachment1Url !== "") {
         await storageService.refFromURL(item.attachment1Url).delete();
@@ -220,7 +218,6 @@ const ChoiceInfo = ({ match, userObj }) => {
       if (item.attachment2Url !== "") {
         await storageService.refFromURL(item.attachment2Url).delete();
       }
-      setFloatingDeleteAlert(false);
       history.push("/");
     } else if (className === "Modal-noBtn" || className === "Modal") {
       setModaling(false);
@@ -237,7 +234,7 @@ const ChoiceInfo = ({ match, userObj }) => {
 
   return (
     <>
-      {init && (
+      {init ? (
         <article className="ChoiceInfo">
           <h2 className="ChoiceInfo-tip">
             이미지를 자세히 보고 싶으면 클릭해보세요!
@@ -296,41 +293,31 @@ const ChoiceInfo = ({ match, userObj }) => {
               >
                 {selected2 ? "선택됨" : "선택하기"}
               </button>
-              {/* <h4 className="ChoiceInfo-percentage">
-                {choice1Users === 0 && choice2Users === 0
-                  ? 0
-                  : Math.floor(
-                      (100 * choice2Users) / (choice1Users + choice2Users)
-                    )}
-                %<div>{choice2Users}명</div>
-              </h4> */}
-            </div>
-            <div className="ChoiceInfo-result">
-              <div
-                className="ChoiceInfo-choice1Per"
-                style={{ flex: choice1Ratio }}
-              >
-                {choice1Ratio !== 1 && `${choice1Ratio}%`}
-              </div>
-              <div
-                className="ChoiceInfo-choice2Per"
-                style={{ flex: choice2Ratio }}
-              >
-                {choice2Ratio !== 1 && `${choice2Ratio}%`}
-              </div>
             </div>
           </div>
-
-          {!floatingAlert && (
-            <button
-              onClick={completeSelect}
-              className="ChoiceInfo-completeBtn"
-              id={checkChangeSelected(already) ? "selectedComplete" : ""}
-              disabled={!checkChangeSelected(already)}
+          <div className="ChoiceInfo-result">
+            <div
+              className="ChoiceInfo-choice1Per"
+              style={{ flex: choice1Ratio }}
             >
-              {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
-            </button>
-          )}
+              {choice1Ratio !== 1 && `${choice1Ratio}%`}
+            </div>
+            <div
+              className="ChoiceInfo-choice2Per"
+              style={{ flex: choice2Ratio }}
+            >
+              {choice2Ratio !== 1 && `${choice2Ratio}%`}
+            </div>
+          </div>
+          <button
+            onClick={completeSelect}
+            className="ChoiceInfo-completeBtn"
+            style={{ visibility: floatingAlert && "hidden" }}
+            id={checkChangeSelected(already) ? "selectedComplete" : ""}
+            disabled={!checkChangeSelected(already)}
+          >
+            {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
+          </button>
 
           <div className="ChoiceInfo-fixedBtns">
             <button className="ChoiceInfo-homeBtn" onClick={goToHome}>
@@ -343,7 +330,6 @@ const ChoiceInfo = ({ match, userObj }) => {
             )}
           </div>
           {floatingAlert && <Alert text="선택 완료!" />}
-          {floatingDeleteAlert && <Alert text="삭제중.." />}
           {modaling && (
             <Modal
               type="delete"
@@ -355,6 +341,8 @@ const ChoiceInfo = ({ match, userObj }) => {
             <Modal type="img" img={clickedImg} deleteContent={toggleImgModal} />
           )}
         </article>
+      ) : (
+        <div className="loader"></div>
       )}
     </>
   );
