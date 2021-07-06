@@ -32,8 +32,12 @@ const Content = ({ item, userObj }) => {
   };
   return (
     <section className="Content" onClick={goToChoiceInfo}>
-      <div className="Content-question">
-        <div>{item.question}</div>
+      <div className="Content-texts">
+        <div className="Content-question">{item.question}</div>
+        <div className="Content-choices">
+          {item.choice1}
+          <span className="Content-VS">vs</span> {item.choice2}
+        </div>
       </div>
       {item.category && <div className="Content-category">{item.category}</div>}
       <div className="Content-when">{term(Date.now(), item.when)}</div>
