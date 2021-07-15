@@ -243,60 +243,63 @@ const Home = ({ userObj }) => {
                     <h2 className="Home-tip">
                         선택에 참여하여 고민하는 사람들을 도와주세요!
                     </h2>
-                    <nav className="Home-category">
-                        {false && (
-                            <>
-                                <label htmlFor="filter">카테고리 찾기</label>
-                                <input
-                                    id="filter"
-                                    type="text"
-                                    value={value}
-                                    onChange={onChangeFilter}
-                                />
-                            </>
-                        )}
-                        <div className="Home-categoryList">
-                            {filters.map((filter) => (
-                                <button
-                                    className="Home-categoryBtn"
-                                    key={filter.id}
-                                    onClick={getFilter}
-                                >
-                                    {filter.text}
-                                </button>
-                            ))}
-                        </div>
-                    </nav>
-                    <div className="Home-list">
-                        {choiceItems.length !== 0 ? (
-                            choiceItems.map((item) => {
-                                if (filtering === "") {
-                                    return (
-                                        <Content
-                                            key={item.id}
-                                            item={item}
-                                            userObj={userObj}
-                                        />
-                                    );
-                                } else {
-                                    return (
-                                        item.category === filtering && (
+                    <div className="Home-responsiveBox">
+                        <nav className="Home-category">
+                            {false && (
+                                <>
+                                    <label htmlFor="filter">
+                                        카테고리 찾기
+                                    </label>
+                                    <input
+                                        id="filter"
+                                        type="text"
+                                        value={value}
+                                        onChange={onChangeFilter}
+                                    />
+                                </>
+                            )}
+                            <div className="Home-categoryList">
+                                {filters.map((filter) => (
+                                    <button
+                                        className="Home-categoryBtn"
+                                        key={filter.id}
+                                        onClick={getFilter}
+                                    >
+                                        {filter.text}
+                                    </button>
+                                ))}
+                            </div>
+                        </nav>
+                        <div className="Home-list">
+                            {choiceItems.length !== 0 ? (
+                                choiceItems.map((item) => {
+                                    if (filtering === "") {
+                                        return (
                                             <Content
                                                 key={item.id}
                                                 item={item}
                                                 userObj={userObj}
                                             />
-                                        )
-                                    );
-                                }
-                            })
-                        ) : (
-                            <div className="Home-noList">
-                                업로드된 고민거리가 없어요
-                            </div>
-                        )}
+                                        );
+                                    } else {
+                                        return (
+                                            item.category === filtering && (
+                                                <Content
+                                                    key={item.id}
+                                                    item={item}
+                                                    userObj={userObj}
+                                                />
+                                            )
+                                        );
+                                    }
+                                })
+                            ) : (
+                                <div className="Home-noList">
+                                    업로드된 고민거리가 없어요
+                                </div>
+                            )}
+                        </div>
                     </div>
-
                     <button className="Home-button" onClick={toggleUpload}>
                         +
                     </button>

@@ -72,8 +72,9 @@ const AddForm = ({
                         name="newCategory"
                         onChange={onChange}
                         required
+                        maxLength="10"
                         autoComplete="off"
-                        placeholder="기존에 없던 새 카테고리를 입력해주세요"
+                        placeholder="새 카테고리를 입력해주세요(최대 10자)"
                     />
                 )}
             </div>
