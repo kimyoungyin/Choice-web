@@ -361,7 +361,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                     >
                         {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
                     </button>
-
                     <div className="ChoiceInfo-fixedBtns">
                         <button
                             className="ChoiceInfo-homeBtn"
