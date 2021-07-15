@@ -81,7 +81,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                         .collection("choice1Users")
                         .get()
                         .then((sub) => {
-                            console.log(sub.size);
                             setChoice1Users(sub.size);
                             if (sub.size !== 0) {
                                 checkSelected(1, documentRef);
@@ -93,7 +92,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                         .collection("choice2Users")
                         .get()
                         .then((sub) => {
-                            console.log(sub.size);
                             setChoice2Users(sub.size);
                             if (sub.size !== 0) {
                                 checkSelected(2, documentRef);
