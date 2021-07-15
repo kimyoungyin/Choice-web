@@ -9,7 +9,7 @@ const Auth = () => {
         let provider;
         try {
             provider = new firebaseInstance.auth.GoogleAuthProvider();
-            const data = await authService.signInWithPopup(provider);
+            const data = await authService.signInWithRedirect(provider);
             console.log(data);
         } catch (err) {
             if (
