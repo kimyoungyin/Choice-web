@@ -106,7 +106,6 @@ body,
 
 .Auth-greet {
     color: #8797ad;
-    animation: changeButton 2s 4.3s both ease-in-out;
 }
 
 .Auth-google {
@@ -122,9 +121,13 @@ body,
     text-align: center;
     cursor: pointer;
     background-color: var(--pastel-lightPurple);
-    animation: changeButton 2s 4.3s both ease-in-out;
     transition: 0.5s;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.Auth-google,
+.Auth-greet {
+    animation: changeButton 2s 4.3s both ease-in-out;
 }
 
 .Auth-google:active {
