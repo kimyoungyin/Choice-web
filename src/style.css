@@ -456,10 +456,6 @@ body,
             rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     }
 
-    /* .Home-list {
-        border-radius: 1em 0 0 1em;
-    } */
-
     .Home-list .Content {
         width: 100%;
         background-color: white;
@@ -468,6 +464,10 @@ body,
     .Home-list .Content:hover {
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         transform: translateY(-5px);
+    }
+
+    .Home-list .Content:active {
+        box-shadow: none;
     }
 }
 
@@ -502,7 +502,7 @@ body,
 }
 
 .Content-question {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1.2em;
 }
 
