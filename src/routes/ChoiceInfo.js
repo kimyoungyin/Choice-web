@@ -39,7 +39,6 @@ const ChoiceInfo = ({ match, userObj }) => {
         const checkSelected = async (choiceType, documentRef) => {
             await documentRef
                 .collection(`choice${choiceType}Users`)
-                .where("user", "==", userObj.displayName)
                 .get()
                 .then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
@@ -58,8 +57,9 @@ const ChoiceInfo = ({ match, userObj }) => {
                                 setTimeout(() => setLoadBtn(true), 2000);
                             }
                         }
-                        setInit(true);
                     });
+                    setInit(true);
+                    setLoadBtn(true);
                 })
                 .catch((error) => {
                     console.log("Error getting documents: ", error);
@@ -87,7 +87,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                                 checkSelected(1, documentRef);
                             } else {
                                 setInit(true);
-                                setLoadBtn(true);
                             }
                         });
                     documentRef
