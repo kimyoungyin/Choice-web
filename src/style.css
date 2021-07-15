@@ -377,18 +377,11 @@ body,
     cursor: pointer;
 }
 
-.Home-categoryBtn.active {
-    background-color: var(--pastel-tomato);
-    color: white;
-}
-
 .Home-button {
     all: unset;
     position: fixed;
     right: 10px;
     bottom: 50px;
-    background-color: var(--pastel-tomato);
-    color: white;
     font-size: 30px;
     width: 60px;
     height: 60px;
@@ -399,6 +392,12 @@ body,
         rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
         rgba(0, 0, 0, 0.09) 0px 32px 16px;
     transition: 0.5s;
+}
+
+.Home-button,
+.Home-categoryBtn.active {
+    background-color: var(--pastel-tomato);
+    color: white;
 }
 
 .Home-list {
