@@ -126,16 +126,16 @@ const ChoiceInfo = ({ match, userObj }) => {
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
-            setChoice1Users(choice1Users + 1);
+            // setChoice1Users(choice1Users + 1);
             setSelected1(true);
             setBtn1Id("selected");
         } else if (selected1 && !selected2) {
-            setChoice1Users(choice1Users - 1);
+            // setChoice1Users(choice1Users - 1);
             setSelected1(false);
             setBtn1Id("");
         } else if (!selected1 && selected2) {
-            setChoice1Users(choice1Users + 1);
-            setChoice2Users(choice2Users - 1);
+            // setChoice1Users(choice1Users + 1);
+            // setChoice2Users(choice2Users - 1);
             setSelected1(true);
             setSelected2(false);
             setBtn2Id("");
@@ -147,16 +147,12 @@ const ChoiceInfo = ({ match, userObj }) => {
 
     const addChoice2User = () => {
         if (!selected1 && !selected2) {
-            setChoice2Users(choice2Users + 1);
             setSelected2(true);
             setBtn2Id("selected");
         } else if (selected2 && !selected1) {
-            setChoice2Users(choice2Users - 1);
             setSelected2(false);
             setBtn2Id("");
         } else if (!selected2 && selected1) {
-            setChoice2Users(choice2Users + 1);
-            setChoice1Users(choice1Users - 1);
             setSelected2(true);
             setSelected1(false);
             setBtn1Id("");
