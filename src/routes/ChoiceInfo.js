@@ -37,6 +37,7 @@ const ChoiceInfo = ({ match, userObj }) => {
 
     useEffect(() => {
         const checkSelected = async (choiceType, documentRef) => {
+            setLoadBtn(false);
             await documentRef
                 .collection(`choice${choiceType}Users`)
                 .get()
@@ -59,7 +60,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                         }
                     });
                     setInit(true);
-                    setLoadBtn(true);
+                    setTimeout(() => setLoadBtn(true), 2000);
                 })
                 .catch((error) => {
                     console.log("Error getting documents: ", error);
@@ -82,36 +83,46 @@ const ChoiceInfo = ({ match, userObj }) => {
                         .get()
                         .then((sub) => {
                             setChoice1Users(sub.size);
-                            if (sub.size !== 0) {
-                                checkSelected(1, documentRef);
-                            } else {
-                                setInit(true);
-                            }
+                            // if (sub.size !== 0) {
+                            //     checkSelected(1, documentRef);
+                            // } else {
+                            //     setInit(true);
+                            // }
                         });
                     documentRef
                         .collection("choice2Users")
                         .get()
                         .then((sub) => {
                             setChoice2Users(sub.size);
-                            if (sub.size !== 0) {
-                                checkSelected(2, documentRef);
-                            } else {
-                                setInit(true);
-                            }
+                            // if (sub.size !== 0) {
+                            //     checkSelected(2, documentRef);
+                            // } else {
+                            //     setInit(true);
+                            // }
                         });
+                    if (choice1Users !== 0 && choice2Users === 0) {
+                        checkSelected(1, documentRef);
+                    } else if (choice1Users === 0 && choice2Users !== 0) {
+                        checkSelected(2, documentRef);
+                    } else if (choice1Users !== 0 && choice2Users !== 0) {
+                        checkSelected(1, documentRef);
+                        checkSelected(2, documentRef);
+                    }
                 })
                 .catch(function (error) {
                     console.log("Error getting document:", error);
                 });
             setDocument(documentRef);
             setItem(itemWithId);
+            setInit(true);
+            setTimeout(() => setLoadBtn(true), 2000);
         };
 
         fetchData();
         return () => {
             setDocument(null);
         };
-    }, [already, idRef, userObj.displayName]);
+    }, [already, idRef, userObj.displayName, choice1Users, choice2Users]);
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
