@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import "../style.css";
 
-const Content = ({ item, userObj }) => {
+const Content = ({ item }) => {
     const history = useHistory();
     // const toggleChoiceMode = () => {
     //     const homeList = document.querySelector(".Home-list");
@@ -15,8 +15,10 @@ const Content = ({ item, userObj }) => {
     const term = (now, when) => {
         let gap = now - when;
         let days = Math.floor(gap / (1000 * 60 * 60 * 24));
+        gap -= days * 24 * 60 * 60 * 1000;
         let hours = Math.floor(gap / (1000 * 60 * 60));
-        let minutes = Math.floor((gap / (1000 * 60)) % 60);
+        gap -= hours * 60 * 60 * 1000;
+        let minutes = Math.floor(gap / (1000 * 60));
 
         days = days < 10 ? "0" + days : days;
         hours = hours < 10 ? "0" + hours : hours;

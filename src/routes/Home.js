@@ -278,7 +278,6 @@ const Home = ({ userObj }) => {
                                             <Content
                                                 key={item.id}
                                                 item={item}
-                                                userObj={userObj}
                                             />
                                         );
                                     } else {
