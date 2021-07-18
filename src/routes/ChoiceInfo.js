@@ -163,6 +163,7 @@ const ChoiceInfo = ({ match, userObj }) => {
     };
 
     const completeSelect = async () => {
+        setLoadBtn(false);
         if (already === null) {
             if (selected1 && !selected2) {
                 setFloatingAlert(true);
