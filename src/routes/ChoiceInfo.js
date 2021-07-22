@@ -83,22 +83,12 @@ const ChoiceInfo = ({ match, userObj }) => {
                         .get()
                         .then((sub) => {
                             setChoice1Users(sub.size);
-                            // if (sub.size !== 0) {
-                            //     checkSelected(1, documentRef);
-                            // } else {
-                            //     setInit(true);
-                            // }
                         });
                     documentRef
                         .collection("choice2Users")
                         .get()
                         .then((sub) => {
                             setChoice2Users(sub.size);
-                            // if (sub.size !== 0) {
-                            //     checkSelected(2, documentRef);
-                            // } else {
-                            //     setInit(true);
-                            // }
                         });
                     if (choice1Users !== 0 && choice2Users === 0) {
                         checkSelected(1, documentRef);
@@ -107,6 +97,8 @@ const ChoiceInfo = ({ match, userObj }) => {
                     } else if (choice1Users !== 0 && choice2Users !== 0) {
                         checkSelected(1, documentRef);
                         checkSelected(2, documentRef);
+                    } else {
+                        checkSelected(0, documentRef);
                     }
                 })
                 .catch(function (error) {
@@ -115,7 +107,6 @@ const ChoiceInfo = ({ match, userObj }) => {
             setDocument(documentRef);
             setItem(itemWithId);
             setInit(true);
-            setTimeout(() => setLoadBtn(true), 2000);
         };
 
         fetchData();
