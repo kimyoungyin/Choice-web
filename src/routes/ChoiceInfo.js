@@ -17,8 +17,8 @@ const ChoiceInfo = ({ match, userObj }) => {
     const [selected2, setSelected2] = useState(false);
     const [already, setAlready] = useState(null);
     const [alreadyId, setAlreadyId] = useState(null);
-    const [btn1Id, setBtn1Id] = useState("");
-    const [btn2Id, setBtn2Id] = useState("");
+    // const [btn1Id, setBtn1Id] = useState("");
+    // const [btn2Id, setBtn2Id] = useState("");
     const [floatingAlert, setFloatingAlert] = useState(false);
     const [floatDeleteAlert, setFloatDeleteAlert] = useState(false);
     const [modaling, setModaling] = useState(false);
@@ -37,34 +37,35 @@ const ChoiceInfo = ({ match, userObj }) => {
 
     useEffect(() => {
         const checkSelected = async (choiceType, documentRef) => {
-            setLoadBtn(false);
-            await documentRef
-                .collection(`choice${choiceType}Users`)
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        if (doc.data().user === userObj.displayName) {
-                            if (choiceType === 1) {
-                                setSelected1(true);
-                                setBtn1Id("selected");
-                                setAlready("selected1");
-                                setAlreadyId(doc.id);
-                                setTimeout(() => setLoadBtn(true), 2000);
-                            } else if (choiceType === 2) {
-                                setSelected2(true);
-                                setBtn2Id("selected");
-                                setAlready("selected2");
-                                setAlreadyId(doc.id);
-                                setTimeout(() => setLoadBtn(true), 2000);
-                            }
+            try {
+                setLoadBtn(false);
+                const docsForChoiceType = await documentRef
+                    .collection(`choice${choiceType}Users`)
+                    .get();
+                docsForChoiceType.forEach((doc) => {
+                    if (doc.data().user === userObj.displayName) {
+                        if (choiceType === 1) {
+                            setSelected1(true);
+                            // setBtn1Id("selected");
+                            setAlready("selected1");
+                            setAlreadyId(doc.id);
+                            setLoadBtn(true);
+                            throw Number(1); // forEach문 정지 역할
+                        } else if (choiceType === 2) {
+                            setSelected2(true);
+                            // setBtn2Id("selected");
+                            setAlready("selected2");
+                            setAlreadyId(doc.id);
+                            setLoadBtn(true);
+                            throw Number(2); // forEach문 정지 역할
                         }
-                    });
-                    setInit(true);
-                    setTimeout(() => setLoadBtn(true), 2000);
-                })
-                .catch((error) => {
-                    console.log("Error getting documents: ", error);
+                    }
                 });
+            } catch (error) {
+                if (error !== 1 || error !== 2) {
+                    console.log(error);
+                }
+            }
         };
         const fetchData = async () => {
             const documentRef = await dbService
@@ -119,18 +120,18 @@ const ChoiceInfo = ({ match, userObj }) => {
         if (!selected1 && !selected2) {
             // setChoice1Users(choice1Users + 1);
             setSelected1(true);
-            setBtn1Id("selected");
+            // setBtn1Id("selected");
         } else if (selected1 && !selected2) {
             // setChoice1Users(choice1Users - 1);
             setSelected1(false);
-            setBtn1Id("");
+            // setBtn1Id("");
         } else if (!selected1 && selected2) {
             // setChoice1Users(choice1Users + 1);
             // setChoice2Users(choice2Users - 1);
             setSelected1(true);
             setSelected2(false);
-            setBtn2Id("");
-            setBtn1Id("selected");
+            // setBtn2Id("");
+            // setBtn1Id("selected");
         } else if (selected1 && selected2) {
             alert("중복 선택으로 인해 재접속 부탁드립니다");
         }
@@ -139,15 +140,15 @@ const ChoiceInfo = ({ match, userObj }) => {
     const addChoice2User = () => {
         if (!selected1 && !selected2) {
             setSelected2(true);
-            setBtn2Id("selected");
+            // setBtn2Id("selected");
         } else if (selected2 && !selected1) {
             setSelected2(false);
-            setBtn2Id("");
+            // setBtn2Id("");
         } else if (!selected2 && selected1) {
             setSelected2(true);
             setSelected1(false);
-            setBtn1Id("");
-            setBtn2Id("selected");
+            // setBtn1Id("");
+            // setBtn2Id("selected");
         } else if (selected1 && selected2) {
             alert("중복 선택으로 인해 재접속 부탁드립니다");
         }
@@ -292,7 +293,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                             </div>
                             <button
                                 className="ChoiceInfo-choiceBtn"
-                                id={btn1Id}
+                                id={selected1 ? "selected" : ""}
                                 onClick={addChoice1User}
                                 disabled={!loadBtn}
                                 style={!loadBtn ? { opacity: 0.5 } : null}
@@ -318,7 +319,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                             </div>
                             <button
                                 className="ChoiceInfo-choiceBtn"
-                                id={btn2Id}
+                                id={selected2 ? "selected" : ""}
                                 onClick={addChoice2User}
                                 disabled={!loadBtn}
                                 style={!loadBtn ? { opacity: 0.5 } : null}
