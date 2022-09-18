@@ -36,6 +36,16 @@ const ChoiceInfo = ({ match, userObj }) => {
             : Math.floor((100 * choice2Users) / (choice1Users + choice2Users));
 
     useEffect(() => {
+        // GET DocumentRef
+        const getDocumentRef = async () => {
+            const documentRef = await dbService
+                .collection("questions")
+                .doc(idRef);
+            setDocument(documentRef);
+            return documentRef;
+        };
+
+        // 해당 선택지를 이미 선택했었는지 체크
         const checkSelected = async (choiceType, documentRef) => {
             try {
                 setLoadBtn(false);
@@ -65,54 +75,52 @@ const ChoiceInfo = ({ match, userObj }) => {
                 }
             }
         };
-        const fetchData = async () => {
-            const documentRef = await dbService
-                .collection("questions")
-                .doc(idRef);
-            const itemRef = await documentRef.get().then((doc) => doc.data());
-            const itemWithId = {
-                ...itemRef,
-                id: idRef,
-            };
-            await documentRef
-                .get()
-                .then(() => {
-                    documentRef
-                        .collection("choice1Users")
-                        .get()
-                        .then((sub) => {
-                            setChoice1Users(sub.size);
-                        });
-                    documentRef
-                        .collection("choice2Users")
-                        .get()
-                        .then((sub) => {
-                            setChoice2Users(sub.size);
-                        });
-                    if (choice1Users !== 0 && choice2Users === 0) {
-                        checkSelected(1, documentRef);
-                    } else if (choice1Users === 0 && choice2Users !== 0) {
-                        checkSelected(2, documentRef);
-                    } else if (choice1Users !== 0 && choice2Users !== 0) {
-                        checkSelected(1, documentRef);
-                        checkSelected(2, documentRef);
-                    } else {
-                        checkSelected(0, documentRef);
-                    }
-                })
-                .catch(function (error) {
-                    console.log("Error getting document:", error);
-                });
-            setDocument(documentRef);
-            setItem(itemWithId);
-            setInit(true);
+
+        // GET 질문 객체
+        const getQuestionObj = async (docRef) => {
+            try {
+                const questionObj = {
+                    ...(await (await docRef.get()).data()),
+                    id: idRef,
+                };
+                setItem(questionObj);
+            } catch (error) {
+                console.log(error);
+            }
         };
 
-        fetchData();
+        // GET: 각각 선택 수
+        const getchoiceNumber = async (choiceNum, docRef) => {
+            try {
+                const choiceSize = await (
+                    await docRef.collection(`choice${choiceNum}Users`).get()
+                ).size;
+                choiceNum === 1
+                    ? setChoice1Users(choiceSize)
+                    : setChoice2Users(choiceSize);
+                if (choiceSize) {
+                    await checkSelected(choiceNum, docRef);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getDocumentRef()
+            .then((docRef) =>
+                Promise.allSettled([
+                    getQuestionObj(docRef),
+                    getchoiceNumber(1, docRef),
+                    getchoiceNumber(2, docRef),
+                ])
+            )
+            .then(() => setInit(true))
+            .catch((error) => console.log(error));
+
         return () => {
             setDocument(null);
         };
-    }, [already, idRef, userObj.displayName, choice1Users, choice2Users]);
+    }, [idRef, userObj.displayName]);
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
