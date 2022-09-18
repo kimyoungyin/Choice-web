@@ -3,4 +3,4 @@
 ## URL
 https://choiceweb.netlify.app/#/
 ## 스택
-React, firebase(auth, firestore)
+- v1.0.0: React, firebase(auth, firestore)
