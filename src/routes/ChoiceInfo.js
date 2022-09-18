@@ -46,14 +46,12 @@ const ChoiceInfo = ({ match, userObj }) => {
                     if (doc.data().user === userObj.displayName) {
                         if (choiceType === 1) {
                             setSelected1(true);
-                            // setBtn1Id("selected");
                             setAlready("selected1");
                             setAlreadyId(doc.id);
                             setLoadBtn(true);
                             throw Number(1); // forEach문 정지 역할
                         } else if (choiceType === 2) {
                             setSelected2(true);
-                            // setBtn2Id("selected");
                             setAlready("selected2");
                             setAlreadyId(doc.id);
                             setLoadBtn(true);
@@ -62,8 +60,8 @@ const ChoiceInfo = ({ match, userObj }) => {
                     }
                 });
             } catch (error) {
-                if (error !== 1 || error !== 2) {
-                    console.log(error);
+                if (error !== 1 && error !== 2) {
+                    console.log(error); // 추후에 에러 처리 예정
                 }
             }
         };
