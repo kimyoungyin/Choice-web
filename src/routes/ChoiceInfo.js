@@ -112,7 +112,10 @@ const ChoiceInfo = ({ match, userObj }) => {
                     getchoiceNumber(2, docRef),
                 ])
             )
-            .then(() => setInit(true))
+            .then(() => {
+                setLoadBtn(true);
+                setInit(true);
+            })
             .catch((error) => console.log(error));
 
         return () => {
