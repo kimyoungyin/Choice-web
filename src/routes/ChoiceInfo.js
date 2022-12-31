@@ -97,7 +97,9 @@ const ChoiceInfo = ({ match, userObj }) => {
                     ? setChoice1Users(choiceSize)
                     : setChoice2Users(choiceSize);
                 if (choiceSize) {
-                    await checkSelected(choiceNum, docRef);
+                    await checkSelected(choiceNum, docRef); // 유저가 choiceNum을 선택했었는지 확인
+                } else {
+                    setLoadBtn(true);
                 }
             } catch (error) {
                 console.log(error);
@@ -113,7 +115,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                 ])
             )
             .then(() => {
-                setLoadBtn(true);
                 setInit(true);
             })
             .catch((error) => console.log(error));
