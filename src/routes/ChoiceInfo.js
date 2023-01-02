@@ -345,7 +345,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                     <button
                         onClick={completeSelect}
                         className="ChoiceInfo-completeBtn"
-                        style={{ visibility: floatingAlert && "hidden" }}
+                        // style={{ visibility: floatingAlert && "hidden" }}
                         id={
                             checkChangeSelected(already)
                                 ? "selectedComplete"
