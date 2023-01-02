@@ -7,6 +7,7 @@ import AddForm from "../components/AddForm";
 import Alert from "../components/Alert";
 
 const Home = ({ userObj }) => {
+    const [isLoading, setIsLoading] = useState(true);
     const [uploadMode, setUploadMode] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
     const [categoryValue, setCategoryValue] = useState("current");
@@ -37,6 +38,7 @@ const Home = ({ userObj }) => {
                     return 0;
                 });
                 setChoiceItems(questions);
+                setIsLoading(false);
             });
 
             await dbService.collection("category").onSnapshot((snapshot) => {
@@ -271,7 +273,11 @@ const Home = ({ userObj }) => {
                             </div>
                         </nav>
                         <div className="Home-list">
-                            {choiceItems.length !== 0 ? (
+                            {isLoading ? (
+                                <div className="Home-loading">
+                                    <div className="loader"></div>
+                                </div>
+                            ) : choiceItems.length !== 0 ? (
                                 choiceItems.map((item) => {
                                     if (filtering === "") {
                                         return (
@@ -294,7 +300,7 @@ const Home = ({ userObj }) => {
                                 })
                             ) : (
                                 <div className="Home-noList">
-                                    업로드된 고민거리가 없어요
+                                    <span>업로드된 고민거리가 없어요...</span>
                                 </div>
                             )}
                         </div>
