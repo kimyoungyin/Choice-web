@@ -413,11 +413,20 @@ body,
     overflow: auto;
 }
 
-.Home-noList {
+.Home-noList,
+.Home-loading {
     width: 100%;
     height: 100%;
     text-align: center;
-    padding-top: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home-noList {
+    font-size: 32px;
+    word-break: keep-all;
+    line-height: 1.5;
 }
 
 @media screen and (min-width: 768px) {
