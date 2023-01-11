@@ -11,7 +11,23 @@ function App() {
     useEffect(() => {
         const unsubscribe = authService.onAuthStateChanged((user) => {
             if (user) {
-                customAixos.get("/posts").then((result) => console.log(result));
+                // customAixos
+                //     .post("/posts", {
+                //         uploaderId: user.uid,
+                //         categoryName: "음악",
+                //         title: "공부할 때 듣기 좋은 음악 장르",
+                //         choice1: "발라드",
+                //         choice2: "힙합",
+                //     })
+                //     .then((result) => console.log(result))
+                //     .catch(
+                //         (error) =>
+                //             console.log(
+                //                 "error:",
+                //                 error.response.status,
+                //                 error.response.data
+                //             ) // 로그인 화면으로 이동 및 로그아웃
+                //     );
                 setIsLoggedIn(true);
                 setUserObj({
                     displayName: user.displayName,
