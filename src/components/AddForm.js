@@ -19,7 +19,11 @@ const AddForm = ({
     filters,
 }) => {
     return (
-        <form className="AddForm" onSubmit={onSubmit}>
+        <form
+            className="AddForm"
+            onSubmit={onSubmit}
+            encType="multipart/form-data"
+        >
             <h2 className="Home-tip inAddForm">
                 새로운 카테고리를 만들고 싶다면 <span>새 카테고리</span>
                 란를 클릭하세요!
@@ -99,6 +103,7 @@ const AddForm = ({
                     id="AddForm-choice1"
                     className="AddForm-choice1Img"
                     type="file"
+                    name="choice1Image"
                     accept="image/*"
                     onChange={onFileChange}
                 />
@@ -133,6 +138,7 @@ const AddForm = ({
                     id="AddForm-choice2"
                     className="AddForm-choice2Img"
                     type="file"
+                    name="choice2Image"
                     accept="image/*"
                     onChange={onFileChange}
                 />
