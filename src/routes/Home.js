@@ -5,6 +5,7 @@ import "../style.css";
 import Content from "../components/Content";
 import AddForm from "../components/AddForm";
 import Alert from "../components/Alert";
+import customAixos from "../customAixos";
 
 const Home = ({ userObj }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -26,29 +27,42 @@ const Home = ({ userObj }) => {
 
     useEffect(() => {
         const asyncFunction = async () => {
-            await dbService.collection("questions").onSnapshot((snapshot) => {
-                const questions = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                questions.sort((a, b) => {
-                    if (a.when > b.when) return -1;
-                    if (a.when < b.when) return 1;
+            // await dbService.collection("questions").onSnapshot((snapshot) => {
+            //     const questions = snapshot.docs.map((doc) => ({
+            //         id: doc.id,
+            //         ...doc.data(),
+            //     }));
+            //     questions.sort((a, b) => {
+            //         if (a.when > b.when) return -1;
+            //         if (a.when < b.when) return 1;
 
-                    return 0;
-                });
-                setChoiceItems(questions);
+            //         return 0;
+            //     });
+            //     setChoiceItems(questions);
+            //     setIsLoading(false);
+            // });
+
+            // await dbService.collection("category").onSnapshot((snapshot) => {
+            //     const categorys = snapshot.docs.map((doc) => ({
+            //         id: doc.id,
+            //         ...doc.data(),
+            //     }));
+            //     categorys.sort();
+            //     setFilters(categorys);
+            // });
+            try {
+                const { data: posts } = await customAixos.get("/posts");
+                const { data: categories } = await customAixos.get(
+                    "/categories"
+                );
+                setChoiceItems(posts);
+                setFilters(categories);
+                console.log(posts);
+            } catch (error) {
+                console.log(error);
+            } finally {
                 setIsLoading(false);
-            });
-
-            await dbService.collection("category").onSnapshot((snapshot) => {
-                const categorys = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                categorys.sort();
-                setFilters(categorys);
-            });
+            }
         };
 
         asyncFunction();
@@ -267,7 +281,7 @@ const Home = ({ userObj }) => {
                                         key={filter.id}
                                         onClick={getFilter}
                                     >
-                                        {filter.text}
+                                        {filter.name}
                                     </button>
                                 ))}
                             </div>
