@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { dbService, storageService } from "../fb";
+import { storageService, authService } from "../fb";
 import "../style.css";
 import { useHistory } from "react-router";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
+import customAixos from "../customAixos";
 
 const ChoiceInfo = ({ match, userObj }) => {
     const idRef = match.params.id;
@@ -34,95 +35,112 @@ const ChoiceInfo = ({ match, userObj }) => {
             : Math.floor((100 * choice2Users) / (choice1Users + choice2Users));
 
     useEffect(() => {
-        // GET DocumentRef
-        const getDocumentRef = async () => {
-            const documentRef = await dbService
-                .collection("questions")
-                .doc(idRef);
-            setDocument(documentRef);
-            return documentRef;
-        };
+        // // GET DocumentRef
+        // const getDocumentRef = async () => {
+        //     const documentRef = await dbService
+        //         .collection("questions")
+        //         .doc(idRef);
+        //     setDocument(documentRef);
+        //     return documentRef;
+        // };
 
-        // 해당 선택지를 이미 선택했었는지 체크
-        const checkSelected = async (choiceType, documentRef) => {
-            try {
-                setLoadBtn(false);
-                const docsForChoiceType = await documentRef
-                    .collection(`choice${choiceType}Users`)
-                    .get();
-                docsForChoiceType.forEach((doc) => {
-                    if (doc.data().user === userObj.displayName) {
-                        if (choiceType === 1) {
-                            setSelected1(true);
-                            setAlready("selected1");
-                            setAlreadyId(doc.id);
-                            setLoadBtn(true);
-                            throw Number(1); // forEach문 정지 역할
-                        } else if (choiceType === 2) {
-                            setSelected2(true);
-                            setAlready("selected2");
-                            setAlreadyId(doc.id);
-                            setLoadBtn(true);
-                            throw Number(2); // forEach문 정지 역할
-                        }
-                    }
-                });
-            } catch (error) {
-                if (error !== 1 && error !== 2) {
-                    console.log(error); // 추후에 에러 처리 예정
-                }
-            }
-        };
+        // // 해당 선택지를 이미 선택했었는지 체크
+        // const checkSelected = async (choiceType, documentRef) => {
+        //     try {
+        //         setLoadBtn(false);
+        //         const docsForChoiceType = await documentRef
+        //             .collection(`choice${choiceType}Users`)
+        //             .get();
+        //         docsForChoiceType.forEach((doc) => {
+        //             if (doc.data().user === userObj.displayName) {
+        //                 if (choiceType === 1) {
+        //                     setSelected1(true);
+        //                     setAlready("selected1");
+        //                     setAlreadyId(doc.id);
+        //                     setLoadBtn(true);
+        //                     throw Number(1); // forEach문 정지 역할
+        //                 } else if (choiceType === 2) {
+        //                     setSelected2(true);
+        //                     setAlready("selected2");
+        //                     setAlreadyId(doc.id);
+        //                     setLoadBtn(true);
+        //                     throw Number(2); // forEach문 정지 역할
+        //                 }
+        //             }
+        //         });
+        //     } catch (error) {
+        //         if (error !== 1 && error !== 2) {
+        //             console.log(error); // 추후에 에러 처리 예정
+        //         }
+        //     }
+        // };
 
-        // GET 질문 객체
-        const getQuestionObj = async (docRef) => {
+        // // GET 질문 객체
+        // const getQuestionObj = async (docRef) => {
+        //     try {
+        //         const questionObj = {
+        //             ...(await (await docRef.get()).data()),
+        //             id: idRef,
+        //         };
+        //         setItem(questionObj);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
+
+        // // GET: 각각 선택 수
+        // const getchoiceNumber = async (choiceNum, docRef) => {
+        //     try {
+        //         const choiceSize = await (
+        //             await docRef.collection(`choice${choiceNum}Users`).get()
+        //         ).size;
+        //         choiceNum === 1
+        //             ? setChoice1Users(choiceSize)
+        //             : setChoice2Users(choiceSize);
+        //         if (choiceSize) {
+        //             await checkSelected(choiceNum, docRef); // 유저가 choiceNum을 선택했었는지 확인
+        //         } else {
+        //             setLoadBtn(true);
+        //         }
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
+
+        // getDocumentRef()
+        //     .then((docRef) =>
+        //         Promise.allSettled([
+        //             getQuestionObj(docRef),
+        //             getchoiceNumber(1, docRef),
+        //             getchoiceNumber(2, docRef),
+        //         ])
+        //     )
+        //     .then(() => {
+        //         setInit(true);
+        //     })
+        //     .catch((error) => console.log(error));
+        const getPostInfo = async () => {
             try {
-                const questionObj = {
-                    ...(await (await docRef.get()).data()),
-                    id: idRef,
-                };
-                setItem(questionObj);
+                const { data: item } = await customAixos.get(`/posts/${idRef}`);
+                const { data: prevChoice } = await customAixos.get(
+                    `/posts/${idRef}/choice/${userObj.uid}`
+                );
+                setItem(item);
+                if (prevChoice === null) return;
+                if (prevChoice?.choiceType === false) return setSelected1(true);
+                if (prevChoice?.choiceType === true) return setSelected2(true);
             } catch (error) {
                 console.log(error);
-            }
-        };
-
-        // GET: 각각 선택 수
-        const getchoiceNumber = async (choiceNum, docRef) => {
-            try {
-                const choiceSize = await (
-                    await docRef.collection(`choice${choiceNum}Users`).get()
-                ).size;
-                choiceNum === 1
-                    ? setChoice1Users(choiceSize)
-                    : setChoice2Users(choiceSize);
-                if (choiceSize) {
-                    await checkSelected(choiceNum, docRef); // 유저가 choiceNum을 선택했었는지 확인
-                } else {
-                    setLoadBtn(true);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        getDocumentRef()
-            .then((docRef) =>
-                Promise.allSettled([
-                    getQuestionObj(docRef),
-                    getchoiceNumber(1, docRef),
-                    getchoiceNumber(2, docRef),
-                ])
-            )
-            .then(() => {
+            } finally {
                 setInit(true);
-            })
-            .catch((error) => console.log(error));
-
+                setLoadBtn(true);
+            }
+        };
+        getPostInfo();
         return () => {
             setDocument(null);
         };
-    }, [idRef, userObj.displayName]);
+    }, [idRef, userObj.displayName, userObj.uid]);
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
@@ -273,14 +291,14 @@ const ChoiceInfo = ({ match, userObj }) => {
                     <div className="ChoiceInfo-writer">
                         {item.writer} 님의 고민!
                     </div>
-                    <h3 className="ChoiceInfo-question">Q. {item.question}</h3>
+                    <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
                     <div className="ChoiceInfo-choices">
                         <div className="ChoiceInfo-choice1">
-                            {item.attachment1Url && (
+                            {item.choice1Url && (
                                 <img
                                     onClick={toggleImgModal}
                                     className="ChoiceInfo-img"
-                                    src={item.attachment1Url}
+                                    src={item.choice1Url}
                                     alt="choice1"
                                 />
                             )}
@@ -302,11 +320,11 @@ const ChoiceInfo = ({ match, userObj }) => {
                             </button>
                         </div>
                         <div className="ChoiceInfo-choice2">
-                            {item.attachment2Url && (
+                            {item.choice2Url && (
                                 <img
                                     onClick={toggleImgModal}
                                     className="ChoiceInfo-img"
-                                    src={item.attachment2Url}
+                                    src={item.choice2Url}
                                     alt="choice2"
                                 />
                             )}
