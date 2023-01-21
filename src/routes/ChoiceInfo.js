@@ -288,9 +288,9 @@ const ChoiceInfo = ({ match, userObj }) => {
                     <div className="ChoiceInfo-totalUsers">
                         <span>{choice1Users + choice2Users}</span>명이 참여함
                     </div>
-                    <div className="ChoiceInfo-writer">
+                    {/* <div className="ChoiceInfo-writer">
                         {item.writer} 님의 고민!
-                    </div>
+                    </div> */}
                     <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
                     <div className="ChoiceInfo-choices">
                         <div className="ChoiceInfo-choice1">
@@ -380,14 +380,14 @@ const ChoiceInfo = ({ match, userObj }) => {
                         >
                             HOME
                         </button>
-                        {userObj.displayName === item.writer && (
+                        {/* {userObj.displayName === item.writer && (
                             <button
                                 onClick={toggleModal}
                                 className="ChoiceInfo-deleteBtn"
                             >
                                 DELETE
                             </button>
-                        )}
+                        )} */}
                     </div>
                     {floatingAlert && (
                         <Alert text="선택 완료!" idText="completed" />
