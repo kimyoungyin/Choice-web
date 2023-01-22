@@ -377,14 +377,14 @@ const ChoiceInfo = ({ match, userObj }) => {
                         >
                             HOME
                         </button>
-                        {/* {userObj.displayName === item.writer && (
+                        {userObj.uid === item.uploaderId && (
                             <button
                                 onClick={toggleModal}
                                 className="ChoiceInfo-deleteBtn"
                             >
                                 DELETE
                             </button>
-                        )} */}
+                        )}
                     </div>
                     {floatingAlert && (
                         <Alert text="선택 완료!" idText="completed" />
