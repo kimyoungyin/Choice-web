@@ -288,9 +288,6 @@ const ChoiceInfo = ({ match, userObj }) => {
                     <div className="ChoiceInfo-totalUsers">
                         <span>{choice1Users + choice2Users}</span>명이 참여함
                     </div>
-                    {/* <div className="ChoiceInfo-writer">
-                        {item.writer} 님의 고민!
-                    </div> */}
                     <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
                     <div className="ChoiceInfo-choices">
                         <div className="ChoiceInfo-choice1">
