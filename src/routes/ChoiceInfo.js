@@ -126,6 +126,13 @@ const ChoiceInfo = ({ match, userObj }) => {
                     `/posts/${idRef}/choice/${userObj.uid}`
                 );
                 setItem(item);
+                // // 이미지 비율을 위한 코드
+                // const img = new Image();
+                // img.src = item.choice1Url;
+                // img.onload = () => {
+                //     console.log(img.width, img.height);
+                // };
+                console.log(item);
                 if (prevChoice === null) return;
                 if (prevChoice?.choiceType === false) return setSelected1(true);
                 if (prevChoice?.choiceType === true) return setSelected2(true);
