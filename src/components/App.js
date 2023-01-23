@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AppRouter from "./Router";
 import "../style.css";
 import { authService } from "../fb";
+import customAixos from "../customAixos";
 function App() {
     const [init, setInit] = useState(false);
     const [isLoggedin, setIsLoggedIn] = useState(false);
