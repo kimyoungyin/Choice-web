@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { firebaseInstance, authService } from "../fb";
 import "../style.css";
 
@@ -11,6 +11,8 @@ const Auth = () => {
             provider = new firebaseInstance.auth.GoogleAuthProvider();
             await authService.signInWithPopup(provider);
         } catch (err) {
+            // error의 타입 정의하기
+            if (!(err instanceof Error)) return;
             if (
                 err.message ===
                 "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address."

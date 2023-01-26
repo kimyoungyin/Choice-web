@@ -1,5 +1,27 @@
-import React from "react";
 import "../style.css";
+
+export interface Category {
+    id: number;
+    name: string;
+}
+
+interface AddFormProps {
+    onChange: () => void;
+    onSubmit: () => void;
+    categoryValue: string;
+    categoryRadio: () => void;
+    cancelAdd: () => void;
+    categoryInput: string;
+    question: string;
+    choice1: string;
+    choice2: string;
+    onFileChange: () => void;
+    attachment1: string;
+    attachment2: string;
+    onClearAttachment1: () => void;
+    onClearAttachment2: () => void;
+    filters: Category[];
+}
 
 const AddForm = ({
     onChange,
@@ -17,7 +39,7 @@ const AddForm = ({
     onClearAttachment1,
     onClearAttachment2,
     filters,
-}) => {
+}: AddFormProps) => {
     return (
         <form
             className="AddForm"
@@ -63,8 +85,8 @@ const AddForm = ({
                             선택안함
                         </option>
                         {filters.map((filter) => (
-                            <option key={filter.id} value={filter.text}>
-                                {filter.text}
+                            <option key={filter.id} value={filter.name}>
+                                {filter.name}
                             </option>
                         ))}
                     </select>
@@ -76,7 +98,7 @@ const AddForm = ({
                         name="newCategory"
                         onChange={onChange}
                         required
-                        maxLength="10"
+                        maxLength={10}
                         autoComplete="off"
                         placeholder="새 카테고리를 입력해주세요(최대 10자)"
                     />

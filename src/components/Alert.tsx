@@ -1,7 +1,11 @@
-import React from "react";
 import "../style.css";
 
-const Alert = ({ text, idText }) => {
+interface AlertProps {
+    text: string;
+    idText?: string;
+}
+
+const Alert = ({ text, idText }: AlertProps) => {
     return (
         <div className="Alert" id={idText}>
             {text}

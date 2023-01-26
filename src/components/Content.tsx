@@ -1,8 +1,19 @@
-import React from "react";
+import { Category } from "components/AddForm";
 import { useHistory } from "react-router";
 import "../style.css";
 
-const Content = ({ item }) => {
+interface ContentProps {
+    item: {
+        id: number;
+        title: string;
+        choice1: string;
+        choice2: string;
+        category: Category;
+        createdAt: string;
+    };
+}
+
+const Content = ({ item }: ContentProps) => {
     const history = useHistory();
     // const toggleChoiceMode = () => {
     //     const homeList = document.querySelector(".Home-list");
@@ -12,13 +23,13 @@ const Content = ({ item }) => {
         history.push(`/detail/${item.id}`);
     };
 
-    const term = (now, when) => {
+    const term = (now: number, when: number) => {
         let gap = now - when;
-        let days = Math.floor(gap / (1000 * 60 * 60 * 24));
+        let days: number | string = Math.floor(gap / (1000 * 60 * 60 * 24));
         gap -= days * 24 * 60 * 60 * 1000;
-        let hours = Math.floor(gap / (1000 * 60 * 60));
+        let hours: number | string = Math.floor(gap / (1000 * 60 * 60));
         gap -= hours * 60 * 60 * 1000;
-        let minutes = Math.floor(gap / (1000 * 60));
+        let minutes: number | string = Math.floor(gap / (1000 * 60));
 
         days = days < 10 ? "0" + days : days;
         hours = hours < 10 ? "0" + hours : hours;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { dbService, storageService } from "../fb";
 import "../style.css";
@@ -6,8 +6,9 @@ import Content from "../components/Content";
 import AddForm from "../components/AddForm";
 import Alert from "../components/Alert";
 import customAixos from "../customAixos";
+import { UserObj } from "components/App";
 
-const Home = ({ userObj }) => {
+const Home = ({ userObj }: { userObj: UserObj }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [uploadMode, setUploadMode] = useState(false);
     const [choiceItems, setChoiceItems] = useState([]);
@@ -77,10 +78,11 @@ const Home = ({ userObj }) => {
         setUploadMode((prev) => !prev);
     };
 
-    const onFileChange = (event) => {
+    const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {
             target: { files, className },
         } = event;
+        if (!Array.isArray(files)) return;
         const theFile = files[0];
         const reader = new FileReader();
         try {

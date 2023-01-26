@@ -1,38 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { storageService, authService } from "../fb";
+import { MouseEvent, useEffect, useState } from "react";
 import "../style.css";
-import { useHistory } from "react-router";
+import { RouteComponentProps, useHistory } from "react-router";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
+import { UserObj } from "components/App";
 
-const ChoiceInfo = ({ match, userObj }) => {
+export interface MatchParams {
+    id: string;
+}
+
+interface ChoiceInfoProps extends RouteComponentProps<MatchParams> {
+    // Route 컴포넌트 속성 추가
+    userObj: UserObj;
+}
+
+interface Choice {
+    choiceType: boolean;
+}
+
+interface Item {
+    id: number;
+    title: string;
+    choice1: string;
+    choice1Url: string | null;
+    choice2: string;
+    choice2Url: string | null;
+    uploaderId: string;
+    createdAt: string;
+    updatedAt: string;
+    categoryId: number;
+    choices: Choice[];
+}
+
+const ChoiceInfo = ({ match, userObj }: ChoiceInfoProps) => {
     const idRef = match.params.id;
     const history = useHistory();
     const [init, setInit] = useState(false);
-    const [document, setDocument] = useState(null);
-    const [choice1Users, setChoice1Users] = useState(0);
-    const [choice2Users, setChoice2Users] = useState(0);
-    const [item, setItem] = useState(null);
+    // const [choice1Users, setChoice1Users] = useState(0);
+    // const [choice2Users, setChoice2Users] = useState(0);
+    const [item, setItem] = useState<Item | null>(null);
     const [selected1, setSelected1] = useState(false);
     const [selected2, setSelected2] = useState(false);
-    const [already, setAlready] = useState(null);
-    const [alreadyId, setAlreadyId] = useState(null);
+    // const [already, setAlready] = useState<null | "choice1" | "choice2">(null);
+    // const [alreadyId, setAlreadyId] = useState(null);
     const [floatingAlert, setFloatingAlert] = useState(false);
     const [floatDeleteAlert, setFloatDeleteAlert] = useState(false);
     const [modaling, setModaling] = useState(false);
-    const [clickedImg, setClickedImg] = useState("");
+    // const [clickedImg, setClickedImg] = useState("");
     const [imgModaling, setImgModaling] = useState(false);
     const [loadBtn, setLoadBtn] = useState(false);
 
-    let choice1Ratio =
-        choice1Users === 0 && choice2Users === 0
-            ? 1
-            : Math.floor((100 * choice1Users) / (choice1Users + choice2Users));
-    let choice2Ratio =
-        choice1Users === 0 && choice2Users === 0
-            ? 1
-            : Math.floor((100 * choice2Users) / (choice1Users + choice2Users));
+    // let choice1Ratio =
+    //     choice1Users === 0 && choice2Users === 0
+    //         ? 1
+    //         : Math.floor((100 * choice1Users) / (choice1Users + choice2Users));
+    // let choice2Ratio =
+    //     choice1Users === 0 && choice2Users === 0
+    //         ? 1
+    //         : Math.floor((100 * choice2Users) / (choice1Users + choice2Users));
 
     useEffect(() => {
         // // GET DocumentRef
@@ -144,9 +170,6 @@ const ChoiceInfo = ({ match, userObj }) => {
             }
         };
         getPostInfo();
-        return () => {
-            setDocument(null);
-        };
     }, [idRef, userObj.displayName, userObj.uid]);
 
     const addChoice1User = () => {
@@ -177,76 +200,77 @@ const ChoiceInfo = ({ match, userObj }) => {
 
     const completeSelect = async () => {
         setLoadBtn(false);
-        if (already === null) {
-            if (selected1 && !selected2) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice1Users")
-                    .add({ user: userObj.displayName });
-                setAlready("selected1");
-            } else if (selected2 && !selected1) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice2Users")
-                    .add({ user: userObj.displayName });
-                setAlready("selected2");
-            } else if (selected1 && selected2) {
-                alert("중복 선택되었습니다");
-            }
-        } else if (already === "selected1") {
-            if (selected2 && !selected1) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice2Users")
-                    .add({ user: userObj.displayName });
-                await document
-                    .collection("choice1Users")
-                    .doc(alreadyId)
-                    .delete();
-                setAlready("selected2");
-            } else if (!selected1 && !selected2) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice1Users")
-                    .doc(alreadyId)
-                    .delete();
-                setAlready(null);
-            } else if (selected2 && selected1) {
-                alert("중복 선택되었습니다");
-            }
-        } else if (already === "selected2") {
-            if (selected1 && !selected2) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice1Users")
-                    .add({ user: userObj.displayName });
-                await document
-                    .collection("choice2Users")
-                    .doc(alreadyId)
-                    .delete();
-                setAlready("selected1");
-            } else if (!selected1 && !selected2) {
-                setFloatingAlert(true);
-                await document
-                    .collection("choice2Users")
-                    .doc(alreadyId)
-                    .delete();
-                setAlready(null);
-            } else if (selected1 && selected2) {
-                alert("중복 선택되었습니다");
-            }
-        }
+        // if (already === null) {
+        // if (selected1 && !selected2) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice1Users")
+        //         .add({ user: userObj.displayName });
+        //     setAlready("selected1");
+        // } else if (selected2 && !selected1) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice2Users")
+        //         .add({ user: userObj.displayName });
+        //     setAlready("selected2");
+        // } else if (selected1 && selected2) {
+        //     alert("중복 선택되었습니다");
+        // }
+        // } else if (already === "choice1") {
+        // if (selected2 && !selected1) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice2Users")
+        //         .add({ user: userObj.displayName });
+        //     await document
+        //         .collection("choice1Users")
+        //         .doc(alreadyId)
+        //         .delete();
+        //     setAlready("selected2");
+        // } else if (!selected1 && !selected2) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice1Users")
+        //         .doc(alreadyId)
+        //         .delete();
+        //     setAlready(null);
+        // } else if (selected2 && selected1) {
+        //     alert("중복 선택되었습니다");
+        // }
+        // } else if (already === "choice2") {
+        // if (selected1 && !selected2) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice1Users")
+        //         .add({ user: userObj.displayName });
+        //     await document
+        //         .collection("choice2Users")
+        //         .doc(alreadyId)
+        //         .delete();
+        //     setAlready("selected1");
+        // } else if (!selected1 && !selected2) {
+        //     setFloatingAlert(true);
+        //     await document
+        //         .collection("choice2Users")
+        //         .doc(alreadyId)
+        //         .delete();
+        //     setAlready(null);
+        // } else if (selected1 && selected2) {
+        //     alert("중복 선택되었습니다");
+        // }
+        // }
         setTimeout(() => setFloatingAlert(false), 4000);
     };
 
-    const checkChangeSelected = (already) => {
-        if (selected1) {
-            return already !== "selected1";
-        } else if (selected2) {
-            return already !== "selected2";
-        } else {
-            return already !== null;
-        }
+    const checkChangeSelected = () => {
+        // if (selected1) {
+        //     return already !== "choice1";
+        // } else if (selected2) {
+        //     return already !== "choice2";
+        // } else {
+        //     return already !== null;
+        // }
+        return false;
     };
 
     const goToHome = () => {
@@ -257,43 +281,45 @@ const ChoiceInfo = ({ match, userObj }) => {
         setModaling((prev) => !prev);
     };
 
-    const deleteContent = async (e) => {
+    const deleteContent = async (event: MouseEvent<HTMLDivElement>) => {
         const {
-            target: { className },
-        } = e;
+            currentTarget: { className },
+        } = event;
         if (className === "Modal-yesBtn") {
             setModaling(false);
             setFloatDeleteAlert(true);
-            await document.delete();
-            if (item.attachment1Url !== "") {
-                await storageService.refFromURL(item.attachment1Url).delete();
-            }
-            if (item.attachment2Url !== "") {
-                await storageService.refFromURL(item.attachment2Url).delete();
-            }
-            history.push("/");
+            // await document.delete();
+            // if (item.attachment1Url !== "") {
+            //     await storageService.refFromURL(item.attachment1Url).delete();
+            // }
+            // if (item.attachment2Url !== "") {
+            //     await storageService.refFromURL(item.attachment2Url).delete();
+            // }
+            // history.push("/");
         } else if (className === "Modal-noBtn" || className === "Modal") {
             setModaling(false);
         }
     };
 
-    const toggleImgModal = (e) => {
-        const {
-            target: { src },
-        } = e;
+    // const toggleImgModal = (event: MouseEvent<HTMLDivElement>) => {
+    const toggleImgModal = () => {
+        // const {
+        //     target: { src },
+        // } = event;
         setImgModaling((prev) => !prev);
-        setClickedImg(src);
+        // setClickedImg(src);
     };
 
     return (
         <>
-            {init ? (
+            {init && item ? (
                 <article className="ChoiceInfo">
                     <h2 className="ChoiceInfo-tip">
                         이미지를 자세히 보고 싶으면 클릭해보세요!
                     </h2>
                     <div className="ChoiceInfo-totalUsers">
-                        <span>{choice1Users + choice2Users}</span>명이 참여함
+                        <span>0</span>명이 참여함
+                        {/* <span>{choice1Users + choice2Users}</span>명이 참여함 */}
                     </div>
                     <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
                     <div className="ChoiceInfo-choices">
@@ -314,7 +340,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                                 id={selected1 ? "selected" : ""}
                                 onClick={addChoice1User}
                                 disabled={!loadBtn}
-                                style={!loadBtn ? { opacity: 0.5 } : null}
+                                style={!loadBtn ? { opacity: 0.5 } : undefined}
                             >
                                 {!loadBtn
                                     ? "로딩중.."
@@ -340,7 +366,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                                 id={selected2 ? "selected" : ""}
                                 onClick={addChoice2User}
                                 disabled={!loadBtn}
-                                style={!loadBtn ? { opacity: 0.5 } : null}
+                                style={!loadBtn ? { opacity: 0.5 } : undefined}
                             >
                                 {!loadBtn
                                     ? "로딩중.."
@@ -351,7 +377,7 @@ const ChoiceInfo = ({ match, userObj }) => {
                         </div>
                     </div>
                     <div className="ChoiceInfo-result">
-                        <div
+                        {/* <div
                             className="ChoiceInfo-choice1Per"
                             style={{ flex: choice1Ratio }}
                         >
@@ -362,20 +388,16 @@ const ChoiceInfo = ({ match, userObj }) => {
                             style={{ flex: choice2Ratio }}
                         >
                             {choice2Ratio !== 1 && `${choice2Ratio}%`}
-                        </div>
+                        </div> */}
                     </div>
                     <button
                         onClick={completeSelect}
                         className="ChoiceInfo-completeBtn"
                         // style={{ visibility: floatingAlert && "hidden" }}
-                        id={
-                            checkChangeSelected(already)
-                                ? "selectedComplete"
-                                : ""
-                        }
-                        disabled={!checkChangeSelected(already)}
+                        id={checkChangeSelected() ? "selectedComplete" : ""}
+                        disabled={!checkChangeSelected()}
                     >
-                        {checkChangeSelected(already) ? "COMPLETE" : "DISABLED"}
+                        {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
                     </button>
                     <div className="ChoiceInfo-fixedBtns">
                         <button
@@ -405,11 +427,12 @@ const ChoiceInfo = ({ match, userObj }) => {
                         />
                     )}
                     {imgModaling && (
-                        <Modal
-                            type="img"
-                            img={clickedImg}
-                            deleteContent={toggleImgModal}
-                        />
+                        // <Modal
+                        //     type="img"
+                        //     img={clickedImg}
+                        //     deleteContent={toggleImgModal}
+                        // />
+                        <div>더미</div>
                     )}
                 </article>
             ) : (
