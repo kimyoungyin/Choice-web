@@ -2,15 +2,16 @@ import { Category } from "components/AddForm";
 import { useHistory } from "react-router";
 import "../style.css";
 
+export interface ItemSummary {
+    id: number;
+    title: string;
+    choice1: string;
+    choice2: string;
+    category: Category;
+    createdAt: string;
+}
 interface ContentProps {
-    item: {
-        id: number;
-        title: string;
-        choice1: string;
-        choice2: string;
-        category: Category;
-        createdAt: string;
-    };
+    item: ItemSummary;
 }
 
 const Content = ({ item }: ContentProps) => {
