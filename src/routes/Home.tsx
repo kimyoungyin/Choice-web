@@ -69,8 +69,6 @@ const Home = () => {
         const reader = new FileReader();
         try {
             reader.onloadend = () => {
-                // if (!currentTarget) return;
-                // const result = currentTarget.result;
                 const result = reader.result as string; // 매우 긴 문자열
                 if (className === "AddForm-choice1Img") {
                     setAttachment1(result);
@@ -86,18 +84,6 @@ const Home = () => {
                 setAttachment2("");
             }
         }
-    };
-
-    const onClearAttachment1 = () => {
-        // const file = document.querySelector(".AddForm-choice1Img");
-        // file.value = "";
-        setAttachment1("");
-    };
-
-    const onClearAttachment2 = () => {
-        // const file = document.querySelector(".AddForm-choice2Img");
-        // file.value = "";
-        setAttachment2("");
     };
 
     const categoryRadio = () => {
@@ -322,8 +308,8 @@ const Home = () => {
                     onFileChange={onFileChange}
                     attachment1={attachment1}
                     attachment2={attachment2}
-                    onClearAttachment1={onClearAttachment1}
-                    onClearAttachment2={onClearAttachment2}
+                    onClearAttachment1={() => setAttachment1("")}
+                    onClearAttachment2={() => setAttachment2("")}
                     filters={filters}
                 />
             )}
