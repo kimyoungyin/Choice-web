@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { ChangeEvent } from "react";
 import "../style.css";
 
 export interface Category {
@@ -15,7 +17,7 @@ interface AddFormProps {
     question: string;
     choice1: string;
     choice2: string;
-    onFileChange: () => void;
+    onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
     attachment1: string;
     attachment2: string;
     onClearAttachment1: () => void;
@@ -40,6 +42,19 @@ const AddForm = ({
     onClearAttachment2,
     filters,
 }: AddFormProps) => {
+    const choice1ImageRef = useRef<HTMLInputElement | null>(null);
+    const choice2ImageRef = useRef<HTMLInputElement | null>(null);
+
+    const resetImageInput = (type: 1 | 2) => {
+        if (type === 1 && choice1ImageRef.current) {
+            choice1ImageRef.current.value = "";
+            onClearAttachment1();
+        } else if (type === 2 && choice2ImageRef.current) {
+            choice2ImageRef.current.value = "";
+            onClearAttachment2();
+        }
+    };
+
     return (
         <form
             className="AddForm"
@@ -122,6 +137,7 @@ const AddForm = ({
                 <h3>3. 선택 1 : 이미지(선택) / 글(필수)</h3>
                 <label htmlFor="AddForm-choice1">IMAGE</label>
                 <input
+                    ref={choice1ImageRef}
                     id="AddForm-choice1"
                     className="AddForm-choice1Img"
                     type="file"
@@ -136,7 +152,7 @@ const AddForm = ({
                             src={attachment1}
                             alt="choice1Img"
                         />
-                        <button onClick={onClearAttachment1}>
+                        <button onClick={() => resetImageInput(1)}>
                             CLEAR IMAGE
                         </button>
                     </div>
@@ -157,6 +173,7 @@ const AddForm = ({
                 <h3>4. 선택 2 : 이미지(선택) / 글(필수)</h3>
                 <label htmlFor="AddForm-choice2">IMAGE</label>
                 <input
+                    ref={choice2ImageRef}
                     id="AddForm-choice2"
                     className="AddForm-choice2Img"
                     type="file"
@@ -171,7 +188,7 @@ const AddForm = ({
                             src={attachment2}
                             alt="choice2Img"
                         />
-                        <button onClick={onClearAttachment2}>
+                        <button onClick={() => resetImageInput(2)}>
                             CLEAR IMAGE
                         </button>
                     </div>
