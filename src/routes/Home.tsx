@@ -16,7 +16,7 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [uploadMode, setUploadMode] = useState(false);
     const [choiceItems, setChoiceItems] = useState<Item[]>([]);
-    // const [categoryValue, setCategoryValue] = useState("current");
+    const [isCurrentCategory, setIsCurrentCategory] = useState(true);
     const [categoryInput, setCategoryInput] = useState("");
     const [question, setQuestion] = useState("");
     const [choice1, setChoice1] = useState("");
@@ -30,7 +30,6 @@ const Home = () => {
         null
     );
     // const [value, setValue] = useState("");
-    // const activated = document.querySelector(".active");
 
     useEffect(() => {
         const asyncFunction = async () => {
@@ -86,30 +85,30 @@ const Home = () => {
         }
     };
 
-    const categoryRadio = () => {
-        // const categoryRadio = (e) => {
-        // const {
-        //     target: { value },
-        // } = e;
-        // setCategoryValue(value);
+    const categoryRadio = (event: ChangeEvent<HTMLInputElement>) => {
+        const {
+            target: { value },
+        } = event;
+        setIsCurrentCategory(value === "current" ? true : false);
     };
 
-    const onChange = () => {
-        // const onChange = (e) => {
-        // const {
-        //     target: { name, value },
-        // } = e;
-        // if (name === "newCategory") {
-        //     setCategoryInput(value);
-        // } else if (name === "category") {
-        //     setCategoryInput(value);
-        // } else if (name === "question") {
-        //     setQuestion(value);
-        // } else if (name === "choice1") {
-        //     setChoice1(value);
-        // } else if (name === "choice2") {
-        //     setChoice2(value);
-        // }
+    const handleInputChange = (
+        event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const {
+            target: { name, value },
+        } = event;
+        if (name === "newCategory") {
+            setCategoryInput(value);
+        } else if (name === "category") {
+            setCategoryInput(value);
+        } else if (name === "question") {
+            setQuestion(value);
+        } else if (name === "choice1") {
+            setChoice1(value);
+        } else if (name === "choice2") {
+            setChoice2(value);
+        }
     };
 
     const startSubmit = async () => {
@@ -295,10 +294,9 @@ const Home = () => {
                 </>
             ) : (
                 <AddForm
-                    onChange={onChange}
+                    onInputChange={handleInputChange}
                     onSubmit={onSubmit}
-                    // categoryValue={categoryValue}
-                    categoryValue={""}
+                    isCurrentCategory={isCurrentCategory}
                     categoryRadio={categoryRadio}
                     categoryInput={categoryInput}
                     question={question}

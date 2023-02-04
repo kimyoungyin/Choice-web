@@ -8,10 +8,12 @@ export interface Category {
 }
 
 interface AddFormProps {
-    onChange: () => void;
+    onInputChange: (
+        event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => void;
     onSubmit: () => void;
-    categoryValue: string;
-    categoryRadio: () => void;
+    isCurrentCategory: boolean;
+    categoryRadio: (event: ChangeEvent<HTMLInputElement>) => void;
     cancelAdd: () => void;
     categoryInput: string;
     question: string;
@@ -26,9 +28,9 @@ interface AddFormProps {
 }
 
 const AddForm = ({
-    onChange,
+    onInputChange,
     onSubmit,
-    categoryValue,
+    isCurrentCategory,
     categoryRadio,
     cancelAdd,
     categoryInput,
@@ -89,12 +91,12 @@ const AddForm = ({
                         새 카테고리
                     </label>
                 </div>
-                {categoryValue === "current" ? (
+                {isCurrentCategory ? (
                     <select
                         id="category"
                         name="category"
                         value={categoryInput}
-                        onChange={onChange}
+                        onChange={onInputChange}
                     >
                         <option key="all" value="">
                             선택안함
@@ -111,7 +113,7 @@ const AddForm = ({
                         type="text"
                         value={categoryInput}
                         name="newCategory"
-                        onChange={onChange}
+                        onChange={onInputChange}
                         required
                         maxLength={10}
                         autoComplete="off"
@@ -127,7 +129,7 @@ const AddForm = ({
                     type="text"
                     value={question}
                     name="question"
-                    onChange={onChange}
+                    onChange={onInputChange}
                     required
                     autoComplete="off"
                     placeholder="제목을 입력해주세요"
@@ -163,7 +165,7 @@ const AddForm = ({
                     type="text"
                     value={choice1}
                     name="choice1"
-                    onChange={onChange}
+                    onChange={onInputChange}
                     required
                     autoComplete="off"
                     placeholder="고민되는 선택지 중 하나를 입력해주세요"
@@ -199,7 +201,7 @@ const AddForm = ({
                     type="text"
                     value={choice2}
                     name="choice2"
-                    onChange={onChange}
+                    onChange={onInputChange}
                     required
                     autoComplete="off"
                     placeholder="고민되는 선택지 중 다른 하나를 입력해주세요"
