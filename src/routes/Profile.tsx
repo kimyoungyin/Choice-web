@@ -1,62 +1,59 @@
-import React, { useEffect, useState } from "react";
+import Content from "components/Content";
+import customAixos from "customAixos";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import Content from "../components/Content";
-import { authService, dbService } from "../fb";
+import { Item } from "routes/ChoiceInfo";
+// import Content from "../components/Content";
+import { authService } from "../fb";
 
-const Profile = ({ userObj }) => {
-  const history = useHistory();
-  const onLogOutClick = () => {
-    authService.signOut();
-    history.push("/");
-  };
+const Profile = ({ userObj }: { userObj: global.User }) => {
+    const history = useHistory();
+    const onLogOutClick = () => {
+        authService.signOut();
+        history.push("/");
+    };
 
-  const [writed, setWrited] = useState(0);
-  const [writedData, setWritedData] = useState([]);
+    const [writed, setWrited] = useState(0);
+    const [writedData, setWritedData] = useState<Item[]>([]);
 
-  useEffect(() => {
-    const question = dbService.collection("questions");
-    question
-      .where("writer", "==", userObj.displayName)
-      .get()
-      .then((querySnapshot) => {
-        setWrited(querySnapshot.size);
-        const list = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        list.sort((a, b) => {
-          if (a.when > b.when) return -1;
-          if (a.when < b.when) return 1;
+    useEffect(() => {
+        const getUserPost = async () => {
+            try {
+                const { data } = await customAixos.get(
+                    `/posts/profile/${userObj.uid}`
+                );
+                setWrited(data.length);
+                setWritedData(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getUserPost();
+    }, [userObj.uid]);
 
-          return 0;
-        });
-        setWritedData(list);
-      });
-  }, [userObj.displayName]);
-
-  return (
-    <div className="Profile">
-      <h2 className="Profile-title">DASHBOARD</h2>
-      <h2 className="Profile-mail">
-        오류 및 개선사항 문의 :{" "}
-        <a href="mailto:yin199859@gmail.com">yin199859@gmail.com</a>
-      </h2>
-      <div className="Profile-userInfo">
-        <img src={userObj.photo} alt="없음" />
-        <div className="Profile-text">
-          <div>닉네임 : {userObj.displayName}</div>
-          <div>업로드 : {writed}회</div>
-          <button onClick={onLogOutClick}>LOGOUT</button>
+    return (
+        <div className="Profile">
+            <h2 className="Profile-title">DASHBOARD</h2>
+            <h2 className="Profile-mail">
+                오류 및 개선사항 문의 :{" "}
+                <a href="mailto:yin199859@gmail.com">yin199859@gmail.com</a>
+            </h2>
+            <div className="Profile-userInfo">
+                <img src={userObj.photoUrl} alt="없음" />
+                <div className="Profile-text">
+                    <div>닉네임 : {userObj.displayName}</div>
+                    <div>업로드 : {writed}회</div>
+                    <button onClick={onLogOutClick}>LOGOUT</button>
+                </div>
+            </div>
+            <h3 className="Profile-myTitle">MY QUESTIONS</h3>
+            <div className="Profile-questions">
+                {writedData.map((item) => (
+                    <Content key={item.id} item={item} />
+                ))}
+            </div>
         </div>
-      </div>
-      <h3 className="Profile-myTitle">MY QUESTIONS</h3>
-      <div className="Profile-questions">
-        {writedData.map((item) => (
-          <Content key={item.id} item={item} userObj={userObj} />
-        ))}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Profile;
