@@ -2,17 +2,10 @@ import AppRouter from "components/Router";
 import { authService } from "fb";
 import { useEffect, useState } from "react";
 
-export interface UserObj {
-    displayName: string;
-    uid: string;
-    email: string;
-    photo: string;
-}
-
 const App = () => {
     const [init, setInit] = useState(false);
-    const [isLoggedin, setIsLoggedIn] = useState(false);
-    const [userObj, setUserObj] = useState<UserObj | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userObj, setUserObj] = useState<global.User | null>(null);
 
     useEffect(() => {
         const unsubscribe = authService.onAuthStateChanged((user) => {
@@ -25,7 +18,7 @@ const App = () => {
                         displayName: user.displayName,
                         uid: user.uid,
                         email: user.email,
-                        photo: user.photoURL,
+                        photoUrl: user.photoURL,
                     });
             } else {
                 setIsLoggedIn(false); // 임시 변경
@@ -37,7 +30,7 @@ const App = () => {
     return (
         <div className="App">
             {init && userObj ? (
-                <AppRouter isLoggedIn={isLoggedin} userObj={userObj} />
+                <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
             ) : (
                 <div className="loader"></div>
             )}
