@@ -4,7 +4,7 @@ import { RouteComponentProps, useHistory } from "react-router";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
-import { UserObj } from "components/App";
+import { ItemSummary } from "components/Content";
 
 export interface MatchParams {
     id: string;
@@ -12,22 +12,17 @@ export interface MatchParams {
 
 interface ChoiceInfoProps extends RouteComponentProps<MatchParams> {
     // Route 컴포넌트 속성 추가
-    userObj: UserObj;
+    userObj: global.User;
 }
 
 interface Choice {
     choiceType: boolean;
 }
 
-interface Item {
-    id: number;
-    title: string;
-    choice1: string;
+export interface Item extends ItemSummary {
     choice1Url: string | null;
-    choice2: string;
     choice2Url: string | null;
     uploaderId: string;
-    createdAt: string;
     updatedAt: string;
     categoryId: number;
     choices: Choice[];
