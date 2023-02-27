@@ -29,7 +29,6 @@ const Home = () => {
     const [filterCategoryId, setFilterCategoryId] = useState<number | null>(
         null
     );
-    // const [value, setValue] = useState("");
 
     useEffect(() => {
         const asyncFunction = async () => {
@@ -201,14 +200,6 @@ const Home = () => {
         setAttachment2("");
     };
 
-    const onChangeFilter = () => {
-        // const onChangeFilter = (e) => {
-        // const {
-        //     target: { value },
-        // } = e;
-        // setValue(value);
-    };
-
     const getFilter = (categoryId: number) => {
         if (filterCategoryId !== categoryId) {
             setFilterCategoryId(categoryId);
@@ -226,7 +217,7 @@ const Home = () => {
                     </h2>
                     <div className="Home-responsiveBox">
                         <nav className="Home-category">
-                            {false && (
+                            {/* {false && (
                                 <>
                                     <label htmlFor="filter">
                                         카테고리 찾기
@@ -234,11 +225,11 @@ const Home = () => {
                                     <input
                                         id="filter"
                                         type="text"
-                                        // value={value}
+                                        value={value}
                                         onChange={onChangeFilter}
                                     />
                                 </>
-                            )}
+                            )} */}
                             <div className="Home-categoryList">
                                 {filters.map((filter) => (
                                     <button
