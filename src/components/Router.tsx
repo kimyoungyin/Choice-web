@@ -26,7 +26,7 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
                     </Route>
                     <Route
                         exact
-                        path="/detail/:id" // 자동으로 render props,match.id 타입 생성해줌
+                        path="/detail/:id"
                         render={(props) => (
                             <ChoiceInfo {...props} userObj={userObj} />
                         )}
