@@ -29,7 +29,7 @@ const App = () => {
     }, []);
     return (
         <div className="App">
-            {init && userObj ? (
+            {init ? (
                 <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
             ) : (
                 <div className="loader"></div>

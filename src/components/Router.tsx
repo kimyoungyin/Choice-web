@@ -8,14 +8,14 @@ import Navigation from "components/Navigation";
 
 interface AppRouterProps {
     isLoggedIn: boolean;
-    userObj: global.User;
+    userObj: global.User | null;
 }
 
 const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
     return (
         <Router>
             {isLoggedIn && <Title />}
-            {isLoggedIn ? (
+            {isLoggedIn && userObj ? (
                 <Switch>
                     <Route exact path="/">
                         {/* <Home userObj={userObj} /> */}
