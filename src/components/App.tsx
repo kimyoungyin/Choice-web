@@ -1,6 +1,7 @@
 import AppRouter from "components/Router";
 import { authService } from "fb";
 import { useEffect, useState } from "react";
+import customAxios from "customAixos";
 
 const App = () => {
     const [init, setInit] = useState(false);
@@ -10,6 +11,11 @@ const App = () => {
     useEffect(() => {
         const unsubscribe = authService.onAuthStateChanged((user) => {
             if (user) {
+                user.getIdToken().then((token) => {
+                    customAxios.defaults.headers.common[
+                        "Authorization"
+                    ] = `Bearer ${token}`;
+                });
                 setIsLoggedIn(true);
                 user.displayName &&
                     user.email &&

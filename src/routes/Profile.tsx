@@ -19,9 +19,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     useEffect(() => {
         const getUserPost = async () => {
             try {
-                const { data } = await customAixos.get(
-                    `/posts/profile/${userObj.uid}`
-                );
+                const { data } = await customAixos.get(`/posts/profile`);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {
@@ -29,7 +27,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
             }
         };
         getUserPost();
-    }, [userObj.uid]);
+    }, []);
 
     return (
         <div className="Profile">

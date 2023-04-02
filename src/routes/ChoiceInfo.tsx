@@ -143,9 +143,16 @@ const ChoiceInfo = ({ match, userObj }: ChoiceInfoProps) => {
         const getPostInfo = async () => {
             try {
                 const { data: item } = await customAixos.get(`/posts/${idRef}`);
+                //   로그인 되어있으면
                 const { data: prevChoice } = await customAixos.get(
-                    `/posts/${idRef}/choice/${userObj.uid}`
+                    `/posts/${idRef}/choice`
                 );
+                if (prevChoice?.choiceType === false) {
+                    setSelected1(true);
+                } else if (prevChoice?.choiceType === true) {
+                    setSelected2(true);
+                }
+
                 setItem(item);
                 // // 이미지 비율을 위한 코드
                 // const img = new Image();
@@ -153,10 +160,6 @@ const ChoiceInfo = ({ match, userObj }: ChoiceInfoProps) => {
                 // img.onload = () => {
                 //     console.log(img.width, img.height);
                 // };
-                console.log(item);
-                if (prevChoice === null) return;
-                if (prevChoice?.choiceType === false) return setSelected1(true);
-                if (prevChoice?.choiceType === true) return setSelected2(true);
             } catch (error) {
                 console.log(error);
             } finally {
@@ -165,7 +168,7 @@ const ChoiceInfo = ({ match, userObj }: ChoiceInfoProps) => {
             }
         };
         getPostInfo();
-    }, [idRef, userObj.displayName, userObj.uid]);
+    }, [idRef, userObj.displayName]);
 
     const addChoice1User = () => {
         if (!selected1 && !selected2) {
@@ -401,7 +404,8 @@ const ChoiceInfo = ({ match, userObj }: ChoiceInfoProps) => {
                         >
                             HOME
                         </button>
-                        {userObj.uid === item.uploaderId && (
+                        {/* {userObj.uid === item.uploaderId && ( */}
+                        {true && (
                             <button
                                 onClick={toggleModal}
                                 className="ChoiceInfo-deleteBtn"
