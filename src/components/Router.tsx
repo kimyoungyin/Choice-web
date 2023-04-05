@@ -28,7 +28,11 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
                         exact
                         path="/detail/:id"
                         render={(props) => (
-                            <ChoiceInfo {...props} userObj={userObj} />
+                            <ChoiceInfo
+                                {...props}
+                                userObj={userObj}
+                                isLoggedIn={isLoggedIn}
+                            />
                         )}
                     />
                 </Switch>
