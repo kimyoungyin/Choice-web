@@ -121,7 +121,6 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
             setIsSelectFetching(true);
             if (prevChoiceInDB === null) {
                 // 선택을 새로 하려 할 때
-
                 await customAixos.post(`/posts/${idRef}/choice`, {
                     choice: selectedChoice,
                 });
@@ -165,25 +164,14 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
         history.push("/");
     };
 
-    // const deleteContent = async (event: MouseEvent<HTMLDivElement>) => {
-    //     const {
-    //         currentTarget: { className },
-    //     } = event;
-    //     if (className === "Modal-yesBtn") {
-    //         setModaling(false);
-    //         // setFloatDeleteAlert(true);
-    //         // await document.delete();
-    //         // if (item.attachment1Url !== "") {
-    //         //     await storageService.refFromURL(item.attachment1Url).delete();
-    //         // }
-    //         // if (item.attachment2Url !== "") {
-    //         //     await storageService.refFromURL(item.attachment2Url).delete();
-    //         // }
-    //         // history.push("/");
-    //     } else if (className === "Modal-noBtn" || className === "Modal") {
-    //         setModaling(false);
-    //     }
-    // };
+    const deletePost = async () => {
+        try {
+            await customAixos.delete(`/posts/${idRef}`);
+            goToHome();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const toggleImgModal = (event: MouseEvent<HTMLImageElement>) => {
         const {
@@ -349,7 +337,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                         <Modal
                             type="delete"
                             text="정말 이 질문을 삭제할까요?"
-                            onDelete={() => console.log("delete")}
+                            onDelete={deletePost}
                             onCloseModal={() => setActivatedModal(null)}
                         />
                     )}
