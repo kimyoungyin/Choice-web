@@ -1,26 +1,30 @@
-import { MouseEvent } from "react";
 import "../style.css";
 
 interface ModalProps {
     type: string;
     text?: string;
     img?: string;
-    deleteContent: (event: MouseEvent<HTMLDivElement>) => void;
+    onDelete?: () => void;
+    onCloseModal?: () => void;
 }
-const Modal = ({ type, text, img, deleteContent }: ModalProps) => {
-    return (
-        <div className="Modal" onClick={deleteContent}>
-            {type === "delete" ? (
-                <div className="Modal-content">
-                    <div className="Modal-text">{text}</div>
-                    <div className="Modal-btns">
-                        <button className="Modal-noBtn">아니오</button>
-                        <button className="Modal-yesBtn">네</button>
-                    </div>
+const Modal = ({ type, text, img, onDelete, onCloseModal }: ModalProps) => {
+    return type === "delete" ? (
+        <div className="Modal">
+            <div className="Modal-content">
+                <div className="Modal-text">{text}</div>
+                <div className="Modal-btns">
+                    <button className="Modal-noBtn" onClick={onCloseModal}>
+                        아니오
+                    </button>
+                    <button className="Modal-yesBtn" onClick={onDelete}>
+                        네
+                    </button>
                 </div>
-            ) : (
-                <img className="Modal-img" src={img} alt="이미지 없음" />
-            )}
+            </div>
+        </div>
+    ) : (
+        <div className="Modal" onClick={onCloseModal}>
+            <img className="Modal-img" src={img} alt="이미지 없음" />
         </div>
     );
 };
