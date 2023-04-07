@@ -5,4 +5,9 @@ declare module global {
         email: string;
         photoUrl: string;
     }
+
+    interface Category {
+        id: number;
+        name: string;
+    }
 }

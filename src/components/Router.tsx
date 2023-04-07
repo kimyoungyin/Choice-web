@@ -5,6 +5,7 @@ import Home from "routes/Home";
 import Profile from "routes/Profile";
 import ChoiceInfo from "routes/ChoiceInfo";
 import Navigation from "components/Navigation";
+import Upload from "routes/Upload";
 
 interface AppRouterProps {
     isLoggedIn: boolean;
@@ -18,7 +19,6 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
             {isLoggedIn && userObj ? (
                 <Switch>
                     <Route exact path="/">
-                        {/* <Home userObj={userObj} /> */}
                         <Home />
                     </Route>
                     <Route exact path="/profile">
@@ -34,7 +34,10 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
                                 isLoggedIn={isLoggedIn}
                             />
                         )}
-                    />
+                    />{" "}
+                    <Route exact path="/upload">
+                        <Upload userObj={userObj} />
+                    </Route>
                 </Switch>
             ) : (
                 <Switch>
