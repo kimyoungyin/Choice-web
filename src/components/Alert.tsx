@@ -1,5 +1,3 @@
-import "../style.css";
-
 interface AlertProps {
     text: string;
     idText?: string;

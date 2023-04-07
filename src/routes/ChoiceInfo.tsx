@@ -1,5 +1,4 @@
 import { MouseEvent, useEffect, useState } from "react";
-import "../style.css";
 import { RouteComponentProps, useHistory } from "react-router";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";

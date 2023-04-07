@@ -191,7 +191,6 @@ body,
     bottom: -3em;
     left: 1em;
     height: 3em;
-    width: 150px;
     text-align: center;
     padding: 1em;
     z-index: 1;
@@ -402,6 +401,14 @@ body,
 .Home-button,
 .Home-categoryBtn.active {
     background-color: var(--pastel-tomato);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Home-button > a,
+.Home-categoryBtn.active {
+    width: 100%;
     color: white;
 }
 
@@ -805,6 +812,7 @@ body,
 
 /* AddForm.js */
 .AddForm {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
