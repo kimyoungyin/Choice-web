@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 
 interface UploadProps {
     userObj: global.User;
+    onStartUpload: () => void;
+    onCompleteUpload: () => void;
 }
 
 interface ChoiceImage {
@@ -15,7 +17,7 @@ interface ChoiceImage {
 
 const SIZE_LIMIT_MB = 1;
 
-const Upload = ({ userObj }: UploadProps) => {
+const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     const history = useHistory();
     const [isCategoryFetching, setIsCategoryFetching] = useState(true);
     const [categoryType, setCategoryType] = useState<"current" | "new">(
@@ -138,11 +140,16 @@ const Upload = ({ userObj }: UploadProps) => {
         choice2Image && formData.append("choice2Image", choice2Image.file);
         formData.append("uploaderId", userObj.uid);
         try {
-            await customAixos.post("/posts", formData, {
+            onStartUpload();
+            const {
+                data: { postId },
+            } = await customAixos.post<{ postId: number }>("/posts", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
+            onCompleteUpload();
+            history.push(`/detail/${postId}`);
         } catch (error) {
             console.log(error);
         }

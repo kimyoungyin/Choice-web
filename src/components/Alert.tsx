@@ -1,6 +1,6 @@
 interface AlertProps {
     text: string;
-    idText?: string;
+    idText: "start" | "complete";
 }
 
 const Alert = ({ text, idText }: AlertProps) => {

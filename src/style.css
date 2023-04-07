@@ -191,6 +191,7 @@ body,
     bottom: -3em;
     left: 1em;
     height: 3em;
+    min-width: 150px;
     text-align: center;
     padding: 1em;
     z-index: 1;
@@ -198,18 +199,17 @@ body,
     font-weight: 700;
     border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    animation: popAlert 2s forwards;
 }
 
-.Alert#uploaded {
+.Alert#start {
+    animation: startAlert 2s forwards;
+}
+
+.Alert#complete {
     animation: closeAlert 2s forwards;
 }
 
-.Alert#completed {
-    animation: upAndDownAlert 4s;
-}
-
-@keyframes popAlert {
+@keyframes startAlert {
     0% {
         bottom: -3em;
     }
@@ -223,23 +223,6 @@ body,
 
 @keyframes closeAlert {
     0% {
-        bottom: 50px;
-    }
-
-    75% {
-        bottom: 50px;
-    }
-
-    100% {
-        bottom: -3em;
-    }
-}
-
-@keyframes upAndDownAlert {
-    0% {
-        bottom: -3em;
-    }
-    12.5% {
         bottom: 50px;
     }
     87.5% {
