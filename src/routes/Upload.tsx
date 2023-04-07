@@ -64,7 +64,7 @@ const Upload = ({ userObj }: UploadProps) => {
             setChoice2Image(null);
         }
     };
-
+    // 업로드 중과 업로드 후 리다이렉트 구현 필요
     const handleFileCHange = async (
         event: ChangeEvent<HTMLInputElement>,
         setState: (newValue: ChoiceImage | null) => void
@@ -130,7 +130,7 @@ const Upload = ({ userObj }: UploadProps) => {
             return;
         }
         const formData = new FormData();
-        formData.append("categoryName", title);
+        formData.append("categoryName", categoryName);
         formData.append("title", title);
         formData.append("choice1", choice1);
         formData.append("choice2", choice2);
