@@ -1,19 +1,9 @@
 import Content from "components/Content";
 import customAixos from "customAixos";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { Item } from "routes/ChoiceInfo";
-// import Content from "../components/Content";
-import { authService } from "../fb";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
-    const history = useHistory();
-    const onLogOutClick = () => {
-        authService.signOut();
-        delete customAixos.defaults.headers.common["Authorization"];
-        history.push("/");
-    };
-
     const [writed, setWrited] = useState(0);
     const [writedData, setWritedData] = useState<Item[]>([]);
 
@@ -43,7 +33,6 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
                 <div className="Profile-text">
                     <div>닉네임 : {userObj.displayName}</div>
                     <div>업로드 : {writed}회</div>
-                    <button onClick={onLogOutClick}>LOGOUT</button>
                 </div>
             </div>
             <h3 className="Profile-myTitle">MY QUESTIONS</h3>
