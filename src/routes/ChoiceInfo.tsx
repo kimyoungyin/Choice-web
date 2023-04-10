@@ -11,7 +11,7 @@ export interface MatchParams {
 
 interface ChoiceInfoProps extends RouteComponentProps<MatchParams> {
     // Route 컴포넌트 속성 추가
-    userObj: global.User;
+    userObj: global.User | null;
     isLoggedIn: boolean;
 }
 
@@ -80,7 +80,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                     history.push("/");
                 }
                 //   로그인 되어있으면
-                if (isLoggedIn) {
+                if (isLoggedIn && userObj) {
                     const { data: prevChoice } =
                         await customAixos.get<Choice | null>(
                             `/posts/${idRef}/choice`
@@ -104,7 +104,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
             }
         };
         getPostInfo();
-    }, [idRef, userObj.displayName, isLoggedIn, history]);
+    }, [idRef, isLoggedIn, history]);
 
     const choiceHandler = (selectedChoice: boolean) =>
         setSelectedChoice((prev) =>
@@ -205,23 +205,29 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                             <div className="ChoiceInfo-text">
                                 <div>{item.choice1}</div>
                             </div>
-                            <button
-                                className="ChoiceInfo-choiceBtn"
-                                id={selectedChoice === false ? "selected" : ""}
-                                onClick={() => choiceHandler(false)}
-                                disabled={isSelectFetching}
-                                style={
-                                    isSelectFetching
-                                        ? { opacity: 0.5 }
-                                        : undefined
-                                }
-                            >
-                                {isSelectFetching
-                                    ? "로딩중.."
-                                    : selectedChoice === false
-                                    ? "선택됨"
-                                    : "선택하기"}
-                            </button>
+                            {isLoggedIn && (
+                                <button
+                                    className="ChoiceInfo-choiceBtn"
+                                    id={
+                                        selectedChoice === false
+                                            ? "selected"
+                                            : ""
+                                    }
+                                    onClick={() => choiceHandler(false)}
+                                    disabled={isSelectFetching}
+                                    style={
+                                        isSelectFetching
+                                            ? { opacity: 0.5 }
+                                            : undefined
+                                    }
+                                >
+                                    {isSelectFetching
+                                        ? "로딩중.."
+                                        : selectedChoice === false
+                                        ? "선택됨"
+                                        : "선택하기"}
+                                </button>
+                            )}
                         </div>
                         <div className="ChoiceInfo-choice2">
                             {item.choice2Url && (
@@ -235,23 +241,25 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                             <div className="ChoiceInfo-text">
                                 <div>{item.choice2}</div>
                             </div>
-                            <button
-                                className="ChoiceInfo-choiceBtn"
-                                id={selectedChoice ? "selected" : ""}
-                                onClick={() => choiceHandler(true)}
-                                disabled={isSelectFetching}
-                                style={
-                                    isSelectFetching
-                                        ? { opacity: 0.5 }
-                                        : undefined
-                                }
-                            >
-                                {isSelectFetching
-                                    ? "로딩중.."
-                                    : selectedChoice
-                                    ? "선택됨"
-                                    : "선택하기"}
-                            </button>
+                            {isLoggedIn && (
+                                <button
+                                    className="ChoiceInfo-choiceBtn"
+                                    id={selectedChoice ? "selected" : ""}
+                                    onClick={() => choiceHandler(true)}
+                                    disabled={isSelectFetching}
+                                    style={
+                                        isSelectFetching
+                                            ? { opacity: 0.5 }
+                                            : undefined
+                                    }
+                                >
+                                    {isSelectFetching
+                                        ? "로딩중.."
+                                        : selectedChoice
+                                        ? "선택됨"
+                                        : "선택하기"}
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div className="ChoiceInfo-result">
@@ -312,7 +320,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                         >
                             HOME
                         </button>
-                        {userObj.uid === item.uploaderId && (
+                        {userObj && userObj.uid === item.uploaderId && (
                             <button
                                 onClick={() => setActivatedModal("delete")}
                                 className="ChoiceInfo-deleteBtn"

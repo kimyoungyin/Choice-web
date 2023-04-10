@@ -1,6 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Auth from "routes/Auth";
-import Title from "components/Title";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Redirect,
+} from "react-router-dom";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
 import ChoiceInfo from "routes/ChoiceInfo";
@@ -8,13 +11,19 @@ import Navigation from "components/Navigation";
 import Upload from "routes/Upload";
 import { useState } from "react";
 import Alert from "components/Alert";
+import Header from "components/Header";
 
 interface AppRouterProps {
     isLoggedIn: boolean;
     userObj: global.User | null;
+    setLoggedInState: (state: boolean) => void;
 }
 
-const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
+const AppRouter = ({
+    isLoggedIn,
+    userObj,
+    setLoggedInState,
+}: AppRouterProps) => {
     const [alertType, setAlertType] = useState<"upload" | "complete" | null>(
         null
     );
@@ -26,41 +35,44 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
 
     return (
         <Router>
-            {isLoggedIn && <Title />}
-            {isLoggedIn && userObj ? (
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route exact path="/profile">
+            <Header
+                isLoggedIn={isLoggedIn}
+                setLoggedInState={(state) => setLoggedInState(state)}
+            />
+            <Switch>
+                <Route exact path="/">
+                    <Home isLoggedIn={isLoggedIn} />
+                </Route>
+                <Route exact path="/profile">
+                    {isLoggedIn && userObj ? (
                         <Profile userObj={userObj} />
-                    </Route>
-                    <Route
-                        exact
-                        path="/detail/:id"
-                        render={(props) => (
-                            <ChoiceInfo
-                                {...props}
-                                userObj={userObj}
-                                isLoggedIn={isLoggedIn}
-                            />
-                        )}
-                    />{" "}
-                    <Route exact path="/upload">
+                    ) : (
+                        <Redirect to="/" />
+                    )}
+                </Route>
+                <Route
+                    exact
+                    path="/detail/:id"
+                    render={(props) => (
+                        <ChoiceInfo
+                            {...props}
+                            userObj={userObj}
+                            isLoggedIn={isLoggedIn}
+                        />
+                    )}
+                />
+                <Route exact path="/upload">
+                    {isLoggedIn && userObj ? (
                         <Upload
                             userObj={userObj}
                             onStartUpload={() => setAlertType("upload")}
                             onCompleteUpload={handleCompleteUpload}
                         />
-                    </Route>
-                </Switch>
-            ) : (
-                <Switch>
-                    <Route exact path="/">
-                        <Auth />
-                    </Route>
-                </Switch>
-            )}
+                    ) : (
+                        <Redirect to="/" />
+                    )}
+                </Route>
+            </Switch>
             {isLoggedIn && <Navigation />}
             {alertType && (
                 <Alert

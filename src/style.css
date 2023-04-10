@@ -82,93 +82,6 @@ body,
     background-color: white;
 }
 
-/* Auth.js */
-.Auth {
-    height: 100%;
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.Auth-title::before {
-    content: "뭘 고를까?";
-    text-align: center;
-    color: var(--pastel-tomato);
-    white-space: pre;
-    font-size: 2em;
-    font-weight: 700;
-    display: inline-block;
-    margin-top: 50px;
-    animation: changeTitle 4s 0.3s both ease-in-out;
-}
-
-.Auth-greet {
-    color: #8797ad;
-}
-
-.Auth-google {
-    all: unset;
-    box-sizing: border-box;
-    color: white;
-    font-weight: 600;
-    padding: 1em;
-    margin-top: 30px;
-    height: 4em;
-    width: 200px;
-    border-radius: 2em;
-    text-align: center;
-    cursor: pointer;
-    background-color: var(--pastel-lightPurple);
-    transition: 0.5s;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.Auth-google,
-.Auth-greet {
-    animation: changeButton 2s 4.3s both ease-in-out;
-}
-
-.Auth-google:active {
-    box-shadow: none;
-}
-
-@keyframes changeTitle {
-    0% {
-        opacity: 1;
-    }
-    25% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 1;
-        content: "CHOICEWEB";
-    }
-
-    75% {
-        transform: translate(0);
-        opacity: 1;
-        content: "CHOICEWEB";
-    }
-
-    100% {
-        transform: translate(0, -50px);
-        content: "CHOICEWEB";
-    }
-}
-
-@keyframes changeButton {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 /* Title.js */
 .Title {
     position: fixed;
@@ -184,6 +97,18 @@ body,
     color: var(--pastel-tomato);
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
         rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+button {
+    all: unset;
+    position: fixed;
+    top: 0;
+    right: 1em;
+    height: 50px;
+    color: red;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .Alert {
@@ -314,6 +239,10 @@ body,
     flex-direction: column;
     align-items: center;
     padding: 50px 0 40px 0;
+}
+
+.Home#withoutNav {
+    padding-bottom: 0;
 }
 
 .Home-tip {
@@ -969,7 +898,6 @@ body,
     padding-top: 10px;
     text-align: center;
     color: var(--pastel-purple);
-    /* background-color: var(--pastel-brown); */
 }
 
 .Profile-mail {
@@ -1001,17 +929,6 @@ body,
 .Profile-text {
     line-height: 1.5;
     font-size: 0.9em;
-}
-
-.Profile-text button {
-    all: unset;
-    position: fixed;
-    top: 0;
-    right: 1em;
-    height: 50px;
-    color: red;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .Profile-myTitle {

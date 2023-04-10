@@ -36,7 +36,11 @@ const App = () => {
     return (
         <div className="App">
             {init ? (
-                <AppRouter isLoggedIn={isLoggedIn} userObj={userObj} />
+                <AppRouter
+                    isLoggedIn={isLoggedIn}
+                    userObj={userObj}
+                    setLoggedInState={(state) => setIsLoggedIn(state)}
+                />
             ) : (
                 <div className="loader"></div>
             )}

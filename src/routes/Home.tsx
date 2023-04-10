@@ -6,12 +6,11 @@ import customAixos from "../customAixos";
 import { Item } from "routes/ChoiceInfo";
 import { Link } from "react-router-dom";
 
-// interface HomeProps {
-//     userObj: global.User;
-// }
+interface HomeProps {
+    isLoggedIn: boolean;
+}
 
-// const Home = ({ userObj }: HomeProps) => {
-const Home = () => {
+const Home = ({ isLoggedIn }: HomeProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const [choiceItems, setChoiceItems] = useState<Item[]>([]);
     const [filters, setFilters] = useState<global.Category[]>([]);
@@ -52,7 +51,7 @@ const Home = () => {
     };
 
     return (
-        <div className="Home">
+        <div className="Home" id={!isLoggedIn ? "withoutNav" : ""}>
             <h2 className="Home-tip">
                 선택에 참여하여 고민하는 사람들을 도와주세요!
             </h2>
@@ -111,17 +110,13 @@ const Home = () => {
                     )}
                 </div>
             </div>
-            <button className="Home-button">
-                <Link to="/upload">+</Link>
-            </button>
-            {/* {isAlertOn && (
-                <Alert
-                    text={isUploadCompleted ? "업로드 완료" : "업로드 중.."}
-                    idText={isUploadCompleted ? "uploaded" : undefined}
-                />
-            )} */}
+            {isLoggedIn && (
+                <button className="Home-button">
+                    <Link to="/upload">+</Link>
+                </button>
+            )}
         </div>
     );
 };
-// 이후에 전역으로 업로드 완료 알림
+
 export default Home;
