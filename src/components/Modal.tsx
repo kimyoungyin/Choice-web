@@ -1,5 +1,3 @@
-import "../style.css";
-
 interface ModalProps {
     type: string;
     text?: string;
