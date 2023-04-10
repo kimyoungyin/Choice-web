@@ -10,6 +10,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     const history = useHistory();
     const onLogOutClick = () => {
         authService.signOut();
+        delete customAixos.defaults.headers.common["Authorization"];
         history.push("/");
     };
 
@@ -20,6 +21,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
         const getUserPost = async () => {
             try {
                 const { data } = await customAixos.get(`/posts/profile`);
+                console.log(data);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {
