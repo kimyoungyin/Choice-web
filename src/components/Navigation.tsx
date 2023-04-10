@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+interface NavigationProps {
+    isLoggedIn: boolean;
+}
+
+const Navigation = ({ isLoggedIn }: NavigationProps) => {
     return (
         <nav className="Navigation">
             <ul className="Navigation-ul">
@@ -9,11 +13,13 @@ const Navigation = () => {
                         HOME
                     </Link>
                 </li>
-                <li>
-                    <Link replace className="Navigation-Link" to="/profile">
-                        PROFILE
-                    </Link>
-                </li>
+                {isLoggedIn && (
+                    <li>
+                        <Link replace className="Navigation-Link" to="/profile">
+                            PROFILE
+                        </Link>
+                    </li>
+                )}
             </ul>
         </nav>
     );

@@ -45,7 +45,7 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
                                 isLoggedIn={isLoggedIn}
                             />
                         )}
-                    />{" "}
+                    />
                     <Route exact path="/upload">
                         <Upload
                             userObj={userObj}
@@ -61,7 +61,7 @@ const AppRouter = ({ isLoggedIn, userObj }: AppRouterProps) => {
                     </Route>
                 </Switch>
             )}
-            {isLoggedIn && <Navigation />}
+            <Navigation isLoggedIn={isLoggedIn} />
             {alertType && (
                 <Alert
                     text={alertType === "upload" ? "업로드 중" : "업로드 완료"}
