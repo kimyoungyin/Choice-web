@@ -1,4 +1,4 @@
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export interface ItemSummary {
     id: number;
@@ -13,13 +13,13 @@ interface ContentProps {
 }
 
 const Content = ({ item }: ContentProps) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     // const toggleChoiceMode = () => {
     //     const homeList = document.querySelector(".Home-list");
     // };
 
     const goToChoiceInfo = () => {
-        history.push(`/detail/${item.id}`);
+        navigate(`/detail/${item.id}`);
     };
 
     const term = (now: number, when: number) => {

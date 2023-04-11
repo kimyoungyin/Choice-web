@@ -2,7 +2,7 @@ import imageCompression from "browser-image-compression";
 import customAixos from "customAixos";
 import useInput from "hooks/useInput";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface UploadProps {
     userObj: global.User;
@@ -18,7 +18,7 @@ interface ChoiceImage {
 const SIZE_LIMIT_MB = 1;
 
 const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [isCategoryFetching, setIsCategoryFetching] = useState(true);
     const [categoryType, setCategoryType] = useState<"current" | "new">(
         "current"
@@ -48,11 +48,11 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 setCategories(categories);
                 setIsCategoryFetching(false);
             } catch (error) {
-                history.goBack();
+                navigate(-1);
             }
         };
         asyncFunction();
-    }, [history]);
+    }, [navigate]);
 
     const handleCategoryRadioChange = () =>
         setCategoryType((prev) => (prev === "current" ? "new" : "current"));
@@ -149,7 +149,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 },
             });
             onCompleteUpload();
-            history.push(`/detail/${postId}`);
+            navigate(`/detail/${postId}`, { replace: true });
         } catch (error) {
             console.log(error);
         }
@@ -332,7 +332,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
 
                 <div className="AddForm-btns">
                     <button
-                        onClick={() => history.goBack()}
+                        onClick={() => navigate(-1)}
                         type="button"
                         className="AddForm-cancelButton"
                     >

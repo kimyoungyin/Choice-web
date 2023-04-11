@@ -1,8 +1,8 @@
 import {
     BrowserRouter as Router,
     Route,
-    Switch,
-    Redirect,
+    Routes,
+    Navigate,
 } from "react-router-dom";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
@@ -39,40 +39,39 @@ const AppRouter = ({
                 isLoggedIn={isLoggedIn}
                 setLoggedInState={(state) => setLoggedInState(state)}
             />
-            <Switch>
-                <Route exact path="/">
-                    <Home isLoggedIn={isLoggedIn} />
-                </Route>
-                <Route exact path="/profile">
-                    {isLoggedIn && userObj ? (
-                        <Profile userObj={userObj} />
-                    ) : (
-                        <Redirect to="/" />
-                    )}
-                </Route>
+            <Routes>
+                <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
                 <Route
-                    exact
-                    path="/detail/:id"
-                    render={(props) => (
-                        <ChoiceInfo
-                            {...props}
-                            userObj={userObj}
-                            isLoggedIn={isLoggedIn}
-                        />
-                    )}
+                    path="/profile"
+                    element={
+                        isLoggedIn && userObj ? (
+                            <Profile userObj={userObj} />
+                        ) : (
+                            <Navigate to="/" replace />
+                        )
+                    }
                 />
-                <Route exact path="/upload">
-                    {isLoggedIn && userObj ? (
-                        <Upload
-                            userObj={userObj}
-                            onStartUpload={() => setAlertType("upload")}
-                            onCompleteUpload={handleCompleteUpload}
-                        />
-                    ) : (
-                        <Redirect to="/" />
-                    )}
-                </Route>
-            </Switch>
+                <Route
+                    path="/detail/:id"
+                    element={
+                        <ChoiceInfo userObj={userObj} isLoggedIn={isLoggedIn} />
+                    }
+                />
+                <Route
+                    path="/upload"
+                    element={
+                        isLoggedIn && userObj ? (
+                            <Upload
+                                userObj={userObj}
+                                onStartUpload={() => setAlertType("upload")}
+                                onCompleteUpload={handleCompleteUpload}
+                            />
+                        ) : (
+                            <Navigate to="/" replace />
+                        )
+                    }
+                />
+            </Routes>
             {isLoggedIn && <Navigation />}
             {alertType && (
                 <Alert

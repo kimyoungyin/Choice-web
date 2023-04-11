@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
-import { RouteComponentProps, useHistory } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
@@ -9,8 +9,7 @@ export interface MatchParams {
     id: string;
 }
 
-interface ChoiceInfoProps extends RouteComponentProps<MatchParams> {
-    // Route 컴포넌트 속성 추가
+interface ChoiceInfoProps {
     userObj: global.User | null;
     isLoggedIn: boolean;
 }
@@ -37,9 +36,9 @@ const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
     );
 };
 
-const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
-    const idRef = match.params.id;
-    const history = useHistory();
+const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
+    const { id: idRef } = useParams();
+    const navigate = useNavigate();
     const [init, setInit] = useState(false);
     const [choice1Users, setChoice1Users] = useState(0);
     const [choice2Users, setChoice2Users] = useState(0);
@@ -77,7 +76,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
                             .length
                     );
                 } else {
-                    history.push("/");
+                    navigate("/");
                 }
                 //   로그인 되어있으면
                 if (isLoggedIn && userObj) {
@@ -104,7 +103,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
             }
         };
         getPostInfo();
-    }, [idRef, isLoggedIn, history]);
+    }, [idRef, isLoggedIn, navigate]);
 
     const choiceHandler = (selectedChoice: boolean) =>
         setSelectedChoice((prev) =>
@@ -161,7 +160,7 @@ const ChoiceInfo = ({ match, userObj, isLoggedIn }: ChoiceInfoProps) => {
     const checkChangeSelected = () => selectedChoice !== selectedChoiceInDB;
 
     const goToHome = () => {
-        history.push("/");
+        navigate("/");
     };
 
     const deletePost = async () => {

@@ -1,5 +1,6 @@
 import customAixos from "customAixos";
-import { authService, firebaseInstance } from "fb";
+import { auth } from "fb";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 interface HeaderProps {
     isLoggedIn: boolean;
@@ -9,15 +10,15 @@ interface HeaderProps {
 const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
     const logoutHandler = () => {
         setLoggedInState(false);
-        authService.signOut();
+        signOut(auth);
         delete customAixos.defaults.headers.common["Authorization"];
     };
 
     const loginHandler = async () => {
         let provider;
         try {
-            provider = new firebaseInstance.auth.GoogleAuthProvider();
-            await authService.signInWithPopup(provider);
+            provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
             setLoggedInState(true);
         } catch (err) {
             // error의 타입 정의하기

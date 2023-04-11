@@ -1,7 +1,9 @@
 import AppRouter from "components/Router";
-import { authService } from "fb";
 import { useEffect, useState } from "react";
 import customAxios from "customAixos";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "fb";
+import "style.css";
 
 const App = () => {
     const [init, setInit] = useState(false);
@@ -9,7 +11,7 @@ const App = () => {
     const [userObj, setUserObj] = useState<global.User | null>(null);
 
     useEffect(() => {
-        const unsubscribe = authService.onAuthStateChanged((user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 user.getIdToken().then((token) => {
                     customAxios.defaults.headers.common[
