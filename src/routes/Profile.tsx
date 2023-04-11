@@ -11,7 +11,6 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
         const getUserPost = async () => {
             try {
                 const { data } = await customAixos.get(`/posts/profile`);
-                console.log(data);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {
