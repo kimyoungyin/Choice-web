@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import customAxios from "customAixos";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "fb";
+import { Spinner } from "@chakra-ui/react";
 import "style.css";
 
 const App = () => {
@@ -44,7 +45,8 @@ const App = () => {
                     setLoggedInState={(state) => setIsLoggedIn(state)}
                 />
             ) : (
-                <div className="loader"></div>
+                // <div className="loader"></div>
+                <Spinner />
             )}
         </div>
     );
