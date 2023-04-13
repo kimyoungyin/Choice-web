@@ -10,4 +10,6 @@ declare module global {
         id: number;
         name: string;
     }
+
+    type Alert = "upload" | "complete";
 }

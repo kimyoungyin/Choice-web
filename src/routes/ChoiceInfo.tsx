@@ -1,10 +1,9 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
 import { ItemSummary } from "components/Content";
-import { Spinner } from "@chakra-ui/react";
+import { Spinner, ToastId, useToast } from "@chakra-ui/react";
 
 export interface MatchParams {
     id: string;
@@ -50,10 +49,11 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     // 불필요한 백엔드 작업 방지 위한 state
     const [selectedChoiceInDB, setSelectedChoiceInDB] =
         useState<ChoiceType | null>(null);
-    const [alertType, setAlertType] = useState<
-        "start" | "delete" | "select" | "change" | null
-    >(null);
-    // const [modaling, setModaling] = useState(false);
+    // const [alertType, setAlertType] = useState<
+    //     "start" | "delete" | "select" | "change" | null
+    // >(null);
+    const toast = useToast();
+    const toastIdRef = useRef<ToastId>(0);
     const [clickedImg, setClickedImg] = useState("");
     const [activatedModal, setActivatedModal] = useState<
         "image" | "delete" | null
@@ -90,12 +90,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         setSelectedChoiceInDB(prevChoice.choiceType);
                     }
                 }
-                // // 이미지 비율을 위한 코드
-                // const img = new Image();
-                // img.src = item.choice1Url;
-                // img.onload = () => {
-                //     console.log(img.width, img.height);
-                // };
             } catch (error) {
                 console.log(error);
             } finally {
@@ -118,20 +112,35 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
         const prevChoiceInDB = selectedChoiceInDB;
         try {
             setIsSelectFetching(true);
-            setAlertType("start");
+            toastIdRef.current = toast({
+                title: "진행 중...",
+                status: "loading",
+            });
+            // setAlertType("start");
+            if (!toastIdRef.current) return;
             if (prevChoiceInDB === null) {
                 // 선택을 새로 하려 할 때
                 await customAixos.post(`/posts/${idRef}/choice`, {
                     choice: selectedChoice,
                 });
-                setAlertType("select");
+                toast.update(toastIdRef.current, {
+                    title: "선택 완료!",
+                    status: "success",
+                    duration: 4000,
+                });
+                // setAlertType("select");
                 selectedChoice
                     ? setChoice2Users((prev) => prev + 1)
                     : setChoice1Users((prev) => prev + 1);
             } else if (selectedChoice === null) {
                 // 선택 취소하려 할 때
                 await customAixos.delete(`/posts/${idRef}/choice`);
-                setAlertType("delete");
+                toast.update(toastIdRef.current, {
+                    title: "취소 완료!",
+                    status: "success",
+                    duration: 4000,
+                });
+                // setAlertType("delete");
                 prevChoiceInDB
                     ? setChoice2Users((prev) => prev - 1)
                     : setChoice1Users((prev) => prev - 1);
@@ -140,7 +149,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 await customAixos.post(`/posts/${idRef}/choice`, {
                     choice: selectedChoice,
                 });
-                setAlertType("change");
+                toast.update(toastIdRef.current, {
+                    title: "변경 완료!",
+                    status: "success",
+                    duration: 4000,
+                });
+                // setAlertType("change");
                 setChoice1Users((prev) =>
                     selectedChoice ? prev - 1 : prev + 1
                 );
@@ -149,7 +163,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 );
             }
             setSelectedChoiceInDB(selectedChoice);
-            setTimeout(() => setAlertType(null), 2000);
         } catch (error) {
             console.log(error);
             setSelectedChoiceInDB(prevChoiceInDB);
@@ -302,14 +315,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         onClick={completeSelect}
                         className="ChoiceInfo-completeBtn"
                         style={{
-                            visibility: !alertType ? "visible" : "hidden",
+                            visibility: !isSelectFetching
+                                ? "visible"
+                                : "hidden",
                         }}
                         id={checkChangeSelected() ? "selectedComplete" : ""}
-                        disabled={
-                            !checkChangeSelected() ||
-                            isSelectFetching ||
-                            alertType !== null
-                        }
+                        disabled={!checkChangeSelected() || isSelectFetching}
                     >
                         {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
                     </button>
@@ -329,22 +340,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             </button>
                         )}
                     </div>
-                    {alertType && (
-                        <Alert
-                            text={
-                                alertType === "start"
-                                    ? "진행 중..."
-                                    : alertType === "select"
-                                    ? "선택 완료!"
-                                    : alertType === "change"
-                                    ? "변경 완료!"
-                                    : "취소 완료!"
-                            }
-                            idText={
-                                alertType === "start" ? "start" : "complete"
-                            }
-                        />
-                    )}
                     {activatedModal === "delete" && (
                         <Modal
                             type="delete"
