@@ -115,6 +115,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
             toastIdRef.current = toast({
                 title: "진행 중...",
                 status: "loading",
+                position: "bottom-left",
             });
             // setAlertType("start");
             if (!toastIdRef.current) return;
@@ -126,7 +127,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 toast.update(toastIdRef.current, {
                     title: "선택 완료!",
                     status: "success",
-                    duration: 4000,
                 });
                 // setAlertType("select");
                 selectedChoice
@@ -138,7 +138,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 toast.update(toastIdRef.current, {
                     title: "취소 완료!",
                     status: "success",
-                    duration: 4000,
                 });
                 // setAlertType("delete");
                 prevChoiceInDB
@@ -152,7 +151,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 toast.update(toastIdRef.current, {
                     title: "변경 완료!",
                     status: "success",
-                    duration: 4000,
                 });
                 // setAlertType("change");
                 setChoice1Users((prev) =>
@@ -164,7 +162,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
             }
             setSelectedChoiceInDB(selectedChoice);
         } catch (error) {
-            console.log(error);
+            toast.update(toastIdRef.current, {
+                title: "예상치 못한 오류",
+                status: "error",
+            });
             setSelectedChoiceInDB(prevChoiceInDB);
         } finally {
             setIsSelectFetching(false);
