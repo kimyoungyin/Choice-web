@@ -45,8 +45,7 @@ const App = () => {
                     setLoggedInState={(state) => setIsLoggedIn(state)}
                 />
             ) : (
-                // <div className="loader"></div>
-                <Spinner />
+                <Spinner size={"xl"} />
             )}
         </div>
     );

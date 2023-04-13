@@ -3,6 +3,7 @@ import Content from "../components/Content";
 import customAixos from "../customAixos";
 import { Item } from "routes/ChoiceInfo";
 import { Link } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
 
 interface HomeProps {
     isLoggedIn: boolean;
@@ -87,7 +88,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                 <div className="Home-list">
                     {isLoading ? (
                         <div className="Home-loading">
-                            <div className="loader"></div>
+                            <Spinner size={"lg"} />
                         </div>
                     ) : choiceItems.length !== 0 ? (
                         choiceItems.map((item) => {

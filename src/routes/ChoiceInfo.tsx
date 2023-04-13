@@ -4,6 +4,7 @@ import Alert from "../components/Alert";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
 import { ItemSummary } from "components/Content";
+import { Spinner } from "@chakra-ui/react";
 
 export interface MatchParams {
     id: string;
@@ -361,7 +362,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     )}
                 </article>
             ) : (
-                <div className="loader"></div>
+                <Spinner size={"xl"} />
             )}
         </>
     );
