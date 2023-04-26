@@ -1,11 +1,10 @@
 import Content from "components/Content";
 import customAixos from "customAixos";
 import { useEffect, useState } from "react";
-import { Item } from "routes/ChoiceInfo";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
     const [writed, setWrited] = useState(0);
-    const [writedData, setWritedData] = useState<Item[]>([]);
+    const [writedData, setWritedData] = useState<global.Post[]>([]);
 
     useEffect(() => {
         const getUserPost = async () => {

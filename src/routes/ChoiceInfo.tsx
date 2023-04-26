@@ -2,7 +2,6 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
 import customAixos from "../customAixos";
-import { ItemSummary } from "components/Content";
 import { Spinner, ToastId, useToast } from "@chakra-ui/react";
 
 export interface MatchParams {
@@ -12,21 +11,6 @@ export interface MatchParams {
 interface ChoiceInfoProps {
     userObj: global.User | null;
     isLoggedIn: boolean;
-}
-
-type ChoiceType = boolean;
-
-interface Choice {
-    choiceType: ChoiceType;
-}
-
-export interface Item extends ItemSummary {
-    choice1Url: string | null;
-    choice2Url: string | null;
-    uploaderId: string;
-    updatedAt: string;
-    categoryId: number;
-    Choices: Choice[]; // 모델
 }
 
 const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
@@ -42,13 +26,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     const [init, setInit] = useState(false);
     const [choice1Users, setChoice1Users] = useState(0);
     const [choice2Users, setChoice2Users] = useState(0);
-    const [item, setItem] = useState<Item | null>(null);
-    const [selectedChoice, setSelectedChoice] = useState<ChoiceType | null>(
-        null
-    );
+    const [item, setItem] = useState<global.Post | null>(null);
+    const [selectedChoice, setSelectedChoice] =
+        useState<global.ChoiceType | null>(null);
     // 불필요한 백엔드 작업 방지 위한 state
     const [selectedChoiceInDB, setSelectedChoiceInDB] =
-        useState<ChoiceType | null>(null);
+        useState<global.ChoiceType | null>(null);
     // const [alertType, setAlertType] = useState<
     //     "start" | "delete" | "select" | "change" | null
     // >(null);
@@ -63,9 +46,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     useEffect(() => {
         const getPostInfo = async () => {
             try {
-                const { data: item } = await customAixos.get<Item | null>(
-                    `/posts/${idRef}`
-                );
+                const { data: item } =
+                    await customAixos.get<global.Post | null>(
+                        `/posts/${idRef}`
+                    );
                 if (item) {
                     setItem(item);
                     setChoice1Users(
@@ -82,7 +66,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 //   로그인 되어있으면
                 if (isLoggedIn && userObj) {
                     const { data: prevChoice } =
-                        await customAixos.get<Choice | null>(
+                        await customAixos.get<global.Choice | null>(
                             `/posts/${idRef}/choice`
                         );
                     if (prevChoice) {

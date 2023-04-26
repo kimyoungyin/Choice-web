@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Content from "../components/Content";
 import customAixos from "../customAixos";
-import { Item } from "routes/ChoiceInfo";
 import { Link } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 
@@ -11,7 +10,7 @@ interface HomeProps {
 
 const Home = ({ isLoggedIn }: HomeProps) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [choiceItems, setChoiceItems] = useState<Item[]>([]);
+    const [choiceItems, setChoiceItems] = useState<global.Post[]>([]);
     const [filters, setFilters] = useState<global.Category[]>([]);
     const [filterCategoryId, setFilterCategoryId] = useState<number | null>(
         null
@@ -20,7 +19,9 @@ const Home = ({ isLoggedIn }: HomeProps) => {
     useEffect(() => {
         const asyncFunction = async () => {
             try {
-                const { data: posts } = await customAixos.get("/posts");
+                const { data: posts } = await customAixos.get<global.Post[]>(
+                    "/posts"
+                );
                 const { data: categories } = await customAixos.get<
                     global.Category[]
                 >("/categories");

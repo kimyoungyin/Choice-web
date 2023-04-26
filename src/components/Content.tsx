@@ -1,15 +1,6 @@
 import { useNavigate } from "react-router-dom";
-
-export interface ItemSummary {
-    id: number;
-    title: string;
-    choice1: string;
-    choice2: string;
-    category: global.Category;
-    createdAt: string;
-}
 interface ContentProps {
-    item: ItemSummary;
+    item: global.Post;
 }
 
 const Content = ({ item }: ContentProps) => {
@@ -51,8 +42,8 @@ const Content = ({ item }: ContentProps) => {
                     <span className="Content-VS">vs</span> {item.choice2}
                 </div>
             </div>
-            {item.category && (
-                <div className="Content-category">{item.category.name}</div>
+            {item.Category && (
+                <div className="Content-category">{item.Category.name}</div>
             )}
             <div className="Content-when">
                 {term(Date.now(), Date.parse(item.createdAt))}
