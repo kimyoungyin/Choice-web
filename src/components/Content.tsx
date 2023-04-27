@@ -1,9 +1,24 @@
+import { TimeIcon } from "@chakra-ui/icons";
+import {
+    AspectRatio,
+    Box,
+    Card,
+    Center,
+    Flex,
+    GridItem,
+    Heading,
+    Icon,
+    Tag,
+    Text,
+} from "@chakra-ui/react";
+import { useTerm } from "hooks/useTerm";
 import { useNavigate } from "react-router-dom";
 interface ContentProps {
     item: global.Post;
 }
 
 const Content = ({ item }: ContentProps) => {
+    const term = useTerm(Date.parse(item.createdAt));
     const navigate = useNavigate();
     // const toggleChoiceMode = () => {
     //     const homeList = document.querySelector(".Home-list");
@@ -13,42 +28,87 @@ const Content = ({ item }: ContentProps) => {
         navigate(`/detail/${item.id}`);
     };
 
-    const term = (now: number, when: number) => {
-        let gap = now - when;
-        let days: number | string = Math.floor(gap / (1000 * 60 * 60 * 24));
-        gap -= days * 24 * 60 * 60 * 1000;
-        let hours: number | string = Math.floor(gap / (1000 * 60 * 60));
-        gap -= hours * 60 * 60 * 1000;
-        let minutes: number | string = Math.floor(gap / (1000 * 60));
+    const choiceArr = [
+        { text: item.choice1, src: item.choice1Url, color: "orange.400" },
+        { text: item.choice2, src: item.choice2Url, color: "green.400" },
+    ];
 
-        days = days < 10 ? "0" + days : days;
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-
-        if (Number(days) !== 0) {
-            return `${days}일 ${hours}시간 ${minutes}분 전`;
-        } else if (Number(hours) !== 0) {
-            return `${hours}시간 ${minutes}분 전`;
-        } else {
-            return minutes !== "00" ? `${minutes}분 전` : "방금 전";
-        }
-    };
     return (
-        <section className="Content" onClick={goToChoiceInfo}>
-            <div className="Content-texts">
-                <div className="Content-question">{item.title}</div>
-                <div className="Content-choices">
-                    {item.choice1}
-                    <span className="Content-VS">vs</span> {item.choice2}
-                </div>
-            </div>
-            {item.Category && (
-                <div className="Content-category">{item.Category.name}</div>
-            )}
-            <div className="Content-when">
-                {term(Date.now(), Date.parse(item.createdAt))}
-            </div>
-        </section>
+        <GridItem
+            as="article"
+            onClick={goToChoiceInfo}
+            cursor={"pointer"}
+            w={"100%"}
+        >
+            <Card shadow={"md"} borderRadius={"lg"} h="100%">
+                <Flex flexDir={"column"} h={"100%"}>
+                    <Flex justify={"space-between"} align={"baseline"} p={4}>
+                        <Heading
+                            as="h3"
+                            size={"md"}
+                            wordBreak={"keep-all"}
+                            flex={1}
+                        >
+                            {item.title}
+                        </Heading>
+                        {item.Category && (
+                            <Tag size={"md"}>{item.Category.name}</Tag>
+                        )}
+                    </Flex>
+                    <Flex flex={1} align={"center"}>
+                        {choiceArr.map((choiceObj) => (
+                            <Box flex={1} key={choiceObj.color}>
+                                <AspectRatio
+                                    ratio={1}
+                                    backgroundImage={`url(${choiceObj.src})`}
+                                    backgroundPosition="center"
+                                    backgroundRepeat="no-repeat"
+                                >
+                                    <Flex
+                                        backdropFilter="auto"
+                                        backdropBlur={"sm"}
+                                    >
+                                        <Center
+                                            p={2}
+                                            color={"white"}
+                                            bg={choiceObj.color}
+                                            w={"100%"}
+                                            minH={"30%"}
+                                        >
+                                            <Text
+                                                fontWeight={"bold"}
+                                                wordBreak={"break-all"}
+                                            >
+                                                {choiceObj.text}
+                                            </Text>
+                                        </Center>
+                                    </Flex>
+                                </AspectRatio>
+                            </Box>
+                        ))}
+                    </Flex>
+                    <Flex
+                        justify={"flex-end"}
+                        align={"center"}
+                        p={2}
+                        bg={"gray.700"}
+                        borderBottomRadius={"lg"}
+                        color={"white"}
+                        fontSize={"xs"}
+                        fontWeight={"bold"}
+                    >
+                        <Text
+                            borderBottomRadius={"lg"}
+                            textAlign={"end"}
+                            lineHeight={1}
+                        >
+                            {term}
+                        </Text>
+                        <Icon as={TimeIcon} marginLeft={2} />
+                    </Flex>
+                </Flex>
+            </Card>
+        </GridItem>
     );
 };
 

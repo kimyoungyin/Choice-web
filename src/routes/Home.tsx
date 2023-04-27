@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import Content from "../components/Content";
 import customAixos from "../customAixos";
 import { Link } from "react-router-dom";
-import { Spinner } from "@chakra-ui/react";
+import { Grid, Spinner } from "@chakra-ui/react";
+import useThreeMediaQuery from "hooks/useThreeMediaQuery";
 
 interface HomeProps {
     isLoggedIn: boolean;
 }
 
 const Home = ({ isLoggedIn }: HomeProps) => {
+    const mediaQueryObj = useThreeMediaQuery();
     const [isLoading, setIsLoading] = useState(true);
     const [choiceItems, setChoiceItems] = useState<global.Post[]>([]);
     const [filters, setFilters] = useState<global.Category[]>([]);
@@ -86,7 +88,24 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         ))}
                     </div>
                 </nav>
-                <div className="Home-list">
+                <Grid
+                    as="section"
+                    templateColumns={`repeat(${
+                        !mediaQueryObj.isLargerThan768
+                            ? 1
+                            : !mediaQueryObj.isLargerThan1024
+                            ? 2
+                            : !mediaQueryObj.isLargerThan1440
+                            ? 3
+                            : 4
+                    }, 1fr)`}
+                    bg={"gray.200"}
+                    w={"100%"}
+                    h={"100%"}
+                    overflow={"auto"}
+                    gap={16}
+                    p={8}
+                >
                     {isLoading ? (
                         <div className="Home-loading">
                             <Spinner size={"lg"} />
@@ -108,7 +127,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                             <span>업로드된 고민거리가 없어요...</span>
                         </div>
                     )}
-                </div>
+                </Grid>
             </div>
             {isLoggedIn && (
                 <button className="Home-button">
