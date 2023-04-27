@@ -5,12 +5,12 @@ import {
     Card,
     Center,
     Flex,
-    GridItem,
     Heading,
     Icon,
     Tag,
     Text,
 } from "@chakra-ui/react";
+import useMediaQueryWidth from "hooks/useMediaQueryWidth";
 import { useTerm } from "hooks/useTerm";
 import { useNavigate } from "react-router-dom";
 interface ContentProps {
@@ -18,6 +18,13 @@ interface ContentProps {
 }
 
 const Content = ({ item }: ContentProps) => {
+    const mediaQueryWidth = useMediaQueryWidth(
+        "100%",
+        "50%",
+        "33.3%",
+        "25%",
+        "20%"
+    );
     const term = useTerm(Date.parse(item.createdAt));
     const navigate = useNavigate();
     // const toggleChoiceMode = () => {
@@ -34,13 +41,15 @@ const Content = ({ item }: ContentProps) => {
     ];
 
     return (
-        <GridItem
-            as="article"
-            onClick={goToChoiceInfo}
-            cursor={"pointer"}
-            w={"100%"}
-        >
-            <Card shadow={"md"} borderRadius={"lg"} h="100%">
+        <Box w={mediaQueryWidth} p={4}>
+            <Card
+                as="article"
+                shadow={"md"}
+                borderRadius={"lg"}
+                h="100%"
+                onClick={goToChoiceInfo}
+                cursor={"pointer"}
+            >
                 <Flex flexDir={"column"} h={"100%"}>
                     <Flex justify={"space-between"} align={"baseline"} p={4}>
                         <Heading
@@ -108,7 +117,7 @@ const Content = ({ item }: ContentProps) => {
                     </Flex>
                 </Flex>
             </Card>
-        </GridItem>
+        </Box>
     );
 };
 

@@ -1,11 +1,9 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import Content from "components/Content";
 import customAixos from "customAixos";
-import useThreeMediaQuery from "hooks/useThreeMediaQuery";
 import { useEffect, useState } from "react";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
-    const mediaQueryObj = useThreeMediaQuery();
     const [writed, setWrited] = useState(0);
     const [writedData, setWritedData] = useState<global.Post[]>([]);
 
@@ -37,23 +35,21 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
                 </div>
             </div>
             <h3 className="Profile-myTitle">MY QUESTIONS</h3>
-            <Grid
+            <Flex
                 className="Profile-questions"
-                gap={16}
-                templateColumns={`repeat(${
-                    !mediaQueryObj.isLargerThan768
-                        ? 1
-                        : !mediaQueryObj.isLargerThan1024
-                        ? 2
-                        : !mediaQueryObj.isLargerThan1440
-                        ? 3
-                        : 4
-                }, 1fr)`}
+                as="section"
+                bg={"gray.200"}
+                w={"100%"}
+                h={"100%"}
+                overflow={"auto"}
+                p={8}
+                wrap={"wrap"}
+                alignContent={"flex-start"}
             >
                 {writedData.map((item) => (
                     <Content key={item.id} item={item} />
                 ))}
-            </Grid>
+            </Flex>
         </Box>
     );
 };
