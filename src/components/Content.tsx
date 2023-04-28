@@ -1,15 +1,5 @@
 import { TimeIcon } from "@chakra-ui/icons";
-import {
-    AspectRatio,
-    Box,
-    Card,
-    Center,
-    Flex,
-    Heading,
-    Icon,
-    Tag,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Card, Flex, Heading, Icon, Tag, Text } from "@chakra-ui/react";
 import useMediaQueryWidth from "hooks/useMediaQueryWidth";
 import { useTerm } from "hooks/useTerm";
 import { useNavigate } from "react-router-dom";
@@ -46,12 +36,18 @@ const Content = ({ item }: ContentProps) => {
                 as="article"
                 shadow={"md"}
                 borderRadius={"lg"}
-                h="100%"
+                h={300}
                 onClick={goToChoiceInfo}
                 cursor={"pointer"}
             >
                 <Flex flexDir={"column"} h={"100%"}>
-                    <Flex justify={"space-between"} align={"baseline"} p={4}>
+                    <Flex
+                        justify={"space-between"}
+                        align={"baseline"}
+                        p={4}
+                        borderBottom={"2px"}
+                        borderColor={"gray.200"}
+                    >
                         <Heading
                             as="h3"
                             size={"md"}
@@ -66,33 +62,32 @@ const Content = ({ item }: ContentProps) => {
                     </Flex>
                     <Flex flex={1} align={"center"}>
                         {choiceArr.map((choiceObj) => (
-                            <Box flex={1} key={choiceObj.color}>
-                                <AspectRatio
-                                    ratio={1}
-                                    backgroundImage={`url(${choiceObj.src})`}
-                                    backgroundPosition="center"
-                                    backgroundRepeat="no-repeat"
+                            <Box
+                                flex={1}
+                                key={choiceObj.color}
+                                backgroundImage={`url(${choiceObj.src})`}
+                                backgroundPosition="center"
+                                backgroundRepeat="no-repeat"
+                                h={"100%"}
+                            >
+                                <Flex
+                                    backdropFilter="auto"
+                                    backdropBlur={"sm"}
+                                    flexDir={"column"}
+                                    justify={"center"}
+                                    h="100%"
                                 >
-                                    <Flex
-                                        backdropFilter="auto"
-                                        backdropBlur={"sm"}
+                                    <Text
+                                        fontWeight={"bold"}
+                                        textAlign={"center"}
+                                        overflow={"hidden"}
+                                        p={2}
+                                        color={"white"}
+                                        bg={choiceObj.color}
                                     >
-                                        <Center
-                                            p={2}
-                                            color={"white"}
-                                            bg={choiceObj.color}
-                                            w={"100%"}
-                                            minH={"30%"}
-                                        >
-                                            <Text
-                                                fontWeight={"bold"}
-                                                wordBreak={"break-all"}
-                                            >
-                                                {choiceObj.text}
-                                            </Text>
-                                        </Center>
-                                    </Flex>
-                                </AspectRatio>
+                                        {choiceObj.text}
+                                    </Text>
+                                </Flex>
                             </Box>
                         ))}
                     </Flex>
