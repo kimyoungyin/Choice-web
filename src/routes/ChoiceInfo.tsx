@@ -24,9 +24,9 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     const { id: idRef } = useParams();
     const navigate = useNavigate();
     const [init, setInit] = useState(false);
+    const [item, setItem] = useState<global.Post | null>(null);
     const [choice1Users, setChoice1Users] = useState(0);
     const [choice2Users, setChoice2Users] = useState(0);
-    const [item, setItem] = useState<global.Post | null>(null);
     const [selectedChoice, setSelectedChoice] =
         useState<global.ChoiceType | null>(null);
     // 불필요한 백엔드 작업 방지 위한 state
@@ -46,20 +46,16 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     useEffect(() => {
         const getPostInfo = async () => {
             try {
-                const { data: item } =
-                    await customAixos.get<global.Post | null>(
+                const { data } =
+                    await customAixos.get<global.PostWithChoiceCount | null>(
                         `/posts/${idRef}`
                     );
-                if (item) {
-                    setItem(item);
-                    setChoice1Users(
-                        item.Choices.filter((choice) => !choice.choiceType)
-                            .length
-                    );
-                    setChoice2Users(
-                        item.Choices.filter((choice) => choice.choiceType)
-                            .length
-                    );
+                if (data) {
+                    setItem(data);
+                    const choice1Count = data.choice1Count;
+                    const choice2Count = data.choice2Count;
+                    setChoice1Users(choice1Count);
+                    setChoice2Users(choice2Count);
                 } else {
                     navigate("/");
                 }
@@ -187,7 +183,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         이미지를 자세히 보고 싶으면 클릭해보세요!
                     </h2>
                     <div className="ChoiceInfo-totalUsers">
-                        <span>{item.Choices.length}</span>명이 참여함
+                        <span>{choice1Users + choice2Users}</span>명이 참여함
                     </div>
                     <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
                     <div className="ChoiceInfo-choices">

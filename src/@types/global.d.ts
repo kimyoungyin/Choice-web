@@ -25,11 +25,16 @@ declare module global {
         Category?: Category;
         choice1Url: string | null;
         choice2Url: string | null;
+
         uploaderId: string;
         createdAt: string;
         updatedAt: string;
         categoryId: number;
-        Choices: Choice[]; // 모델
+    }
+
+    interface PostWithChoiceCount extends Post {
+        choice1Count: number;
+        choice2Count: number;
     }
 
     type Alert = "upload" | "complete";
