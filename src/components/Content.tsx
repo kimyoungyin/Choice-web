@@ -40,6 +40,53 @@ const Content = ({ item }: ContentProps) => {
         { text: item.choice2, src: item.choice2Url, color: "green.400" },
     ];
 
+    const TermLayoutToRender = () => (
+        <Flex
+            align={"center"}
+            p={2}
+            bg={"gray.700"}
+            borderBottomRadius={"lg"}
+            color={"white"}
+            fontSize={"xs"}
+            fontWeight={"bold"}
+        >
+            <Icon as={EditIcon} marginRight={1} />
+            {item.choice1Count + item.choice2Count}명
+            <Spacer />
+            {term === updatedTerm ? (
+                <>
+                    <Icon as={TimeIcon} marginRight={1} />
+                    <Text
+                        borderBottomRadius={"lg"}
+                        textAlign={"end"}
+                        lineHeight={1}
+                    >
+                        {term}
+                    </Text>
+                </>
+            ) : (
+                <Flex
+                    bg={"pink.500"}
+                    p={1}
+                    paddingLeft={2}
+                    paddingRight={2}
+                    borderRadius={4}
+                    align={"center"}
+                    // color={"red.200"}
+                >
+                    <Icon as={RepeatIcon} marginRight={1} />
+                    <Text
+                        borderBottomRadius={"lg"}
+                        textAlign={"end"}
+                        lineHeight={1}
+                    >
+                        {updatedTerm}
+                    </Text>
+                </Flex>
+            )}
+        </Flex>
+    );
+
     return (
         <Box w={mediaQueryWidth} p={4}>
             <Card
@@ -109,39 +156,7 @@ const Content = ({ item }: ContentProps) => {
                             </Box>
                         ))}
                     </Flex>
-                    <Flex
-                        // justify={""}
-                        align={"center"}
-                        p={2}
-                        paddingLeft={4}
-                        paddingRight={4}
-                        bg={"gray.700"}
-                        borderBottomRadius={"lg"}
-                        color={"white"}
-                        fontSize={"xs"}
-                        fontWeight={"bold"}
-                    >
-                        <Icon as={EditIcon} marginRight={1} />
-                        {item.choice1Count + item.choice2Count}명
-                        <Spacer />
-                        <Icon as={RepeatIcon} marginRight={1} />
-                        <Text
-                            borderBottomRadius={"lg"}
-                            textAlign={"end"}
-                            lineHeight={1}
-                            marginRight={3}
-                        >
-                            {updatedTerm}
-                        </Text>
-                        <Icon as={TimeIcon} marginRight={1} />
-                        <Text
-                            borderBottomRadius={"lg"}
-                            textAlign={"end"}
-                            lineHeight={1}
-                        >
-                            {term}
-                        </Text>
-                    </Flex>
+                    <TermLayoutToRender />
                 </Flex>
             </Card>
         </Box>
