@@ -113,6 +113,8 @@ const Content = ({ item }: ContentProps) => {
                         // justify={""}
                         align={"center"}
                         p={2}
+                        paddingLeft={4}
+                        paddingRight={4}
                         bg={"gray.700"}
                         borderBottomRadius={"lg"}
                         color={"white"}
@@ -127,7 +129,7 @@ const Content = ({ item }: ContentProps) => {
                             borderBottomRadius={"lg"}
                             textAlign={"end"}
                             lineHeight={1}
-                            marginRight={2}
+                            marginRight={3}
                         >
                             {updatedTerm}
                         </Text>
