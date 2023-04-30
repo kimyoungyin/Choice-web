@@ -10,7 +10,9 @@ interface HomeProps {
 
 const Home = ({ isLoggedIn }: HomeProps) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [choiceItems, setChoiceItems] = useState<global.Post[]>([]);
+    const [choiceItems, setChoiceItems] = useState<
+        global.PostWithChoiceCount[]
+    >([]);
     const [filters, setFilters] = useState<global.Category[]>([]);
     const [filterCategoryId, setFilterCategoryId] = useState<number | null>(
         null
@@ -19,9 +21,9 @@ const Home = ({ isLoggedIn }: HomeProps) => {
     useEffect(() => {
         const asyncFunction = async () => {
             try {
-                const { data: posts } = await customAixos.get<global.Post[]>(
-                    "/posts"
-                );
+                const { data: posts } = await customAixos.get<
+                    global.PostWithChoiceCount[]
+                >("/posts");
                 const { data: categories } = await customAixos.get<
                     global.Category[]
                 >("/categories");

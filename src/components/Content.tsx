@@ -1,10 +1,19 @@
-import { TimeIcon } from "@chakra-ui/icons";
-import { Box, Card, Flex, Heading, Icon, Tag, Text } from "@chakra-ui/react";
+import { EditIcon, RepeatIcon, TimeIcon } from "@chakra-ui/icons";
+import {
+    Box,
+    Card,
+    Flex,
+    Heading,
+    Icon,
+    Spacer,
+    Tag,
+    Text,
+} from "@chakra-ui/react";
 import useMediaQueryWidth from "hooks/useMediaQueryWidth";
 import { useTerm } from "hooks/useTerm";
 import { useNavigate } from "react-router-dom";
 interface ContentProps {
-    item: global.Post;
+    item: global.PostWithChoiceCount;
 }
 
 const Content = ({ item }: ContentProps) => {
@@ -16,6 +25,7 @@ const Content = ({ item }: ContentProps) => {
         "20%"
     );
     const term = useTerm(Date.parse(item.createdAt));
+    const updatedTerm = useTerm(Date.parse(item.updatedAt));
     const navigate = useNavigate();
     // const toggleChoiceMode = () => {
     //     const homeList = document.querySelector(".Home-list");
@@ -100,7 +110,7 @@ const Content = ({ item }: ContentProps) => {
                         ))}
                     </Flex>
                     <Flex
-                        justify={"flex-end"}
+                        // justify={""}
                         align={"center"}
                         p={2}
                         bg={"gray.700"}
@@ -109,6 +119,19 @@ const Content = ({ item }: ContentProps) => {
                         fontSize={"xs"}
                         fontWeight={"bold"}
                     >
+                        <Icon as={EditIcon} marginRight={1} />
+                        {item.choice1Count + item.choice2Count}명
+                        <Spacer />
+                        <Icon as={RepeatIcon} marginRight={1} />
+                        <Text
+                            borderBottomRadius={"lg"}
+                            textAlign={"end"}
+                            lineHeight={1}
+                            marginRight={2}
+                        >
+                            {updatedTerm}
+                        </Text>
+                        <Icon as={TimeIcon} marginRight={1} />
                         <Text
                             borderBottomRadius={"lg"}
                             textAlign={"end"}
@@ -116,7 +139,6 @@ const Content = ({ item }: ContentProps) => {
                         >
                             {term}
                         </Text>
-                        <Icon as={TimeIcon} marginLeft={2} />
                     </Flex>
                 </Flex>
             </Card>

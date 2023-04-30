@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
     const [writed, setWrited] = useState(0);
-    const [writedData, setWritedData] = useState<global.Post[]>([]);
+    const [writedData, setWritedData] = useState<global.PostWithChoiceCount[]>(
+        []
+    );
 
     useEffect(() => {
         const getUserPost = async () => {
             try {
-                const { data } = await customAixos.get(`/posts/profile`);
+                const { data } = await customAixos.get<
+                    global.PostWithChoiceCount[]
+                >(`/posts/profile`);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {
