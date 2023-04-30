@@ -65,9 +65,17 @@ const Content = ({ item }: ContentProps) => {
                             <Box
                                 flex={1}
                                 key={choiceObj.color}
-                                backgroundImage={`url(${choiceObj.src})`}
-                                backgroundPosition="center"
-                                backgroundRepeat="no-repeat"
+                                backgroundImage={
+                                    choiceObj.src
+                                        ? `url(${choiceObj.src})`
+                                        : undefined
+                                }
+                                backgroundPosition={
+                                    choiceObj.src ? "center" : undefined
+                                }
+                                backgroundRepeat={
+                                    choiceObj.src ? "no-repeat" : undefined
+                                }
                                 h={"100%"}
                             >
                                 <Flex
