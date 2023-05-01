@@ -1,6 +1,19 @@
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import {
+    Button,
+    Center,
+    Flex,
+    Heading,
+    IconButton,
+    Spacer,
+    Text,
+    useColorMode,
+    useMediaQuery,
+} from "@chakra-ui/react";
 import customAixos from "customAixos";
 import { auth } from "fb";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { FcGoogle } from "react-icons/fc";
 
 interface HeaderProps {
     isLoggedIn: boolean;
@@ -8,6 +21,8 @@ interface HeaderProps {
 }
 
 const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
+    const { toggleColorMode, colorMode } = useColorMode();
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
     const logoutHandler = () => {
         setLoggedInState(false);
         signOut(auth);
@@ -28,12 +43,55 @@ const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
     };
 
     return (
-        <div className="Title">
-            CHOICEWEB
-            <button onClick={isLoggedIn ? logoutHandler : loginHandler}>
-                {isLoggedIn ? "LOGOUT" : "LOGIN WITH GOOGLE"}
-            </button>
-        </div>
+        <Flex
+            align={"center"}
+            gap={4}
+            position={"fixed"}
+            top="0"
+            px={4}
+            py={8}
+            w={"100%"}
+            h={50}
+            borderBottom={"1px"}
+            borderColor={"gray.200"}
+            bg={colorMode === "dark" ? "gray.700" : "white"}
+        >
+            <Heading as={"h1"} display={"flex"}>
+                <Text color={"pink.500"}>yy</Text>
+                Choice
+            </Heading>
+            <Spacer />
+            <IconButton
+                cursor={"pointer"}
+                colorScheme="pink"
+                variant={"outline"}
+                p={2.5}
+                aria-label="Toggle Color Mode"
+                onClick={toggleColorMode}
+                as={colorMode === "light" ? MoonIcon : SunIcon}
+            >
+                Toggle Color Mode
+            </IconButton>
+            <Button
+                variant={"outline"}
+                leftIcon={
+                    isLoggedIn || !isLargerThan768 ? undefined : <FcGoogle />
+                }
+                onClick={isLoggedIn ? logoutHandler : loginHandler}
+            >
+                <Center>
+                    <Text fontSize={"xl"} fontWeight={"normal"}>
+                        {isLoggedIn ? (
+                            "Logout"
+                        ) : isLargerThan768 ? (
+                            "Sign in with Google"
+                        ) : (
+                            <FcGoogle />
+                        )}
+                    </Text>
+                </Center>
+            </Button>
+        </Flex>
     );
 };
 
