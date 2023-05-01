@@ -68,8 +68,7 @@ const Content = ({ item }: ContentProps) => {
                 <Flex
                     bg={"pink.500"}
                     p={1}
-                    paddingLeft={2}
-                    paddingRight={2}
+                    px={2}
                     borderRadius={4}
                     align={"center"}
                     // color={"red.200"}
