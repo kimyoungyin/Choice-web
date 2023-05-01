@@ -54,9 +54,9 @@ const Home = ({ isLoggedIn }: HomeProps) => {
 
     return (
         <div className="Home" id={!isLoggedIn ? "withoutNav" : ""}>
-            <h2 className="Home-tip">
+            {/* <h2 className="Home-tip">
                 선택에 참여하여 고민하는 사람들을 도와주세요!
-            </h2>
+            </h2> */}
             <div className="Home-responsiveBox">
                 <nav className="Home-category">
                     {/* {false && (

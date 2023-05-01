@@ -179,9 +179,9 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
         <>
             {init && item ? (
                 <article className="ChoiceInfo">
-                    <h2 className="ChoiceInfo-tip">
+                    {/* <h2 className="ChoiceInfo-tip">
                         이미지를 자세히 보고 싶으면 클릭해보세요!
-                    </h2>
+                    </h2> */}
                     <div className="ChoiceInfo-totalUsers">
                         <span>{choice1Users + choice2Users}</span>명이 참여함
                     </div>
