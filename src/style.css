@@ -89,7 +89,7 @@ body,
         rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
-button {
+/* button {
     all: unset;
     position: fixed;
     top: 0;
@@ -99,7 +99,7 @@ button {
     font-weight: 600;
     cursor: pointer;
     font-size: 0.9rem;
-}
+} */
 
 .Alert {
     position: fixed;
