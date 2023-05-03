@@ -112,8 +112,8 @@ const Content = ({ item }: ContentProps) => {
                         >
                             {item.title}
                         </Heading>
-                        {item.Category && (
-                            <Tag size={"md"}>{item.Category.name}</Tag>
+                        {item.category && (
+                            <Tag size={"md"}>{item.category.name}</Tag>
                         )}
                     </Flex>
                     <Flex flex={1} align={"center"}>

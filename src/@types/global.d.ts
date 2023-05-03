@@ -22,7 +22,7 @@ declare module global {
         title: string;
         choice1: string;
         choice2: string;
-        Category?: Category;
+        category?: Category;
         choice1Url: string | null;
         choice2Url: string | null;
 
