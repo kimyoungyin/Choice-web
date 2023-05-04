@@ -10,7 +10,6 @@ import {
     useColorMode,
     useMediaQuery,
 } from "@chakra-ui/react";
-import customAixos from "customAixos";
 import { auth } from "fb";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
@@ -26,7 +25,6 @@ const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
     const logoutHandler = () => {
         setLoggedInState(false);
         signOut(auth);
-        delete customAixos.defaults.headers.common["Authorization"];
     };
 
     const loginHandler = async () => {

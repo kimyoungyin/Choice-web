@@ -1,8 +1,8 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
-import customAixos from "../customAixos";
 import { Spinner, ToastId, useToast } from "@chakra-ui/react";
+import { authorizedCustomAxios, customAxios } from "customAxios";
 
 export interface MatchParams {
     id: string;
@@ -47,7 +47,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
         const getPostInfo = async () => {
             try {
                 const { data } =
-                    await customAixos.get<global.PostWithChoiceCount | null>(
+                    await customAxios.get<global.PostWithChoiceCount | null>(
                         `/posts/${idRef}`
                     );
                 if (data) {
@@ -62,7 +62,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 //   로그인 되어있으면
                 if (isLoggedIn && userObj) {
                     const { data: prevChoice } =
-                        await customAixos.get<global.Choice | null>(
+                        await authorizedCustomAxios.get<global.Choice | null>(
                             `/posts/${idRef}/choice`
                         );
                     if (prevChoice) {
@@ -101,7 +101,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
             if (!toastIdRef.current) return;
             if (prevChoiceInDB === null) {
                 // 선택을 새로 하려 할 때
-                await customAixos.post(`/posts/${idRef}/choice`, {
+                await authorizedCustomAxios.post(`/posts/${idRef}/choice`, {
                     choice: selectedChoice,
                 });
                 toast.update(toastIdRef.current, {
@@ -114,7 +114,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     : setChoice1Users((prev) => prev + 1);
             } else if (selectedChoice === null) {
                 // 선택 취소하려 할 때
-                await customAixos.delete(`/posts/${idRef}/choice`);
+                await authorizedCustomAxios.delete(`/posts/${idRef}/choice`);
                 toast.update(toastIdRef.current, {
                     title: "취소 완료!",
                     status: "success",
@@ -125,7 +125,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     : setChoice1Users((prev) => prev - 1);
             } else {
                 // 선택 변경하려 할 때
-                await customAixos.post(`/posts/${idRef}/choice`, {
+                await authorizedCustomAxios.post(`/posts/${idRef}/choice`, {
                     choice: selectedChoice,
                 });
                 toast.update(toastIdRef.current, {
@@ -160,7 +160,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
 
     const deletePost = async () => {
         try {
-            await customAixos.delete(`/posts/${idRef}`);
+            await authorizedCustomAxios.delete(`/posts/${idRef}`);
             goToHome();
         } catch (error) {
             console.log(error);

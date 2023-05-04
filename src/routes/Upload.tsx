@@ -1,5 +1,5 @@
 import imageCompression from "browser-image-compression";
-import customAixos from "customAixos";
+import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     useEffect(() => {
         const asyncFunction = async () => {
             try {
-                const { data: categories } = await customAixos.get(
+                const { data: categories } = await customAxios.get(
                     "/categories"
                 );
                 setCategories(categories);
@@ -143,11 +143,15 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
             onStartUpload();
             const {
                 data: { postId },
-            } = await customAixos.post<{ postId: number }>("/posts", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            } = await authorizedCustomAxios.post<{ postId: number }>(
+                "/posts",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
             onCompleteUpload();
             navigate(`/detail/${postId}`, { replace: true });
         } catch (error) {

@@ -1,6 +1,5 @@
 import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
-import customAxios from "customAixos";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "fb";
 import { Spinner } from "@chakra-ui/react";
@@ -14,11 +13,6 @@ const App = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                user.getIdToken().then((token) => {
-                    customAxios.defaults.headers.common[
-                        "Authorization"
-                    ] = `Bearer ${token}`;
-                });
                 setIsLoggedIn(true);
                 user.displayName &&
                     user.email &&

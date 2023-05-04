@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Content from "../components/Content";
-import customAixos from "../customAixos";
 import { Link } from "react-router-dom";
 import { Flex, Spinner } from "@chakra-ui/react";
+import { customAxios } from "customAxios";
 
 interface HomeProps {
     isLoggedIn: boolean;
@@ -21,10 +21,10 @@ const Home = ({ isLoggedIn }: HomeProps) => {
     useEffect(() => {
         const asyncFunction = async () => {
             try {
-                const { data: posts } = await customAixos.get<
+                const { data: posts } = await customAxios.get<
                     global.PostWithChoiceCount[]
                 >("/posts");
-                const { data: categories } = await customAixos.get<
+                const { data: categories } = await customAxios.get<
                     global.Category[]
                 >("/categories");
                 setChoiceItems(posts);

@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import Content from "components/Content";
-import customAixos from "customAixos";
+import { authorizedCustomAxios } from "customAxios";
 import { useEffect, useState } from "react";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
@@ -12,7 +12,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     useEffect(() => {
         const getUserPost = async () => {
             try {
-                const { data } = await customAixos.get<
+                const { data } = await authorizedCustomAxios.get<
                     global.PostWithChoiceCount[]
                 >(`/posts/profile`);
                 setWrited(data.length);
