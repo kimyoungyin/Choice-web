@@ -1,4 +1,4 @@
-import imageCompression from "browser-image-compression";
+import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
@@ -77,7 +77,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         if (!files) return;
         const file = Array.from(files)[0];
         try {
-            const options = {
+            const options: Options = {
                 maxSizeMB: SIZE_LIMIT_MB,
             };
             const compressedFile = await imageCompression(file, options);
