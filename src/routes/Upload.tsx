@@ -3,6 +3,7 @@ import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import validateInputLength from "utils/validateInputLength";
 
 interface UploadProps {
     userObj: global.User;
@@ -16,6 +17,9 @@ interface ChoiceImage {
 }
 
 const SIZE_LIMIT_MB = 1;
+const CATEGORY_MAXLENGTH = 10;
+const TITLE_MAXLENGTH = 20;
+const CHOICE_MAXLENGTH = 10;
 
 const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     const navigate = useNavigate();
@@ -33,7 +37,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     const [choice2Image, setChoice2Image] = useState<ChoiceImage | null>(null);
     const categorySelectRef = useRef<HTMLSelectElement>(null);
     const categoryInputRef = useRef<HTMLInputElement>(null);
-    const titleRef = useRef<HTMLInputElement>(null);
+    const titleInputRef = useRef<HTMLInputElement>(null);
     const choice1InputRef = useRef<HTMLInputElement>(null);
     const choice2InputRef = useRef<HTMLInputElement>(null);
     const choice1ImageInputRef = useRef<HTMLInputElement>(null);
@@ -54,8 +58,11 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         asyncFunction();
     }, [navigate]);
 
-    const handleCategoryRadioChange = () =>
-        setCategoryType((prev) => (prev === "current" ? "new" : "current"));
+    const handleCategoryRadioChange = (
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        setCategoryType(event.target.value === "current" ? "current" : "new");
+    };
 
     const clearImageInput = (number: 1 | 2) => {
         if (number === 1 && choice1ImageInputRef.current) {
@@ -92,6 +99,46 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         }
     };
 
+    const validateInput = (
+        categoryName: string,
+        title: string,
+        choice1: string,
+        choice2: string
+    ) => {
+        return (
+            validateInputLength(
+                categoryName,
+                CATEGORY_MAXLENGTH,
+                "카테고리를 입력해주세요",
+                `카테고리 항목은 최대 ${CATEGORY_MAXLENGTH}자까지 입력할 수 있습니다.`,
+                categoryType === "current"
+                    ? categorySelectRef
+                    : categoryInputRef
+            ) &&
+            validateInputLength(
+                title,
+                TITLE_MAXLENGTH,
+                "제목을 입력해주세요",
+                `제목 항목은 최대 ${TITLE_MAXLENGTH}자까지 입력할 수 있습니다.`,
+                titleInputRef
+            ) &&
+            validateInputLength(
+                choice1,
+                CHOICE_MAXLENGTH,
+                "선택 1을 입력해주세요",
+                `선택 1 항목은 최대 ${CHOICE_MAXLENGTH}자까지 입력할 수 있습니다.`,
+                choice1InputRef
+            ) &&
+            validateInputLength(
+                choice2,
+                CHOICE_MAXLENGTH,
+                "선택 2를 입력해주세요",
+                `선택 2 항목은 최대 ${CHOICE_MAXLENGTH}자까지 입력할 수 있습니다.`,
+                choice2InputRef
+            )
+        );
+    };
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const categoryName =
@@ -101,34 +148,13 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         const title = titleInputProps.value.trim();
         const choice1 = choice1InputProps.value.trim();
         const choice2 = choice2InputProps.value.trim();
-        if (categoryName === "") {
-            alert("카테고리를 입력해주세요");
-            categoryType === "current"
-                ? categorySelectRef.current?.focus()
-                : categoryInputRef.current?.focus();
-            return;
-        }
+        if (!validateInput(categoryName, title, choice1, choice2)) return;
         if (
             categoryType === "new" &&
             categories.find((category) => category.name === categoryName)
         ) {
             alert("해당 카테고리는 이미 있습니다");
             categoryInputRef.current?.focus();
-            return;
-        }
-        if (title === "") {
-            alert("제목을 입력해주세요");
-            titleRef.current?.focus();
-            return;
-        }
-        if (choice1 === "") {
-            alert("첫 번째 선택지를 입력해주세요");
-            choice1InputRef.current?.focus();
-            return;
-        }
-        if (choice2 === "") {
-            alert("두 번째 선택지를 입력해주세요");
-            choice2InputRef.current?.focus();
             return;
         }
         const formData = new FormData();
@@ -227,24 +253,25 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             {...categoryInputProps}
                             name="newCategory"
                             required
-                            maxLength={10}
+                            maxLength={CATEGORY_MAXLENGTH}
                             autoComplete="off"
-                            placeholder="새 카테고리를 입력해주세요(최대 10자)"
+                            placeholder="음식 (최대 10자)"
                         />
                     )}
                 </div>
                 <div className="AddForm-Box">
                     <h3>2. 제목(필수)</h3>
                     <input
-                        ref={titleRef}
+                        ref={titleInputRef}
                         className="AddForm-question"
                         id="AddForm-question"
                         type="text"
                         {...titleInputProps}
                         name="question"
                         required
+                        maxLength={TITLE_MAXLENGTH}
                         autoComplete="off"
-                        placeholder="제목을 입력해주세요"
+                        placeholder="오늘 점심 뭐 먹지? (최대 20자)"
                     />
                 </div>
                 <div className="AddForm-Box">
@@ -286,8 +313,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         {...choice1InputProps}
                         name="choice1"
                         required
+                        maxLength={CHOICE_MAXLENGTH}
                         autoComplete="off"
-                        placeholder="고민되는 선택지 중 하나를 입력해주세요"
+                        placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
                     />
                 </div>
                 <div className="AddForm-Box">
@@ -329,8 +357,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         {...choice2InputProps}
                         name="choice2"
                         required
+                        maxLength={CHOICE_MAXLENGTH}
                         autoComplete="off"
-                        placeholder="고민되는 선택지 중 다른 하나를 입력해주세요"
+                        placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
                     />
                 </div>
 
