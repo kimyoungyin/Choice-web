@@ -28,10 +28,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     const [choice1Users, setChoice1Users] = useState(0);
     const [choice2Users, setChoice2Users] = useState(0);
     const [selectedChoice, setSelectedChoice] =
-        useState<global.ChoiceType | null>(null);
+        useState<global.ChoiceType>(null);
     // 불필요한 백엔드 작업 방지 위한 state
     const [selectedChoiceInDB, setSelectedChoiceInDB] =
-        useState<global.ChoiceType | null>(null);
+        useState<global.ChoiceType>(null);
     // const [alertType, setAlertType] = useState<
     //     "start" | "delete" | "select" | "change" | null
     // >(null);
@@ -62,7 +62,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 //   로그인 되어있으면
                 if (isLoggedIn && userObj) {
                     const { data: prevChoice } =
-                        await authorizedCustomAxios.get<global.Choice | null>(
+                        await authorizedCustomAxios.get<global.Choice>(
                             `/posts/${idRef}/choice`
                         );
                     if (prevChoice) {

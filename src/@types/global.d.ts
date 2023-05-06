@@ -11,7 +11,7 @@ declare module global {
         name: string;
     }
 
-    type ChoiceType = boolean;
+    type ChoiceType = boolean | null;
 
     interface Choice {
         choiceType: ChoiceType;
