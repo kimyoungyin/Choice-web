@@ -32,9 +32,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     // 불필요한 백엔드 작업 방지 위한 state
     const [selectedChoiceInDB, setSelectedChoiceInDB] =
         useState<global.ChoiceType>(null);
-    // const [alertType, setAlertType] = useState<
-    //     "start" | "delete" | "select" | "change" | null
-    // >(null);
     const toast = useToast();
     const toastIdRef = useRef<ToastId>(0);
     const [clickedImg, setClickedImg] = useState("");
