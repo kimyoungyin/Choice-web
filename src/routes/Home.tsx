@@ -3,6 +3,7 @@ import Content from "../components/Content";
 import { Link } from "react-router-dom";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
+import CategorySelect from "components/CategorySelect";
 
 interface HomeProps {
     isLoggedIn: boolean;
@@ -44,14 +45,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
         };
     }, []);
 
-    const getFilter = (categoryId: number) => {
-        if (filterCategoryId !== categoryId) {
-            setFilterCategoryId(categoryId);
-        } else if (filterCategoryId === categoryId) {
-            setFilterCategoryId(null);
-        }
-    };
-
     return (
         <div className="Home" id={!isLoggedIn ? "withoutNav" : ""}>
             {/* <h2 className="Home-tip">
@@ -72,21 +65,11 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                                     />
                                 </>
                             )} */}
-                    <div className="Home-categoryList">
-                        {filters.map((filter) => (
-                            <button
-                                className={`Home-categoryBtn ${
-                                    filter.id === filterCategoryId
-                                        ? "active"
-                                        : ""
-                                }`}
-                                key={filter.id}
-                                onClick={() => getFilter(filter.id)}
-                            >
-                                {filter.name}
-                            </button>
-                        ))}
-                    </div>
+                    <CategorySelect
+                        categories={filters}
+                        selectedId={filterCategoryId}
+                        onChange={setFilterCategoryId}
+                    />
                 </nav>
                 <Flex
                     as="section"
