@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Content from "../components/Content";
 import { Link } from "react-router-dom";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
 import CategorySelect from "components/CategorySelect";
 
@@ -51,7 +51,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                 선택에 참여하여 고민하는 사람들을 도와주세요!
             </h2> */}
             <div className="Home-responsiveBox">
-                <nav className="Home-category">
+                <Box className="Home-category" bg={"gray.200"}>
                     {/* {false && (
                                 <>
                                     <label htmlFor="filter">
@@ -70,7 +70,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         selectedId={filterCategoryId}
                         onChange={setFilterCategoryId}
                     />
-                </nav>
+                </Box>
                 <Flex
                     as="section"
                     bg={"gray.200"}
