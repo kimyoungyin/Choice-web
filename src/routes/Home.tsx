@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Content from "../components/Content";
 import { Link } from "react-router-dom";
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, useMediaQuery } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
 import CategorySelect from "components/CategorySelect";
 
@@ -10,6 +10,7 @@ interface HomeProps {
 }
 
 const Home = ({ isLoggedIn }: HomeProps) => {
+    const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
     const [isLoading, setIsLoading] = useState(true);
     const [choiceItems, setChoiceItems] = useState<
         global.PostWithChoiceCount[]
@@ -46,12 +47,38 @@ const Home = ({ isLoggedIn }: HomeProps) => {
     }, []);
 
     return (
-        <div className="Home" id={!isLoggedIn ? "withoutNav" : ""}>
+        <Flex
+            // className="Home"
+            pt={65}
+            pb={8}
+            bg={"gray.200"}
+            w={"full"}
+            h={"full"}
+            align={"center"}
+            flexDir={"column"}
+        >
             {/* <h2 className="Home-tip">
                 선택에 참여하여 고민하는 사람들을 도와주세요!
             </h2> */}
-            <div className="Home-responsiveBox">
-                <Box className="Home-category" bg={"gray.200"}>
+            <Flex
+                flexDir={isLargerThan768 ? "row" : "column"}
+                align={"center"}
+                overflow={"auto"}
+                w={"full"}
+                h={"full"}
+            >
+                <Flex
+                    as={"nav"}
+                    w={isLargerThan768 ? "20%" : "full"}
+                    h={isLargerThan768 ? "100%" : 50}
+                    p={4}
+                    minW={200}
+                    flexDir={isLargerThan768 ? "column" : "row"}
+                    align={"center"}
+                    gap={6}
+                    whiteSpace={"nowrap"}
+                    overflow={"auto"}
+                >
                     {/* {false && (
                                 <>
                                     <label htmlFor="filter">
@@ -70,14 +97,14 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         selectedId={filterCategoryId}
                         onChange={setFilterCategoryId}
                     />
-                </Box>
+                </Flex>
                 <Flex
                     as="section"
                     bg={"gray.200"}
                     w={"100%"}
                     h={"100%"}
                     overflow={"auto"}
-                    p={8}
+                    px={4}
                     wrap={"wrap"}
                     alignContent={"flex-start"}
                 >
@@ -103,13 +130,13 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         </div>
                     )}
                 </Flex>
-            </div>
+            </Flex>
             {isLoggedIn && (
                 <button className="Home-button">
                     <Link to="/upload">+</Link>
                 </button>
             )}
-        </div>
+        </Flex>
     );
 };
 
