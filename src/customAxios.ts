@@ -1,11 +1,13 @@
 import axios from "axios";
 import { auth } from "fb";
 
+const baseURL = process.env.REACT_APP_TEST_URL;
+
 export const customAxios = axios.create({
-    baseURL: `http://localhost:4000`,
+    baseURL,
 });
 export const authorizedCustomAxios = axios.create({
-    baseURL: `http://localhost:4000`,
+    baseURL,
 });
 
 authorizedCustomAxios.interceptors.request.use(async (config) => {
