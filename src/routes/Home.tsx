@@ -72,6 +72,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                     w={isLargerThan768 ? "20%" : "full"}
                     h={isLargerThan768 ? "100%" : 50}
                     p={4}
+                    mt={isLargerThan768 ? 0 : 2}
                     minW={200}
                     flexDir={isLargerThan768 ? "column" : "row"}
                     align={"center"}
@@ -104,7 +105,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                     w={"100%"}
                     h={"100%"}
                     overflow={"auto"}
-                    px={4}
                     wrap={"wrap"}
                     alignContent={"flex-start"}
                 >
