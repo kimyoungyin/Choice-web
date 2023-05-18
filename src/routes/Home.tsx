@@ -51,7 +51,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
             // className="Home"
             pt={65}
             pb={8}
-            bg={"gray.200"}
             w={"full"}
             h={"full"}
             align={"center"}
@@ -101,7 +100,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                 </Flex>
                 <Flex
                     as="section"
-                    bg={"gray.200"}
                     w={"100%"}
                     h={"100%"}
                     overflow={"auto"}

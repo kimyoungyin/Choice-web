@@ -2,7 +2,7 @@ import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "fb";
-import { Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import "style.css";
 
 const App = () => {
@@ -31,7 +31,14 @@ const App = () => {
         return unsubscribe;
     }, []);
     return (
-        <div className="App">
+        <Flex
+            align={"center"}
+            justify={"center"}
+            bgColor={"gray.200"}
+            h={"full"}
+            w={"full"}
+            className="App"
+        >
             {init ? (
                 <AppRouter
                     isLoggedIn={isLoggedIn}
@@ -41,7 +48,7 @@ const App = () => {
             ) : (
                 <Spinner size={"xl"} />
             )}
-        </div>
+        </Flex>
     );
 };
 
