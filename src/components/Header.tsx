@@ -42,6 +42,7 @@ const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
 
     return (
         <Flex
+            as={"header"}
             align={"center"}
             gap={4}
             position={"fixed"}
