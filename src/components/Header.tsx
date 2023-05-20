@@ -46,6 +46,7 @@ const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
             align={"center"}
             gap={4}
             position={"fixed"}
+            zIndex={50}
             top="0"
             px={4}
             py={8}
