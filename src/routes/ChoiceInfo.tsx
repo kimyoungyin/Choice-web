@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
-import { Spinner, ToastId, useToast } from "@chakra-ui/react";
+import { Flex, Spinner, ToastId, useToast } from "@chakra-ui/react";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 
 export interface MatchParams {
@@ -175,10 +175,28 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     return (
         <>
             {init && item ? (
-                <article className="ChoiceInfo">
+                <Flex
+                    as={"article"}
+                    flexDir={"column"}
+                    w={"full"}
+                    h={"full"}
+                    align={"center"}
+                    mt={"65px"}
+                    mb={"40px"}
+                    position={"relative"}
+                    overflowY={"auto"}
+                >
                     {/* <h2 className="ChoiceInfo-tip">
                         이미지를 자세히 보고 싶으면 클릭해보세요!
                     </h2> */}
+                    {/* {userObj && userObj.uid === item.uploaderId && (
+                        <button
+                            onClick={() => setActivatedModal("delete")}
+                            className="ChoiceInfo-deleteBtn"
+                        >
+                            DELETE
+                        </button>
+                    )} */}
                     <div className="ChoiceInfo-totalUsers">
                         <span>{choice1Users + choice2Users}</span>명이 참여함
                     </div>
@@ -302,22 +320,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     >
                         {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
                     </button>
-                    <div className="ChoiceInfo-fixedBtns">
-                        <button
-                            className="ChoiceInfo-homeBtn"
-                            onClick={goToHome}
-                        >
-                            HOME
-                        </button>
-                        {userObj && userObj.uid === item.uploaderId && (
-                            <button
-                                onClick={() => setActivatedModal("delete")}
-                                className="ChoiceInfo-deleteBtn"
-                            >
-                                DELETE
-                            </button>
-                        )}
-                    </div>
                     {activatedModal === "delete" && (
                         <Modal
                             type="delete"
@@ -333,7 +335,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             onCloseModal={() => setActivatedModal(null)}
                         />
                     )}
-                </article>
+                </Flex>
             ) : (
                 <Spinner size={"xl"} />
             )}
