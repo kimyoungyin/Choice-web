@@ -49,9 +49,8 @@ const Header = ({ isLoggedIn, setLoggedInState }: HeaderProps) => {
             zIndex={50}
             top="0"
             px={4}
-            py={8}
             w={"100%"}
-            h={50}
+            h={65}
             borderBottom={"1px"}
             borderColor={"gray.200"}
             bg={colorMode === "dark" ? "gray.700" : "white"}
