@@ -1,8 +1,19 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
-import { Flex, Spinner, ToastId, useToast } from "@chakra-ui/react";
+import {
+    Button,
+    Card,
+    Divider,
+    Flex,
+    Heading,
+    Icon,
+    Spinner,
+    ToastId,
+    useToast,
+} from "@chakra-ui/react";
 import { authorizedCustomAxios, customAxios } from "customAxios";
+import { BsFillPersonFill } from "react-icons/bs";
 
 export interface MatchParams {
     id: string;
@@ -189,18 +200,49 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     {/* <h2 className="ChoiceInfo-tip">
                         이미지를 자세히 보고 싶으면 클릭해보세요!
                     </h2> */}
-                    {/* {userObj && userObj.uid === item.uploaderId && (
-                        <button
-                            onClick={() => setActivatedModal("delete")}
-                            className="ChoiceInfo-deleteBtn"
+                    <Flex
+                        mt={8}
+                        px={4}
+                        mb={4}
+                        w={"full"}
+                        h={"30px"}
+                        justify={"flex-end"}
+                        align={"center"}
+                        fontSize={"sm"}
+                    >
+                        <Card
+                            display={"flex"}
+                            flexDir={"row"}
+                            align={"center"}
+                            h={"full"}
+                            px={3}
                         >
-                            DELETE
-                        </button>
-                    )} */}
-                    <div className="ChoiceInfo-totalUsers">
-                        <span>{choice1Users + choice2Users}</span>명이 참여함
-                    </div>
-                    <h3 className="ChoiceInfo-question">Q. {item.title}</h3>
+                            {userObj && userObj.uid === item.uploaderId && (
+                                <>
+                                    <Button
+                                        variant={"link"}
+                                        colorScheme={"red"}
+                                        size={"sm"}
+                                        onClick={() =>
+                                            setActivatedModal("delete")
+                                        }
+                                    >
+                                        DELETE
+                                    </Button>
+                                    <Divider
+                                        orientation="vertical"
+                                        mx={3}
+                                        borderColor={"gray.200"}
+                                    />
+                                </>
+                            )}
+                            <Icon as={BsFillPersonFill} mr={1} />
+                            {choice1Users + choice2Users}
+                        </Card>
+                    </Flex>
+                    <Heading as="h3" size={"md"}>
+                        Q. {item.title}
+                    </Heading>
                     <div className="ChoiceInfo-choices">
                         <div className="ChoiceInfo-choice1">
                             {item.choice1Url && (
