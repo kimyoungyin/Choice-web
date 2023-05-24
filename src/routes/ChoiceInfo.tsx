@@ -2,13 +2,16 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
 import {
+    AspectRatio,
     Button,
     Card,
     Divider,
     Flex,
     Heading,
     Icon,
+    Image,
     Spinner,
+    Text,
     ToastId,
     useToast,
 } from "@chakra-ui/react";
@@ -192,8 +195,8 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     w={"full"}
                     h={"full"}
                     align={"center"}
-                    mt={"65px"}
-                    mb={"40px"}
+                    pt={"65px"}
+                    pb={"40px"}
                     position={"relative"}
                     overflowY={"auto"}
                 >
@@ -206,6 +209,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         mb={4}
                         w={"full"}
                         h={"30px"}
+                        minH={"30px"}
                         justify={"flex-end"}
                         align={"center"}
                         fontSize={"sm"}
@@ -240,79 +244,96 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             {choice1Users + choice2Users}
                         </Card>
                     </Flex>
-                    <Heading as="h3" size={"md"}>
+                    <Heading
+                        as="h3"
+                        size={"lg"}
+                        w={"80%"}
+                        textAlign={"center"}
+                        wordBreak={"break-word"}
+                        mb={8}
+                    >
                         Q. {item.title}
                     </Heading>
-                    <div className="ChoiceInfo-choices">
-                        <div className="ChoiceInfo-choice1">
+                    <Flex align={"center"} w={"80%"}>
+                        <Card
+                            border={"2px"}
+                            borderColor={"green.400"}
+                            w={"40%"}
+                        >
+                            <Heading
+                                p={4}
+                                as={"h4"}
+                                size={"md"}
+                                textAlign={"center"}
+                                fontWeight={"md"}
+                            >
+                                {item.choice1}
+                            </Heading>
                             {item.choice1Url && (
-                                <img
-                                    onClick={toggleImgModal}
-                                    className="ChoiceInfo-img"
-                                    src={item.choice1Url}
-                                    alt="choice1"
-                                />
+                                <AspectRatio ratio={1} cursor={"pointer"}>
+                                    <Image
+                                        src={item.choice1Url}
+                                        onClick={toggleImgModal}
+                                    />
+                                </AspectRatio>
                             )}
-                            <div className="ChoiceInfo-text">
-                                <div>{item.choice1}</div>
-                            </div>
                             {isLoggedIn && (
-                                <button
-                                    className="ChoiceInfo-choiceBtn"
-                                    id={
-                                        selectedChoice === false
-                                            ? "selected"
-                                            : ""
-                                    }
+                                <Button
+                                    borderTopRadius={0}
+                                    isDisabled={isSelectFetching}
                                     onClick={() => choiceHandler(false)}
-                                    disabled={isSelectFetching}
-                                    style={
-                                        isSelectFetching
-                                            ? { opacity: 0.5 }
-                                            : undefined
-                                    }
+                                    isActive={selectedChoice === false}
                                 >
                                     {isSelectFetching
                                         ? "로딩중.."
                                         : selectedChoice === false
                                         ? "선택됨"
                                         : "선택하기"}
-                                </button>
+                                </Button>
                             )}
-                        </div>
-                        <div className="ChoiceInfo-choice2">
+                        </Card>
+                        <Text flex={1} textAlign={"center"} fontSize={"3xl"}>
+                            VS
+                        </Text>
+                        <Card
+                            border={"2px"}
+                            borderColor={"orange.400"}
+                            w={"40%"}
+                        >
+                            <Heading
+                                p={4}
+                                as={"h4"}
+                                size={"md"}
+                                textAlign={"center"}
+                                fontWeight={"md"}
+                            >
+                                {item.choice2}
+                            </Heading>
                             {item.choice2Url && (
-                                <img
-                                    onClick={toggleImgModal}
-                                    className="ChoiceInfo-img"
-                                    src={item.choice2Url}
-                                    alt="choice2"
-                                />
+                                <AspectRatio ratio={1} cursor={"pointer"}>
+                                    <Image
+                                        src={item.choice2Url}
+                                        onClick={toggleImgModal}
+                                    />
+                                </AspectRatio>
                             )}
-                            <div className="ChoiceInfo-text">
-                                <div>{item.choice2}</div>
-                            </div>
                             {isLoggedIn && (
-                                <button
-                                    className="ChoiceInfo-choiceBtn"
-                                    id={selectedChoice ? "selected" : ""}
+                                <Button
+                                    borderTopRadius={0}
+                                    isDisabled={isSelectFetching}
                                     onClick={() => choiceHandler(true)}
-                                    disabled={isSelectFetching}
-                                    style={
-                                        isSelectFetching
-                                            ? { opacity: 0.5 }
-                                            : undefined
-                                    }
+                                    isActive={selectedChoice === true}
                                 >
                                     {isSelectFetching
                                         ? "로딩중.."
                                         : selectedChoice
                                         ? "선택됨"
                                         : "선택하기"}
-                                </button>
+                                </Button>
                             )}
-                        </div>
-                    </div>
+                        </Card>
+                    </Flex>
+
                     <div className="ChoiceInfo-result">
                         <div
                             className="ChoiceInfo-choice1Per"
