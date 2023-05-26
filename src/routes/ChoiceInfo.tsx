@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import Modal from "../components/Modal";
 import {
     AspectRatio,
+    Box,
     Button,
     Card,
     Divider,
@@ -265,7 +266,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                                 as={"h4"}
                                 size={"md"}
                                 textAlign={"center"}
-                                fontWeight={"md"}
+                                fontWeight={"semibold"}
                             >
                                 {item.choice1}
                             </Heading>
@@ -305,7 +306,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                                 as={"h4"}
                                 size={"md"}
                                 textAlign={"center"}
-                                fontWeight={"md"}
+                                fontWeight={"semibold"}
                             >
                                 {item.choice2}
                             </Heading>
@@ -333,43 +334,58 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             )}
                         </Card>
                     </Flex>
-
-                    <div className="ChoiceInfo-result">
-                        <div
-                            className="ChoiceInfo-choice1Per"
-                            style={{
-                                flex: getRatio(
+                    <Flex w={"80%"} h={"20px"} mt={8} position={"relative"}>
+                        {[false, true].map((choiceType) => (
+                            <Box
+                                key={String(choiceType)}
+                                flex={getRatio(
                                     choice1Users,
                                     choice2Users,
-                                    false
-                                ),
-                            }}
-                        >
-                            {(choice1Users > 0 || choice2Users > 0) &&
-                                `${getRatio(
-                                    choice1Users,
-                                    choice2Users,
-                                    false
-                                )}%`}
-                        </div>
-                        <div
-                            className="ChoiceInfo-choice2Per"
-                            style={{
-                                flex: getRatio(
-                                    choice1Users,
-                                    choice2Users,
-                                    true
-                                ),
-                            }}
-                        >
-                            {(choice1Users > 0 || choice2Users > 0) &&
-                                `${getRatio(
-                                    choice1Users,
-                                    choice2Users,
-                                    true
-                                )}%`}
-                        </div>
-                    </div>
+                                    choiceType
+                                )}
+                                bgColor={
+                                    !choiceType ? "green.400" : "orange.400"
+                                }
+                                borderLeftRadius={
+                                    !choiceType
+                                        ? 4
+                                        : getRatio(
+                                              choice1Users,
+                                              choice2Users,
+                                              choiceType
+                                          ) === 100
+                                        ? 4
+                                        : 0
+                                }
+                                borderRightRadius={
+                                    !choiceType
+                                        ? getRatio(
+                                              choice1Users,
+                                              choice2Users,
+                                              false
+                                          ) === 100
+                                            ? 4
+                                            : 0
+                                        : 4
+                                }
+                                transition={"flex 1s"}
+                            >
+                                <Text
+                                    position={"absolute"}
+                                    bottom={"-120%"}
+                                    left={!choiceType ? 0 : undefined}
+                                    right={!choiceType ? undefined : 0}
+                                >
+                                    {(choice1Users > 0 || choice2Users > 0) &&
+                                        `${getRatio(
+                                            choice1Users,
+                                            choice2Users,
+                                            choiceType
+                                        )}%`}
+                                </Text>
+                            </Box>
+                        ))}
+                    </Flex>
                     <button
                         onClick={completeSelect}
                         className="ChoiceInfo-completeBtn"

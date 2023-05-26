@@ -401,40 +401,6 @@ body,
     text-align: center;
 }
 
-.ChoiceInfo-result {
-    width: 100%;
-    height: 20px;
-    padding: 0 1em;
-    margin-top: 3em;
-    /* position: absolute;
-  bottom: -55px; */
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.ChoiceInfo-result > div {
-    text-align: center;
-    font-size: 0.5em;
-    color: var(--pastel-lightPurple);
-}
-
-.ChoiceInfo-choice1Per {
-    border-radius: 0.5em 0 0 0.5em;
-    height: 50%;
-    background-color: #b5eaea;
-    flex: 1;
-    transition: flex 1s;
-}
-
-.ChoiceInfo-choice2Per {
-    border-radius: 0 0.5em 0.5em 0;
-    height: 50%;
-    background-color: #edf6e5;
-    flex: 1;
-    transition: flex 1s;
-}
-
 .ChoiceInfo-completeBtn {
     all: unset;
     color: white;
