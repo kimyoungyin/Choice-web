@@ -389,19 +389,17 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             </Box>
                         ))}
                     </Flex>
-                    <button
+                    <Button
+                        mt={16}
+                        size={"lg"}
+                        boxShadow={"md"}
+                        bg={"white"}
                         onClick={completeSelect}
-                        className="ChoiceInfo-completeBtn"
-                        style={{
-                            visibility: !isSelectFetching
-                                ? "visible"
-                                : "hidden",
-                        }}
-                        id={checkChangeSelected() ? "selectedComplete" : ""}
-                        disabled={!checkChangeSelected() || isSelectFetching}
+                        visibility={!isSelectFetching ? "visible" : "hidden"}
+                        isDisabled={!checkChangeSelected() || isSelectFetching}
                     >
                         {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
-                    </button>
+                    </Button>
                     {activatedModal === "delete" && (
                         <Modal
                             type="delete"
