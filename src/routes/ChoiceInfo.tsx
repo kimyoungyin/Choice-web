@@ -256,10 +256,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         Q. {item.title}
                     </Heading>
                     <Flex align={"center"} w={"80%"}>
+                        {/* 서버에서 보내주는 item을 객체 형태로 보내주고 map 처리하자 */}
                         <Card
                             border={"2px"}
                             borderColor={"green.400"}
-                            w={"40%"}
+                            w={choice1Users > choice2Users ? "45%" : "40%"}
+                            transition={"width 0.5s"}
                         >
                             <Heading
                                 p={4}
@@ -299,7 +301,8 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         <Card
                             border={"2px"}
                             borderColor={"orange.400"}
-                            w={"40%"}
+                            w={choice2Users > choice1Users ? "45%" : "40%"}
+                            transition={"width 0.5s"}
                         >
                             <Heading
                                 p={4}
