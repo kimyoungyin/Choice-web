@@ -260,9 +260,14 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         <Card
                             border={"2px"}
                             borderColor={"green.400"}
-                            w={choice1Users > choice2Users ? "45%" : "40%"}
+                            w={"40%"}
                             maxW={"30vh"}
-                            transition={"width 0.5s"}
+                            transform={
+                                choice1Users > choice2Users
+                                    ? "scale(1.1)"
+                                    : undefined
+                            }
+                            transition={"all 0.5s"}
                         >
                             <Heading
                                 p={4}
@@ -302,9 +307,14 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         <Card
                             border={"2px"}
                             borderColor={"orange.400"}
-                            w={choice2Users > choice1Users ? "45%" : "40%"}
+                            w={"40%"}
                             maxW={"30vh"}
-                            transition={"width 0.5s"}
+                            transform={
+                                choice1Users < choice2Users
+                                    ? "scale(1.1)"
+                                    : undefined
+                            }
+                            transition={"all 0.5s"}
                         >
                             <Heading
                                 p={4}
