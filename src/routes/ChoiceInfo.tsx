@@ -255,12 +255,13 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     >
                         Q. {item.title}
                     </Heading>
-                    <Flex align={"center"} w={"80%"}>
+                    <Flex align={"center"} w={"80%"} maxW={1024}>
                         {/* 서버에서 보내주는 item을 객체 형태로 보내주고 map 처리하자 */}
                         <Card
                             border={"2px"}
                             borderColor={"green.400"}
                             w={choice1Users > choice2Users ? "45%" : "40%"}
+                            maxW={"30vh"}
                             transition={"width 0.5s"}
                         >
                             <Heading
@@ -302,6 +303,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             border={"2px"}
                             borderColor={"orange.400"}
                             w={choice2Users > choice1Users ? "45%" : "40%"}
+                            maxW={"30vh"}
                             transition={"width 0.5s"}
                         >
                             <Heading
@@ -337,7 +339,13 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             )}
                         </Card>
                     </Flex>
-                    <Flex w={"80%"} h={"20px"} mt={8} position={"relative"}>
+                    <Flex
+                        w={"80%"}
+                        h={"20px"}
+                        minH={"20px"}
+                        mt={8}
+                        position={"relative"}
+                    >
                         {[false, true].map((choiceType) => (
                             <Box
                                 key={String(choiceType)}
