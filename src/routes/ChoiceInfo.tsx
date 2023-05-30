@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import Modal from "../components/Modal";
+// import Modal from "../components/Modal";
 import {
     AspectRatio,
     Box,
@@ -18,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import { BsFillPersonFill } from "react-icons/bs";
+import FullImageModal from "components/FullImageModal";
+import DeleteWarningModal from "components/DeleteWarningModal";
 
 export interface MatchParams {
     id: string;
@@ -418,21 +420,18 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     >
                         {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
                     </Button>
-                    {activatedModal === "delete" && (
-                        <Modal
-                            type="delete"
-                            text="정말 이 질문을 삭제할까요?"
-                            onDelete={deletePost}
-                            onCloseModal={() => setActivatedModal(null)}
-                        />
-                    )}
-                    {activatedModal === "image" && (
-                        <Modal
-                            type="img"
-                            img={clickedImg}
-                            onCloseModal={() => setActivatedModal(null)}
-                        />
-                    )}
+                    <FullImageModal
+                        isOpen={activatedModal === "image"}
+                        onClose={() => setActivatedModal(null)}
+                        src={clickedImg}
+                    />
+
+                    <DeleteWarningModal
+                        isOpen={activatedModal === "delete"}
+                        onClose={() => setActivatedModal(null)}
+                        onDelete={deletePost}
+                        title={item.title}
+                    />
                 </Flex>
             ) : (
                 <Spinner size={"xl"} />
