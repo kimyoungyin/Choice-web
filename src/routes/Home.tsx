@@ -115,7 +115,7 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         >
                             <Spinner size={"lg"} />
                         </Flex>
-                    ) : choiceItems.length === 0 ? (
+                    ) : choiceItems.length !== 0 ? (
                         choiceItems.map((item) => {
                             if (!filterCategoryId) {
                                 return <Content key={item.id} item={item} />;
