@@ -20,6 +20,7 @@ import { authorizedCustomAxios, customAxios } from "customAxios";
 import { BsFillPersonFill } from "react-icons/bs";
 import FullImageModal from "components/FullImageModal";
 import DeleteWarningModal from "components/DeleteWarningModal";
+import { FcGoogle } from "react-icons/fc";
 
 export interface MatchParams {
     id: string;
@@ -223,25 +224,27 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             h={"full"}
                             px={3}
                         >
-                            {userObj && userObj.uid === item.uploaderId && (
-                                <>
-                                    <Button
-                                        variant={"link"}
-                                        colorScheme={"red"}
-                                        size={"sm"}
-                                        onClick={() =>
-                                            setActivatedModal("delete")
-                                        }
-                                    >
-                                        DELETE
-                                    </Button>
-                                    <Divider
-                                        orientation="vertical"
-                                        mx={3}
-                                        borderColor={"gray.200"}
-                                    />
-                                </>
-                            )}
+                            {isLoggedIn &&
+                                userObj &&
+                                userObj.uid === item.uploaderId && (
+                                    <>
+                                        <Button
+                                            variant={"link"}
+                                            colorScheme={"red"}
+                                            size={"sm"}
+                                            onClick={() =>
+                                                setActivatedModal("delete")
+                                            }
+                                        >
+                                            DELETE
+                                        </Button>
+                                        <Divider
+                                            orientation="vertical"
+                                            mx={3}
+                                            borderColor={"gray.200"}
+                                        />
+                                    </>
+                                )}
                             <Icon as={BsFillPersonFill} mr={1} />
                             {choice1Users + choice2Users}
                         </Card>
@@ -408,17 +411,39 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             </Box>
                         ))}
                     </Flex>
-                    <Button
-                        mt={16}
-                        size={"lg"}
-                        boxShadow={"md"}
-                        bg={"white"}
-                        onClick={completeSelect}
-                        visibility={!isSelectFetching ? "visible" : "hidden"}
-                        isDisabled={!checkChangeSelected() || isSelectFetching}
-                    >
-                        {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
-                    </Button>
+                    {isLoggedIn ? (
+                        <Button
+                            mt={16}
+                            size={"lg"}
+                            boxShadow={"md"}
+                            bg={"white"}
+                            onClick={completeSelect}
+                            visibility={
+                                !isSelectFetching ? "visible" : "hidden"
+                            }
+                            isDisabled={
+                                !checkChangeSelected() || isSelectFetching
+                            }
+                        >
+                            {checkChangeSelected() ? "COMPLETE" : "DISABLED"}
+                        </Button>
+                    ) : (
+                        <Button
+                            mt={16}
+                            w={"80%"}
+                            maxW={1024}
+                            size={"lg"}
+                            boxShadow={"md"}
+                            leftIcon={<FcGoogle />}
+                            bg={"white"}
+                            whiteSpace={"normal"}
+                            wordBreak={"break-word"}
+                            onClick={() => {}}
+                            // 구글 로그인 연결
+                        >
+                            로그인하고 선택에 참여해보세요!
+                        </Button>
+                    )}
                     <FullImageModal
                         isOpen={activatedModal === "image"}
                         onClose={() => setActivatedModal(null)}
