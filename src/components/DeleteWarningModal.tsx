@@ -6,7 +6,6 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
-    Spinner,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -46,7 +45,6 @@ const DeleteWarningModal = ({
                 <ModalFooter>
                     <Button
                         variant="ghost"
-                        w={"60px"}
                         mr={3}
                         onClick={onClose}
                         isDisabled={isDeleteLoading}
@@ -55,11 +53,11 @@ const DeleteWarningModal = ({
                     </Button>
                     <Button
                         colorScheme="red"
-                        w={"60px"}
                         onClick={deleteHandler}
                         isDisabled={isDeleteLoading}
+                        isLoading={isDeleteLoading}
                     >
-                        {isDeleteLoading ? <Spinner /> : "삭제"}
+                        삭제
                     </Button>
                 </ModalFooter>
             </ModalContent>
