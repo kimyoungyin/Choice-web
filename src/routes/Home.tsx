@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Content from "../components/Content";
 import { Link } from "react-router-dom";
-import { Flex, Spinner, useMediaQuery } from "@chakra-ui/react";
+import { Flex, Spinner, Text, useMediaQuery } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
 import CategorySelect from "components/CategorySelect";
 
@@ -107,10 +107,15 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                     alignContent={"flex-start"}
                 >
                     {isLoading ? (
-                        <div className="Home-loading">
+                        <Flex
+                            justify={"center"}
+                            align={"center"}
+                            w={"full"}
+                            h={"full"}
+                        >
                             <Spinner size={"lg"} />
-                        </div>
-                    ) : choiceItems.length !== 0 ? (
+                        </Flex>
+                    ) : choiceItems.length === 0 ? (
                         choiceItems.map((item) => {
                             if (!filterCategoryId) {
                                 return <Content key={item.id} item={item} />;
@@ -123,9 +128,16 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                             }
                         })
                     ) : (
-                        <div className="Home-noList">
-                            <span>업로드된 고민거리가 없어요...</span>
-                        </div>
+                        <Flex
+                            // justify={"center"}
+                            // align={"center"}
+                            w={"full"}
+                            h={"full"}
+                        >
+                            <Text fontSize={"3xl"} mt={8} ml={8}>
+                                업로드된 고민거리가 없어요...
+                            </Text>
+                        </Flex>
                     )}
                 </Flex>
             </Flex>
