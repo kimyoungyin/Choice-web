@@ -175,7 +175,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     const deletePost = async () => {
         try {
             await authorizedCustomAxios.delete(`/posts/${idRef}`);
-            goToHome();
         } catch (error) {
             console.log(error);
         }
@@ -430,6 +429,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         isOpen={activatedModal === "delete"}
                         onClose={() => setActivatedModal(null)}
                         onDelete={deletePost}
+                        onFulfilled={goToHome}
                         title={item.title}
                     />
                 </Flex>
