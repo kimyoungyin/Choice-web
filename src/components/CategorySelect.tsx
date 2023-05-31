@@ -26,7 +26,7 @@ const CategorySelect = ({
         <>
             {categories.map((categoryObj) => (
                 <Button
-                    w={isLargerThan768 ? "full" : " auto"}
+                    minW={isLargerThan768 ? "full" : " auto"}
                     // h={30}
                     boxShadow={"md"}
                     borderRadius={8}
