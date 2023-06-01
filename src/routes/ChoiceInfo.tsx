@@ -11,6 +11,9 @@ import {
     Icon,
     Image,
     Spinner,
+    Stat,
+    StatHelpText,
+    StatNumber,
     Text,
     ToastId,
     useToast,
@@ -404,19 +407,32 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                                 }
                                 transition={"flex 1s"}
                             >
-                                <Text
+                                <Stat
                                     position={"absolute"}
-                                    bottom={"-120%"}
+                                    bottom={"-300%"}
                                     left={!choiceType ? 0 : undefined}
                                     right={!choiceType ? undefined : 0}
                                 >
-                                    {(choice1Users > 0 || choice2Users > 0) &&
-                                        `${getRatio(
-                                            choice1Users,
-                                            choice2Users,
-                                            choiceType
-                                        )}%`}
-                                </Text>
+                                    <StatNumber fontSize={"xl"}>
+                                        {(choice1Users > 0 ||
+                                            choice2Users > 0) &&
+                                            `${getRatio(
+                                                choice1Users,
+                                                choice2Users,
+                                                choiceType
+                                            )}%`}
+                                    </StatNumber>
+                                    <StatHelpText
+                                        textAlign={
+                                            !choiceType ? "start" : "end"
+                                        }
+                                    >
+                                        {!choiceType
+                                            ? choice1Users
+                                            : choice2Users}
+                                        명
+                                    </StatHelpText>
+                                </Stat>
                             </Box>
                         ))}
                     </Flex>
