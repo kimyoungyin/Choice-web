@@ -1,6 +1,5 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-// import Modal from "../components/Modal";
 import {
     AspectRatio,
     Box,
@@ -21,7 +20,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import FullImageModal from "components/FullImageModal";
 import DeleteWarningModal from "components/DeleteWarningModal";
 import { FcGoogle } from "react-icons/fc";
-
+import { AiOutlineArrowLeft } from "react-icons/ai";
 export interface MatchParams {
     id: string;
 }
@@ -213,10 +212,20 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                         w={"full"}
                         h={"30px"}
                         minH={"30px"}
-                        justify={"flex-end"}
+                        justify={"space-between"}
                         align={"center"}
                         fontSize={"sm"}
                     >
+                        <Button
+                            variant={"unstyled"}
+                            leftIcon={<AiOutlineArrowLeft />}
+                            fontSize={"lg"}
+                            display={"flex"}
+                            alignItems={"center"}
+                            onClick={() => navigate(-1)}
+                        >
+                            이전 페이지
+                        </Button>
                         <Card
                             display={"flex"}
                             flexDir={"row"}

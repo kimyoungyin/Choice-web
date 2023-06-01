@@ -50,7 +50,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
         <Flex
             // className="Home"
             pt={65}
-            pb={8}
             w={"full"}
             h={"full"}
             align={"center"}

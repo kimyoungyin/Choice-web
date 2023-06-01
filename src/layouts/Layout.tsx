@@ -1,10 +1,11 @@
 import Notification from "components/Notification";
 import Header from "components/Header";
-import Navigation from "components/Navigation";
 import { Outlet } from "react-router";
+import { Box } from "@chakra-ui/react";
 
 interface LayoutProps {
     isLoggedIn: boolean;
+    userObj: global.User | null;
     setLoggedInState: (state: boolean) => void;
     alertType: global.Alert;
     isAlertOn: boolean;
@@ -12,6 +13,7 @@ interface LayoutProps {
 
 const Layout = ({
     isLoggedIn,
+    userObj,
     setLoggedInState,
     alertType,
     isAlertOn,
@@ -20,10 +22,12 @@ const Layout = ({
         <>
             <Header
                 isLoggedIn={isLoggedIn}
+                userObj={userObj}
                 setLoggedInState={setLoggedInState}
             />
-            <Outlet />
-            {isLoggedIn && <Navigation />}
+            <Box w={"full"} h={"full"} maxW={1440}>
+                <Outlet />
+            </Box>
             {alertType && (
                 <Notification isOpen={isAlertOn} status={alertType} />
             )}

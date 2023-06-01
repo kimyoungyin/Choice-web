@@ -44,6 +44,7 @@ const AppRouter = ({
                 <Route
                     element={
                         <Layout
+                            userObj={userObj}
                             isLoggedIn={isLoggedIn}
                             setLoggedInState={setLoggedInState}
                             alertType={alertType}
