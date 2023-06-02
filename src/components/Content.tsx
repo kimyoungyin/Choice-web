@@ -87,7 +87,12 @@ const Content = ({ item }: ContentProps) => {
     );
 
     return (
-        <Box w={mediaQueryWidth} p={4}>
+        <Box
+            w={mediaQueryWidth}
+            p={4}
+            _hover={{ opacity: 0.7 }}
+            transition={"opacity 0.5s"}
+        >
             <Card
                 as="article"
                 shadow={"md"}
