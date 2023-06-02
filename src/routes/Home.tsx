@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Content from "../components/Content";
 import { Link } from "react-router-dom";
 import { Flex, Spinner, Text, useMediaQuery } from "@chakra-ui/react";
@@ -45,6 +45,14 @@ const Home = ({ isLoggedIn }: HomeProps) => {
             setFilters([]);
         };
     }, []);
+
+    const filteredChoiceItems = useMemo(
+        () =>
+            choiceItems.filter((item) =>
+                filterCategoryId ? item.categoryId === filterCategoryId : true
+            ),
+        [choiceItems, filterCategoryId]
+    );
 
     return (
         <Flex
@@ -114,18 +122,10 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                         >
                             <Spinner size={"lg"} />
                         </Flex>
-                    ) : choiceItems.length !== 0 ? (
-                        choiceItems.map((item) => {
-                            if (!filterCategoryId) {
-                                return <Content key={item.id} item={item} />;
-                            } else {
-                                return (
-                                    item.categoryId === filterCategoryId && (
-                                        <Content key={item.id} item={item} />
-                                    )
-                                );
-                            }
-                        })
+                    ) : filteredChoiceItems.length !== 0 ? (
+                        filteredChoiceItems.map((item) => (
+                            <Content key={item.id} item={item} />
+                        ))
                     ) : (
                         <Flex
                             // justify={"center"}
