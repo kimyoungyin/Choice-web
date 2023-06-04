@@ -1,15 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Content from "../components/Content";
-import { Link } from "react-router-dom";
 import { Flex, Spinner, Text, useMediaQuery } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
 import CategorySelect from "components/CategorySelect";
 
-interface HomeProps {
-    isLoggedIn: boolean;
-}
-
-const Home = ({ isLoggedIn }: HomeProps) => {
+const Home = () => {
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
     const [isLoading, setIsLoading] = useState(true);
     const [choiceItems, setChoiceItems] = useState<
@@ -140,11 +135,6 @@ const Home = ({ isLoggedIn }: HomeProps) => {
                     )}
                 </Flex>
             </Flex>
-            {isLoggedIn && (
-                <button className="Home-button">
-                    <Link to="/upload">+</Link>
-                </button>
-            )}
         </Flex>
     );
 };

@@ -52,10 +52,7 @@ const AppRouter = ({
                         />
                     }
                 >
-                    <Route
-                        path="/"
-                        element={<Home isLoggedIn={isLoggedIn} />}
-                    />
+                    <Route path="/" element={<Home />} />
                     <Route
                         path="/profile"
                         element={

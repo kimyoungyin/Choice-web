@@ -87,6 +87,9 @@ const Authorized = ({ userObj, onLogout, device }: AuthorizedProps) => {
     if (device === "desktop")
         return (
             <>
+                <Button variant={"unstyled"} color={"red"} fontSize={"lg"}>
+                    <Link to="/upload">업로드</Link>
+                </Button>
                 <Button variant={"unstyled"} fontSize={"lg"}>
                     <Link to="/">홈</Link>
                 </Button>
