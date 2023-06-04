@@ -17,13 +17,7 @@ interface ContentProps {
 }
 
 const Content = ({ item }: ContentProps) => {
-    const mediaQueryWidth = useMediaQueryWidth(
-        "100%",
-        "50%",
-        "33.3%",
-        "25%",
-        "20%"
-    );
+    const mediaQueryWidth = useMediaQueryWidth("100%", "50%", "33.3%", "25%");
     const term = useTerm(Date.parse(item.createdAt));
     const updatedTerm = useTerm(Date.parse(item.updatedAt));
     const navigate = useNavigate();
