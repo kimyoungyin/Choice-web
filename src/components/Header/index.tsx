@@ -32,11 +32,12 @@ const Header = ({ isLoggedIn, userObj, setLoggedInState }: HeaderProps) => {
             top="0"
             px={4}
             w={"100%"}
+            h={65}
             borderBottom={"1px"}
             borderColor={"gray.200"}
             bg={colorMode === "dark" ? "gray.700" : "white"}
         >
-            <Flex align={"center"} gap={4} w={"100%"} maxW={1440} h={65}>
+            <Flex align={"center"} gap={4} w={"100%"} maxW={1440}>
                 <Heading as={Link} to={"/"} display={"flex"}>
                     <Text color={"pink.500"}>yy</Text>
                     Choice

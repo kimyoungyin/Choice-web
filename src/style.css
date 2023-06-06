@@ -34,17 +34,6 @@ body,
 }
 
 /* AddForm.js */
-.AddForm {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-}
-
 .inAddForm {
     font-size: 0.8em;
 }
@@ -52,7 +41,7 @@ body,
     color: var(--pastel-tomato);
 }
 
-.AddForm .Home-title {
+.Home-title {
     font-size: 2em;
     font-weight: 500;
     color: var(--pastel-purple);

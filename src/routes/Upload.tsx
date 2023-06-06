@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
@@ -186,11 +187,14 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     };
 
     return (
-        <>
-            <form
-                className="AddForm"
-                onSubmit={handleSubmit}
-                encType="multipart/form-data"
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <Flex
+                mt={65}
+                flexDir={"column"}
+                align={"center"}
+                h={"full"}
+                w={"full"}
+                overflow={"auto"}
             >
                 <h2 className="Home-tip inAddForm">
                     새로운 카테고리를 만들고 싶다면 <span>새 카테고리</span>
@@ -375,8 +379,8 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         UPLOAD
                     </button>
                 </div>
-            </form>
-        </>
+            </Flex>
+        </form>
     );
 };
 
