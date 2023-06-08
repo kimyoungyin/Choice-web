@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
@@ -265,7 +265,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 </div>
                 <div className="AddForm-Box">
                     <h3>2. 제목(필수)</h3>
-                    <input
+                    <Input
                         ref={titleInputRef}
                         className="AddForm-question"
                         id="AddForm-question"
@@ -279,21 +279,23 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     />
                 </div>
                 <div className="AddForm-Box">
-                    <h3>3. 선택 1 : 이미지(선택) / 글(필수)</h3>
-                    <label htmlFor="AddForm-choice1">IMAGE</label>
-                    <input
-                        ref={choice1ImageInputRef}
-                        id="AddForm-choice1"
-                        className="AddForm-choice1Img"
-                        type="file"
-                        onChange={(event) =>
-                            handleFileCHange(event, (obj) =>
-                                setChoice1Image(obj)
-                            )
-                        }
-                        name="choice1Image"
-                        accept="image/*"
-                    />
+                    <FormControl>
+                        <h3>3. 선택 1 : 이미지(선택) / 글(필수)</h3>
+                        <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
+                        <Input
+                            ref={choice1ImageInputRef}
+                            id="AddForm-choice1"
+                            className="AddForm-choice1Img"
+                            type="file"
+                            onChange={(event) =>
+                                handleFileCHange(event, (obj) =>
+                                    setChoice1Image(obj)
+                                )
+                            }
+                            name="choice1Image"
+                            accept="image/*"
+                        />
+                    </FormControl>
                     {choice1Image?.previewUrl && (
                         <div className="AddForm-imgData">
                             <img
@@ -309,35 +311,39 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             </button>
                         </div>
                     )}
-                    <input
-                        ref={choice1InputRef}
-                        className="AddForm-choice1"
-                        id="AddForm-choice1"
-                        type="text"
-                        {...choice1InputProps}
-                        name="choice1"
-                        required
-                        maxLength={CHOICE_MAXLENGTH}
-                        autoComplete="off"
-                        placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
-                    />
+                    <FormControl>
+                        <Input
+                            ref={choice1InputRef}
+                            className="AddForm-choice1"
+                            id="AddForm-choice1"
+                            type="text"
+                            {...choice1InputProps}
+                            name="choice1"
+                            required
+                            maxLength={CHOICE_MAXLENGTH}
+                            autoComplete="off"
+                            placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
+                        />
+                    </FormControl>
                 </div>
                 <div className="AddForm-Box">
-                    <h3>4. 선택 2 : 이미지(선택) / 글(필수)</h3>
-                    <label htmlFor="AddForm-choice2">IMAGE</label>
-                    <input
-                        ref={choice2ImageInputRef}
-                        id="AddForm-choice2"
-                        className="AddForm-choice2Img"
-                        type="file"
-                        onChange={(event) =>
-                            handleFileCHange(event, (obj) =>
-                                setChoice2Image(obj)
-                            )
-                        }
-                        name="choice2Image"
-                        accept="image/*"
-                    />
+                    <FormControl>
+                        <h3>4. 선택 2 : 이미지(선택) / 글(필수)</h3>
+                        <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
+                        <Input
+                            ref={choice2ImageInputRef}
+                            id="AddForm-choice2"
+                            className="AddForm-choice2Img"
+                            type="file"
+                            onChange={(event) =>
+                                handleFileCHange(event, (obj) =>
+                                    setChoice2Image(obj)
+                                )
+                            }
+                            name="choice2Image"
+                            accept="image/*"
+                        />
+                    </FormControl>
                     {choice2Image?.previewUrl && (
                         <div className="AddForm-imgData">
                             <img
@@ -353,18 +359,20 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             </button>
                         </div>
                     )}
-                    <input
-                        ref={choice2InputRef}
-                        className="AddForm-choice2"
-                        id="AddForm-choice2"
-                        type="text"
-                        {...choice2InputProps}
-                        name="choice2"
-                        required
-                        maxLength={CHOICE_MAXLENGTH}
-                        autoComplete="off"
-                        placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
-                    />
+                    <FormControl>
+                        <Input
+                            ref={choice2InputRef}
+                            className="AddForm-choice2"
+                            id="AddForm-choice2"
+                            type="text"
+                            {...choice2InputProps}
+                            name="choice2"
+                            required
+                            maxLength={CHOICE_MAXLENGTH}
+                            autoComplete="off"
+                            placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
+                        />
+                    </FormControl>
                 </div>
 
                 <div className="AddForm-btns">
