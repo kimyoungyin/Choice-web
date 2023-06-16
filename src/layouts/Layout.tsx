@@ -29,7 +29,7 @@ const Layout = ({
                 userObj={userObj}
                 setLoggedInState={setLoggedInState}
             />
-            <Box w={"full"} h={"full"} maxW={1440}>
+            <Box w={"full"} h={"full"} maxW={1440} overflowY={"auto"}>
                 <Outlet />
             </Box>
             {alertType && (
