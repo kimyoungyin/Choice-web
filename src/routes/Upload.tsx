@@ -1,4 +1,4 @@
-import { Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
@@ -193,16 +193,20 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 flexDir={"column"}
                 align={"center"}
                 h={"full"}
-                w={"full"}
+                w={"90%"}
+                mx={"auto"}
                 overflow={"auto"}
+                gap={20}
             >
                 {/* <h2 className="Home-tip inAddForm">
                     새로운 카테고리를 만들고 싶다면 <span>새 카테고리</span>
                     란를 클릭하세요!
                 </h2> */}
                 <h2 className="Home-title">질문 업로드</h2>
-                <div className="AddForm-Box">
-                    <h3>1. 카테고리(선택)</h3>
+                <Flex w={"full"} flexDir={"column"}>
+                    <Heading as={"h3"} size={"md"}>
+                        1. 카테고리(선택)
+                    </Heading>
                     <div
                         className="AddForm-categoryRadio"
                         onChange={handleCategoryRadioChange}
@@ -262,9 +266,11 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             placeholder="음식 (최대 10자)"
                         />
                     )}
-                </div>
-                <div className="AddForm-Box">
-                    <h3>2. 제목(필수)</h3>
+                </Flex>
+                <Flex w={"full"} flexDir={"column"}>
+                    <Heading as={"h3"} size={"md"}>
+                        2. 제목(필수)
+                    </Heading>
                     <Input
                         ref={titleInputRef}
                         className="AddForm-question"
@@ -277,10 +283,12 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         autoComplete="off"
                         placeholder="오늘 점심 뭐 먹지? (최대 20자)"
                     />
-                </div>
-                <div className="AddForm-Box">
+                </Flex>
+                <Flex w={"full"} flexDir={"column"}>
                     <FormControl>
-                        <h3>3. 선택 1 : 이미지(선택) / 글(필수)</h3>
+                        <Heading as={"h3"} size={"md"}>
+                            3. 선택 1 : 이미지(선택) / 글(필수)
+                        </Heading>
                         <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
                         <Input
                             ref={choice1ImageInputRef}
@@ -325,10 +333,12 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
                         />
                     </FormControl>
-                </div>
-                <div className="AddForm-Box">
+                </Flex>
+                <Flex w={"full"} flexDir={"column"}>
                     <FormControl>
-                        <h3>4. 선택 2 : 이미지(선택) / 글(필수)</h3>
+                        <Heading as={"h3"} size={"md"}>
+                            4. 선택 2 : 이미지(선택) / 글(필수)
+                        </Heading>
                         <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
                         <Input
                             ref={choice2ImageInputRef}
@@ -373,7 +383,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
                         />
                     </FormControl>
-                </div>
+                </Flex>
 
                 <div className="AddForm-btns">
                     <button
