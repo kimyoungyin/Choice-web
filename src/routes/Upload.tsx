@@ -1,4 +1,13 @@
-import { Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
+import {
+    Flex,
+    FormControl,
+    FormLabel,
+    Heading,
+    Input,
+    Radio,
+    RadioGroup,
+    Select,
+} from "@chakra-ui/react";
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
@@ -59,10 +68,8 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         asyncFunction();
     }, [navigate]);
 
-    const handleCategoryRadioChange = (
-        event: ChangeEvent<HTMLInputElement>
-    ) => {
-        setCategoryType(event.target.value === "current" ? "current" : "new");
+    const handleCategoryRadioChange = (value: string) => {
+        setCategoryType(value === "current" ? "current" : "new");
     };
 
     const clearImageInput = (number: 1 | 2) => {
@@ -202,45 +209,33 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     새로운 카테고리를 만들고 싶다면 <span>새 카테고리</span>
                     란를 클릭하세요!
                 </h2> */}
-                <h2 className="Home-title">질문 업로드</h2>
-                <Flex w={"full"} flexDir={"column"}>
-                    <Heading as={"h3"} size={"md"}>
-                        1. 카테고리(선택)
-                    </Heading>
-                    <div
-                        className="AddForm-categoryRadio"
+                <Heading pt={"1em"}>질문 업로드</Heading>
+                <FormControl w={"full"} flexDir={"column"}>
+                    <FormLabel size={"md"}>1. 카테고리(선택)</FormLabel>
+                    <RadioGroup
+                        display={"flex"}
+                        justifyContent={"space-around"}
                         onChange={handleCategoryRadioChange}
+                        value={categoryType}
                     >
-                        <label
-                            className="AddForm-categoryLabel"
-                            htmlFor="current"
+                        <Radio
+                            type="radio"
+                            name="setCategory"
+                            value="current"
+                            defaultChecked
                         >
-                            <input
-                                type="radio"
-                                id="current"
-                                name="setCategory"
-                                value="current"
-                                defaultChecked
-                            />
                             기존 카테고리
-                        </label>
-                        <label className="AddForm-categoryLabel" htmlFor="new">
-                            <input
-                                type="radio"
-                                id="new"
-                                name="setCategory"
-                                value="new"
-                            />
+                        </Radio>
+                        <Radio type="radio" name="setCategory" value="new">
                             새 카테고리
-                        </label>
-                    </div>
+                        </Radio>
+                    </RadioGroup>
                     {/* 카테고리 불러오기 */}
                     {!isCategoryFetching &&
                     categories.length > 0 &&
                     categoryType === "current" ? (
-                        <select
+                        <Select
                             ref={categorySelectRef}
-                            id="category"
                             name="category"
                             {...categorySelectProps}
                         >
@@ -252,11 +247,10 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                     {filter.name}
                                 </option>
                             ))}
-                        </select>
+                        </Select>
                     ) : (
-                        <input
+                        <Input
                             ref={categoryInputRef}
-                            className="AddForm-newCategory"
                             type="text"
                             {...categoryInputProps}
                             name="newCategory"
@@ -266,15 +260,11 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             placeholder="음식 (최대 10자)"
                         />
                     )}
-                </Flex>
-                <Flex w={"full"} flexDir={"column"}>
-                    <Heading as={"h3"} size={"md"}>
-                        2. 제목(필수)
-                    </Heading>
+                </FormControl>
+                <FormControl>
+                    <FormLabel size={"md"}>2. 제목(필수)</FormLabel>
                     <Input
                         ref={titleInputRef}
-                        className="AddForm-question"
-                        id="AddForm-question"
                         type="text"
                         {...titleInputProps}
                         name="question"
@@ -283,107 +273,93 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         autoComplete="off"
                         placeholder="오늘 점심 뭐 먹지? (최대 20자)"
                     />
-                </Flex>
-                <Flex w={"full"} flexDir={"column"}>
-                    <FormControl>
-                        <Heading as={"h3"} size={"md"}>
-                            3. 선택 1 : 이미지(선택) / 글(필수)
-                        </Heading>
-                        <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
-                        <Input
-                            ref={choice1ImageInputRef}
-                            id="AddForm-choice1"
-                            className="AddForm-choice1Img"
-                            type="file"
-                            onChange={(event) =>
-                                handleFileCHange(event, (obj) =>
-                                    setChoice1Image(obj)
-                                )
-                            }
-                            name="choice1Image"
-                            accept="image/*"
+                </FormControl>
+                {/* <Flex w={"full"} flexDir={"column"}> */}
+                <FormControl>
+                    <FormLabel size={"md"}>
+                        3. 선택 1 : 이미지(선택) / 글(필수)
+                    </FormLabel>
+                    <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
+                    <Input
+                        ref={choice1ImageInputRef}
+                        id="AddForm-choice1"
+                        type="file"
+                        onChange={(event) =>
+                            handleFileCHange(event, (obj) =>
+                                setChoice1Image(obj)
+                            )
+                        }
+                        name="choice1Image"
+                        accept="image/*"
+                    />
+                </FormControl>
+                {choice1Image?.previewUrl && (
+                    <div className="AddForm-imgData">
+                        <img
+                            className="AddForm-img"
+                            src={choice1Image.previewUrl}
+                            alt="choice1Img"
                         />
-                    </FormControl>
-                    {choice1Image?.previewUrl && (
-                        <div className="AddForm-imgData">
-                            <img
-                                className="AddForm-img"
-                                src={choice1Image.previewUrl}
-                                alt="choice1Img"
-                            />
-                            <button
-                                onClick={() => clearImageInput(1)}
-                                type="reset"
-                            >
-                                CLEAR IMAGE
-                            </button>
-                        </div>
-                    )}
-                    <FormControl>
-                        <Input
-                            ref={choice1InputRef}
-                            className="AddForm-choice1"
-                            id="AddForm-choice1"
-                            type="text"
-                            {...choice1InputProps}
-                            name="choice1"
-                            required
-                            maxLength={CHOICE_MAXLENGTH}
-                            autoComplete="off"
-                            placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
+                        <button onClick={() => clearImageInput(1)} type="reset">
+                            CLEAR IMAGE
+                        </button>
+                    </div>
+                )}
+                <FormControl>
+                    <FormLabel size={"md"}>4. 선택 1 : 글(필수)</FormLabel>
+                    <Input
+                        ref={choice1InputRef}
+                        type="text"
+                        {...choice1InputProps}
+                        name="choice1"
+                        required
+                        maxLength={CHOICE_MAXLENGTH}
+                        autoComplete="off"
+                        placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
+                    />
+                </FormControl>
+                {/* </Flex> */}
+                <FormControl>
+                    <FormLabel size={"md"}>5. 선택 2 : 이미지(선택)</FormLabel>
+                    <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
+                    <Input
+                        ref={choice2ImageInputRef}
+                        id="AddForm-choice2"
+                        type="file"
+                        onChange={(event) =>
+                            handleFileCHange(event, (obj) =>
+                                setChoice2Image(obj)
+                            )
+                        }
+                        name="choice2Image"
+                        accept="image/*"
+                    />
+                </FormControl>
+                {choice2Image?.previewUrl && (
+                    <div className="AddForm-imgData">
+                        <img
+                            className="AddForm-img"
+                            src={choice2Image.previewUrl}
+                            alt="choice2Img"
                         />
-                    </FormControl>
-                </Flex>
-                <Flex w={"full"} flexDir={"column"}>
-                    <FormControl>
-                        <Heading as={"h3"} size={"md"}>
-                            4. 선택 2 : 이미지(선택) / 글(필수)
-                        </Heading>
-                        <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
-                        <Input
-                            ref={choice2ImageInputRef}
-                            id="AddForm-choice2"
-                            className="AddForm-choice2Img"
-                            type="file"
-                            onChange={(event) =>
-                                handleFileCHange(event, (obj) =>
-                                    setChoice2Image(obj)
-                                )
-                            }
-                            name="choice2Image"
-                            accept="image/*"
-                        />
-                    </FormControl>
-                    {choice2Image?.previewUrl && (
-                        <div className="AddForm-imgData">
-                            <img
-                                className="AddForm-img"
-                                src={choice2Image.previewUrl}
-                                alt="choice2Img"
-                            />
-                            <button
-                                onClick={() => clearImageInput(2)}
-                                type="reset"
-                            >
-                                CLEAR IMAGE
-                            </button>
-                        </div>
-                    )}
-                    <FormControl>
-                        <Input
-                            ref={choice2InputRef}
-                            className="AddForm-choice2"
-                            id="AddForm-choice2"
-                            type="text"
-                            {...choice2InputProps}
-                            name="choice2"
-                            required
-                            maxLength={CHOICE_MAXLENGTH}
-                            autoComplete="off"
-                            placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
-                        />
-                    </FormControl>
-                </Flex>
+                        <button onClick={() => clearImageInput(2)} type="reset">
+                            CLEAR IMAGE
+                        </button>
+                    </div>
+                )}
+                <FormControl>
+                    <FormLabel size={"md"}>6. 선택 2 : 글(필수)</FormLabel>
+                    <Input
+                        ref={choice2InputRef}
+                        type="text"
+                        {...choice2InputProps}
+                        name="choice2"
+                        required
+                        maxLength={CHOICE_MAXLENGTH}
+                        autoComplete="off"
+                        placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
+                    />
+                </FormControl>
 
                 <div className="AddForm-btns">
                     <button
