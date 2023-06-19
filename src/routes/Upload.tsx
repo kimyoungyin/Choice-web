@@ -210,7 +210,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     란를 클릭하세요!
                 </h2> */}
                 <Heading pt={"1em"}>질문 업로드</Heading>
-                <FormControl w={"full"} flexDir={"column"}>
+                <FormControl w={"full"}>
                     <FormLabel size={"md"}>1. 카테고리(선택)</FormLabel>
                     <RadioGroup
                         display={"flex"}
@@ -219,14 +219,13 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         value={categoryType}
                     >
                         <Radio
-                            type="radio"
                             name="setCategory"
                             value="current"
                             defaultChecked
                         >
                             기존 카테고리
                         </Radio>
-                        <Radio type="radio" name="setCategory" value="new">
+                        <Radio name="setCategory" value="new">
                             새 카테고리
                         </Radio>
                     </RadioGroup>
