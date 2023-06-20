@@ -205,10 +205,6 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 overflow={"auto"}
                 gap={20}
             >
-                {/* <h2 className="Home-tip inAddForm">
-                    새로운 카테고리를 만들고 싶다면 <span>새 카테고리</span>
-                    란를 클릭하세요!
-                </h2> */}
                 <Heading pt={"1em"}>질문 업로드</Heading>
                 <FormControl w={"full"}>
                     <FormLabel size={"md"}>1. 카테고리(선택)</FormLabel>
