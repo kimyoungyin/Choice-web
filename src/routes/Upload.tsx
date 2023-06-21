@@ -271,9 +271,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 </FormControl>
                 {/* <Flex w={"full"} flexDir={"column"}> */}
                 <FormControl>
-                    <FormLabel size={"md"}>
-                        3. 선택 1 : 이미지(선택) / 글(필수)
-                    </FormLabel>
+                    <FormLabel size={"md"}>3. 선택 1 : 이미지(선택)</FormLabel>
                     <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
                     <Input
                         ref={choice1ImageInputRef}
