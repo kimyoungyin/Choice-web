@@ -274,6 +274,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <FormLabel size={"md"}>3. 선택 1 : 이미지(선택)</FormLabel>
                     <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
                     <Input
+                        display={"none"}
                         ref={choice1ImageInputRef}
                         id="AddForm-choice1"
                         type="file"
@@ -316,6 +317,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <FormLabel size={"md"}>5. 선택 2 : 이미지(선택)</FormLabel>
                     <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
                     <Input
+                        display={"none"}
                         ref={choice2ImageInputRef}
                         id="AddForm-choice2"
                         type="file"
