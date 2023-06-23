@@ -1,4 +1,5 @@
 import {
+    Center,
     Flex,
     FormControl,
     FormLabel,
@@ -272,7 +273,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 {/* <Flex w={"full"} flexDir={"column"}> */}
                 <FormControl>
                     <FormLabel size={"md"}>3. 선택 1 : 이미지(선택)</FormLabel>
-                    <FormLabel htmlFor="AddForm-choice1">IMAGE</FormLabel>
+                    <FormLabel htmlFor="AddForm-choice1">
+                        <Center>IMAGE</Center>
+                    </FormLabel>
                     <Input
                         display={"none"}
                         ref={choice1ImageInputRef}
@@ -286,19 +289,22 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         name="choice1Image"
                         accept="image/*"
                     />
+                    {choice1Image?.previewUrl && (
+                        <div className="AddForm-imgData">
+                            <img
+                                className="AddForm-img"
+                                src={choice1Image.previewUrl}
+                                alt="choice1Img"
+                            />
+                            <button
+                                onClick={() => clearImageInput(1)}
+                                type="reset"
+                            >
+                                CLEAR IMAGE
+                            </button>
+                        </div>
+                    )}
                 </FormControl>
-                {choice1Image?.previewUrl && (
-                    <div className="AddForm-imgData">
-                        <img
-                            className="AddForm-img"
-                            src={choice1Image.previewUrl}
-                            alt="choice1Img"
-                        />
-                        <button onClick={() => clearImageInput(1)} type="reset">
-                            CLEAR IMAGE
-                        </button>
-                    </div>
-                )}
                 <FormControl>
                     <FormLabel size={"md"}>4. 선택 1 : 글(필수)</FormLabel>
                     <Input
@@ -315,7 +321,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 {/* </Flex> */}
                 <FormControl>
                     <FormLabel size={"md"}>5. 선택 2 : 이미지(선택)</FormLabel>
-                    <FormLabel htmlFor="AddForm-choice2">IMAGE</FormLabel>
+                    <FormLabel htmlFor="AddForm-choice2">
+                        <Center>IMAGE</Center>
+                    </FormLabel>
                     <Input
                         display={"none"}
                         ref={choice2ImageInputRef}
@@ -329,19 +337,22 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         name="choice2Image"
                         accept="image/*"
                     />
+                    {choice2Image?.previewUrl && (
+                        <div className="AddForm-imgData">
+                            <img
+                                className="AddForm-img"
+                                src={choice2Image.previewUrl}
+                                alt="choice2Img"
+                            />
+                            <button
+                                onClick={() => clearImageInput(2)}
+                                type="reset"
+                            >
+                                CLEAR IMAGE
+                            </button>
+                        </div>
+                    )}
                 </FormControl>
-                {choice2Image?.previewUrl && (
-                    <div className="AddForm-imgData">
-                        <img
-                            className="AddForm-img"
-                            src={choice2Image.previewUrl}
-                            alt="choice2Img"
-                        />
-                        <button onClick={() => clearImageInput(2)} type="reset">
-                            CLEAR IMAGE
-                        </button>
-                    </div>
-                )}
                 <FormControl>
                     <FormLabel size={"md"}>6. 선택 2 : 글(필수)</FormLabel>
                     <Input
