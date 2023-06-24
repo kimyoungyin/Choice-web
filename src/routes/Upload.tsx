@@ -214,6 +214,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         justifyContent={"space-around"}
                         onChange={handleCategoryRadioChange}
                         value={categoryType}
+                        mb={2}
                     >
                         <Radio
                             name="setCategory"
@@ -248,6 +249,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         <Input
                             ref={categoryInputRef}
                             type="text"
+                            variant={"filled"}
                             {...categoryInputProps}
                             name="newCategory"
                             required
@@ -262,6 +264,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <Input
                         ref={titleInputRef}
                         type="text"
+                        variant={"filled"}
                         {...titleInputProps}
                         name="question"
                         required
@@ -279,8 +282,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <Input
                         display={"none"}
                         ref={choice1ImageInputRef}
-                        id="AddForm-choice1"
                         type="file"
+                        variant={"filled"}
+                        id="AddForm-choice1"
                         onChange={(event) =>
                             handleFileCHange(event, (obj) =>
                                 setChoice1Image(obj)
@@ -310,6 +314,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <Input
                         ref={choice1InputRef}
                         type="text"
+                        variant={"filled"}
                         {...choice1InputProps}
                         name="choice1"
                         required
@@ -327,6 +332,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <Input
                         display={"none"}
                         ref={choice2ImageInputRef}
+                        variant={"filled"}
                         id="AddForm-choice2"
                         type="file"
                         onChange={(event) =>
@@ -358,6 +364,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     <Input
                         ref={choice2InputRef}
                         type="text"
+                        variant={"filled"}
                         {...choice2InputProps}
                         name="choice2"
                         required
