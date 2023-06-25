@@ -208,7 +208,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
             >
                 <Heading pt={"1em"}>질문 업로드</Heading>
                 <FormControl w={"full"}>
-                    <FormLabel size={"md"}>1. 카테고리(선택)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        1. 카테고리(선택)
+                    </FormLabel>
                     <RadioGroup
                         display={"flex"}
                         justifyContent={"space-around"}
@@ -260,7 +262,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     )}
                 </FormControl>
                 <FormControl>
-                    <FormLabel size={"md"}>2. 제목(필수)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        2. 제목(필수)
+                    </FormLabel>
                     <Input
                         ref={titleInputRef}
                         type="text"
@@ -275,7 +279,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 </FormControl>
                 {/* <Flex w={"full"} flexDir={"column"}> */}
                 <FormControl>
-                    <FormLabel size={"md"}>3. 선택 1 : 이미지(선택)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        3. 선택 1 : 이미지(선택)
+                    </FormLabel>
                     <FormLabel htmlFor="AddForm-choice1">
                         <Center>IMAGE</Center>
                     </FormLabel>
@@ -310,7 +316,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     )}
                 </FormControl>
                 <FormControl>
-                    <FormLabel size={"md"}>4. 선택 1 : 글(필수)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        4. 선택 1 : 글(필수)
+                    </FormLabel>
                     <Input
                         ref={choice1InputRef}
                         type="text"
@@ -325,7 +333,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 </FormControl>
                 {/* </Flex> */}
                 <FormControl>
-                    <FormLabel size={"md"}>5. 선택 2 : 이미지(선택)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        5. 선택 2 : 이미지(선택)
+                    </FormLabel>
                     <FormLabel htmlFor="AddForm-choice2">
                         <Center>IMAGE</Center>
                     </FormLabel>
@@ -360,7 +370,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     )}
                 </FormControl>
                 <FormControl>
-                    <FormLabel size={"md"}>6. 선택 2 : 글(필수)</FormLabel>
+                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
+                        6. 선택 2 : 글(필수)
+                    </FormLabel>
                     <Input
                         ref={choice2InputRef}
                         type="text"
