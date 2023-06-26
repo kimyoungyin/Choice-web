@@ -277,7 +277,6 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         placeholder="오늘 점심 뭐 먹지? (최대 20자)"
                     />
                 </FormControl>
-                {/* <Flex w={"full"} flexDir={"column"}> */}
                 <FormControl>
                     <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
                         3. 선택 1 : 이미지(선택)
@@ -331,7 +330,6 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
                     />
                 </FormControl>
-                {/* </Flex> */}
                 <FormControl>
                     <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
                         5. 선택 2 : 이미지(선택)
