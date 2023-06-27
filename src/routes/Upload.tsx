@@ -54,6 +54,34 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     const choice1ImageInputRef = useRef<HTMLInputElement>(null);
     const choice2ImageInputRef = useRef<HTMLInputElement>(null);
 
+    const CHOICE_INPUT_LAYOUTS: {
+        choiceNum: 1 | 2;
+        imageInputRef: React.RefObject<HTMLInputElement>;
+        inputRef: React.RefObject<HTMLInputElement>;
+        inputProps: {
+            value: string;
+            onChange: (
+                event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+            ) => void;
+        };
+        choiceImage: ChoiceImage | null;
+    }[] = [
+        {
+            choiceNum: 1,
+            imageInputRef: choice1ImageInputRef,
+            inputRef: choice1InputRef,
+            inputProps: choice1InputProps,
+            choiceImage: choice1Image,
+        },
+        {
+            choiceNum: 2,
+            imageInputRef: choice2ImageInputRef,
+            inputRef: choice2InputRef,
+            inputProps: choice2InputProps,
+            choiceImage: choice2Image,
+        },
+    ];
+
     useEffect(() => {
         const asyncFunction = async () => {
             try {
@@ -277,113 +305,77 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         placeholder="오늘 점심 뭐 먹지? (최대 20자)"
                     />
                 </FormControl>
-                <FormControl>
-                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
-                        3. 선택 1 : 이미지(선택)
-                    </FormLabel>
-                    <FormLabel htmlFor="AddForm-choice1">
-                        <Center>IMAGE</Center>
-                    </FormLabel>
-                    <Input
-                        display={"none"}
-                        ref={choice1ImageInputRef}
-                        type="file"
-                        variant={"filled"}
-                        id="AddForm-choice1"
-                        onChange={(event) =>
-                            handleFileCHange(event, (obj) =>
-                                setChoice1Image(obj)
-                            )
-                        }
-                        name="choice1Image"
-                        accept="image/*"
-                    />
-                    {choice1Image?.previewUrl && (
-                        <div className="AddForm-imgData">
-                            <img
-                                className="AddForm-img"
-                                src={choice1Image.previewUrl}
-                                alt="choice1Img"
-                            />
-                            <button
-                                onClick={() => clearImageInput(1)}
-                                type="reset"
+                {CHOICE_INPUT_LAYOUTS.map((layout) => (
+                    <>
+                        <FormControl>
+                            <FormLabel
+                                fontWeight={"bold"}
+                                fontSize={"xl"}
+                                size={"md"}
                             >
-                                CLEAR IMAGE
-                            </button>
-                        </div>
-                    )}
-                </FormControl>
-                <FormControl>
-                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
-                        4. 선택 1 : 글(필수)
-                    </FormLabel>
-                    <Input
-                        ref={choice1InputRef}
-                        type="text"
-                        variant={"filled"}
-                        {...choice1InputProps}
-                        name="choice1"
-                        required
-                        maxLength={CHOICE_MAXLENGTH}
-                        autoComplete="off"
-                        placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
-                        5. 선택 2 : 이미지(선택)
-                    </FormLabel>
-                    <FormLabel htmlFor="AddForm-choice2">
-                        <Center>IMAGE</Center>
-                    </FormLabel>
-                    <Input
-                        display={"none"}
-                        ref={choice2ImageInputRef}
-                        variant={"filled"}
-                        id="AddForm-choice2"
-                        type="file"
-                        onChange={(event) =>
-                            handleFileCHange(event, (obj) =>
-                                setChoice2Image(obj)
-                            )
-                        }
-                        name="choice2Image"
-                        accept="image/*"
-                    />
-                    {choice2Image?.previewUrl && (
-                        <div className="AddForm-imgData">
-                            <img
-                                className="AddForm-img"
-                                src={choice2Image.previewUrl}
-                                alt="choice2Img"
-                            />
-                            <button
-                                onClick={() => clearImageInput(2)}
-                                type="reset"
+                                {layout.choiceNum * 2 + 1}. 선택{" "}
+                                {layout.choiceNum} : 이미지(선택)
+                            </FormLabel>
+                            <FormLabel
+                                htmlFor={`AddForm-choice${layout.choiceNum}`}
                             >
-                                CLEAR IMAGE
-                            </button>
-                        </div>
-                    )}
-                </FormControl>
-                <FormControl>
-                    <FormLabel fontWeight={"bold"} fontSize={"xl"} size={"md"}>
-                        6. 선택 2 : 글(필수)
-                    </FormLabel>
-                    <Input
-                        ref={choice2InputRef}
-                        type="text"
-                        variant={"filled"}
-                        {...choice2InputProps}
-                        name="choice2"
-                        required
-                        maxLength={CHOICE_MAXLENGTH}
-                        autoComplete="off"
-                        placeholder={`떡볶이 (최대 ${CHOICE_MAXLENGTH}자)`}
-                    />
-                </FormControl>
-
+                                <Center>IMAGE</Center>
+                            </FormLabel>
+                            <Input
+                                display={"none"}
+                                ref={layout.imageInputRef}
+                                type="file"
+                                variant={"filled"}
+                                id={`AddForm-choice${layout.choiceNum}`}
+                                onChange={(event) =>
+                                    handleFileCHange(event, (obj) =>
+                                        setChoice1Image(obj)
+                                    )
+                                }
+                                name="choice1Image"
+                                accept="image/*"
+                            />
+                            {layout.choiceImage?.previewUrl && (
+                                <div className="AddForm-imgData">
+                                    <img
+                                        className="AddForm-img"
+                                        src={layout.choiceImage.previewUrl}
+                                        alt="choice1Img"
+                                    />
+                                    <button
+                                        onClick={() =>
+                                            clearImageInput(layout.choiceNum)
+                                        }
+                                        type="reset"
+                                    >
+                                        CLEAR IMAGE
+                                    </button>
+                                </div>
+                            )}
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel
+                                fontWeight={"bold"}
+                                fontSize={"xl"}
+                                size={"md"}
+                            >
+                                {layout.choiceNum * 2 + 2}. 선택
+                                {layout.choiceNum} : 글(필수)
+                            </FormLabel>
+                            <Input
+                                ref={layout.inputRef}
+                                type="text"
+                                variant={"filled"}
+                                {...layout.inputProps}
+                                name="choice1"
+                                required
+                                maxLength={CHOICE_MAXLENGTH}
+                                autoComplete="off"
+                                placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
+                            />
+                        </FormControl>
+                    </>
+                ))}
                 <div className="AddForm-btns">
                     <button
                         onClick={() => navigate(-1)}
