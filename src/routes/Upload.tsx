@@ -319,7 +319,8 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             <FormLabel
                                 htmlFor={`AddForm-choice${layout.choiceNum}`}
                                 bg={"white"}
-                                p={2}
+                                w={"full"}
+                                p={1.5}
                                 borderRadius={"md"}
                             >
                                 <Center>IMAGE</Center>
