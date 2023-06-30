@@ -1,9 +1,11 @@
 import {
+    Button,
     Center,
     Flex,
     FormControl,
     FormLabel,
     Heading,
+    Image,
     Input,
     Radio,
     RadioGroup,
@@ -340,21 +342,28 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                 accept="image/*"
                             />
                             {layout.choiceImage?.previewUrl && (
-                                <div className="AddForm-imgData">
-                                    <img
-                                        className="AddForm-img"
+                                <Flex
+                                    flexDir={"column"}
+                                    align={"center"}
+                                    gap={8}
+                                    pt={4}
+                                >
+                                    <Image
                                         src={layout.choiceImage.previewUrl}
-                                        alt="choice1Img"
+                                        alt={`choice${layout.choiceNum}Img`}
+                                        w={"80%"}
                                     />
-                                    <button
+                                    <Button
                                         onClick={() =>
                                             clearImageInput(layout.choiceNum)
                                         }
                                         type="reset"
+                                        variant={"outline"}
+                                        color={"red"}
                                     >
                                         CLEAR IMAGE
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Flex>
                             )}
                         </FormControl>
                         <FormControl>
