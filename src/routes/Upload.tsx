@@ -390,13 +390,6 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     </>
                 ))}
                 <div className="AddForm-btns">
-                    <button
-                        onClick={() => navigate(-1)}
-                        type="button"
-                        className="AddForm-cancelButton"
-                    >
-                        CANCEL
-                    </button>
                     <button type="submit" className="AddForm-button">
                         UPLOAD
                     </button>
