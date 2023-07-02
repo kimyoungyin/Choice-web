@@ -267,6 +267,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             ref={categorySelectRef}
                             name="category"
                             {...categorySelectProps}
+                            variant={"filled"}
                         >
                             <option key="all" value="">
                                 선택안함
