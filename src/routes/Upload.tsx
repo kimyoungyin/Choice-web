@@ -391,9 +391,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     </>
                 ))}
                 <div className="AddForm-btns">
-                    <button type="submit" className="AddForm-button">
+                    <Button type="submit" colorScheme={"blue"} boxShadow={"md"}>
                         UPLOAD
-                    </button>
+                    </Button>
                 </div>
             </Flex>
         </form>
