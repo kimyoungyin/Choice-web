@@ -247,6 +247,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         onChange={handleCategoryRadioChange}
                         value={categoryType}
                         mb={2}
+                        p={2}
+                        bg={"white"}
+                        borderRadius={"md"}
                     >
                         <Radio
                             name="setCategory"
