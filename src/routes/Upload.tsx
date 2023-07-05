@@ -319,7 +319,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                 fontSize={"xl"}
                                 size={"md"}
                             >
-                                {layout.choiceNum * 2 + 1}. 선택{" "}
+                                {layout.choiceNum * 2 + 1}. 선택
                                 {layout.choiceNum} : 이미지(선택)
                             </FormLabel>
                             <FormLabel
