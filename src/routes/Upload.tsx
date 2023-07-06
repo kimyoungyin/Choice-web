@@ -14,7 +14,14 @@ import {
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import {
+    ChangeEvent,
+    FormEvent,
+    Fragment,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import validateInputLength from "utils/validateInputLength";
 
@@ -312,7 +319,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                     />
                 </FormControl>
                 {CHOICE_INPUT_LAYOUTS.map((layout) => (
-                    <>
+                    <Fragment key={layout.choiceNum}>
                         <FormControl>
                             <FormLabel
                                 fontWeight={"bold"}
@@ -391,7 +398,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                 placeholder={`김밥 (최대 ${CHOICE_MAXLENGTH}자)`}
                             />
                         </FormControl>
-                    </>
+                    </Fragment>
                 ))}
                 <div className="AddForm-btns">
                     <Button type="submit" colorScheme={"blue"} boxShadow={"md"}>
