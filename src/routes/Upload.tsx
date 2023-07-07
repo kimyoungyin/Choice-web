@@ -400,11 +400,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         </FormControl>
                     </Fragment>
                 ))}
-                <div className="AddForm-btns">
-                    <Button type="submit" colorScheme={"blue"} boxShadow={"md"}>
-                        UPLOAD
-                    </Button>
-                </div>
+                <Button type="submit" colorScheme={"blue"} boxShadow={"md"}>
+                    UPLOAD
+                </Button>
             </Flex>
         </form>
     );

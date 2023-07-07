@@ -33,58 +33,6 @@ body,
     font-family: "Open Sans", sans-serif;
 }
 
-/* AddForm.js */
-
-.AddForm-imgData {
-    /* background-color: chartreuse; */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.AddForm-imgData .AddForm-img {
-    height: 100px;
-    border-radius: 0.5em;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-}
-
-.AddForm-imgData button {
-    all: unset;
-    color: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    margin: 1em 0;
-    cursor: pointer;
-}
-
-.AddForm-btns {
-    margin: 2em 0 1em 0;
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-}
-
-.AddForm-button,
-.AddForm-cancelButton {
-    all: unset;
-    background-color: var(--pastel-tomato);
-    padding: 1em 1.5em;
-    color: white;
-    border-radius: 1em;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    transition: 0.5s;
-}
-
-.AddForm-cancelButton {
-    background-color: gray;
-}
-
-.AddForm-button:active,
-.AddForm-cancelButton:active {
-    box-shadow: none;
-}
-
 /* Profile.js  */
 .Profile {
     width: 100%;
