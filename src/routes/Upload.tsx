@@ -336,7 +336,9 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                 p={1.5}
                                 borderRadius={"md"}
                             >
-                                <Center>IMAGE</Center>
+                                <Center>
+                                    선택 {layout.choiceNum} 이미지 올리기
+                                </Center>
                             </FormLabel>
                             <Input
                                 display={"none"}
