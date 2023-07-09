@@ -25,7 +25,7 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     }, []);
 
     return (
-        <Box className="Profile" bg={"gray.200"}>
+        <Box className="Profile" bg={"gray.200"} pt={"65px"}>
             <h2 className="Profile-title">DASHBOARD</h2>
             <h2 className="Profile-mail">
                 오류 및 개선사항 문의 :{" "}
