@@ -2,6 +2,7 @@ import {
     Avatar,
     Button,
     IconButton,
+    Link,
     Menu,
     MenuButton,
     MenuDivider,
@@ -12,7 +13,7 @@ import {
 import { auth } from "fb";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 interface MediaQueryType {
     device: "mobile" | "tablet" | "desktop";
@@ -88,18 +89,45 @@ const Authorized = ({ userObj, onLogout, device }: AuthorizedProps) => {
         return (
             <>
                 <Button variant={"unstyled"} color={"red"} fontSize={"lg"}>
-                    <Link to="/upload">업로드</Link>
+                    <Link
+                        as={NavLink}
+                        to="/upload"
+                        display={"block"}
+                        h={"full"}
+                        lineHeight={"40px"}
+                    >
+                        업로드
+                    </Link>
                 </Button>
                 <Button variant={"unstyled"} fontSize={"lg"}>
-                    <Link to="/">홈</Link>
+                    <Link
+                        as={NavLink}
+                        to="/"
+                        display={"block"}
+                        h={"full"}
+                        lineHeight={"40px"}
+                    >
+                        홈
+                    </Link>
                 </Button>
                 <Button variant={"unstyled"} fontSize={"lg"}>
-                    <Link to="/profile">내 프로필</Link>
+                    <Link
+                        as={NavLink}
+                        to="/profile"
+                        display={"block"}
+                        h={"full"}
+                        lineHeight={"40px"}
+                    >
+                        내 프로필
+                    </Link>
                 </Button>
                 <Button
                     variant={"unstyled"}
                     fontSize={"lg"}
                     onClick={logoutHandler}
+                    display={"block"}
+                    h={"full"}
+                    lineHeight={"40px"}
                 >
                     로그아웃
                 </Button>
@@ -114,12 +142,16 @@ const Authorized = ({ userObj, onLogout, device }: AuthorizedProps) => {
             </MenuButton>
             <Portal>
                 <MenuList>
-                    <MenuItem as={Link} to={"/"} isDisabled={pathname === "/"}>
+                    <MenuItem
+                        as={NavLink}
+                        to={"/"}
+                        isDisabled={pathname === "/"}
+                    >
                         홈
                     </MenuItem>
                     <MenuDivider />
                     <MenuItem
-                        as={Link}
+                        as={NavLink}
                         to={"/profile"}
                         isDisabled={pathname === "/profile"}
                     >
