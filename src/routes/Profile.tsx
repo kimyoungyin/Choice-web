@@ -9,6 +9,8 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
         []
     );
 
+    console.log(userObj.photoUrl);
+
     useEffect(() => {
         const getUserPost = async () => {
             try {
@@ -51,7 +53,11 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
                 bg={"white"}
                 borderRadius={"md"}
             >
-                <Image src={userObj.photoUrl} alt="없음" boxShadow={"md"} />
+                <Image
+                    src={userObj.photoUrl}
+                    alt="이미지가 없습니다."
+                    boxShadow={"md"}
+                />
                 <Flex flexDir={"column"} gap={2}>
                     <Text fontWeight={"semibold"} fontSize={"lg"}>
                         닉네임 : {userObj.displayName}
