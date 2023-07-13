@@ -1,4 +1,4 @@
-import { Button, useMediaQuery } from "@chakra-ui/react";
+import { Button, useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 
 type selectedId = number | null;
 
@@ -14,6 +14,9 @@ const CategorySelect = ({
     onChange,
 }: CategorySelectProps) => {
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
+    const buttonColor = useColorModeValue("white", "gray.800");
+    const textColor = useColorModeValue("black", "gray.300");
+
     const categoryClickHandler = (id: number) => {
         if (selectedId === id) {
             onChange(null);
@@ -32,9 +35,9 @@ const CategorySelect = ({
                     borderRadius={8}
                     variant={"solid"}
                     size={"md"}
-                    bgColor={"white"}
+                    bgColor={buttonColor}
+                    color={textColor}
                     _hover={{
-                        bg: "gray.100",
                         transform: "scale(1.05)",
                     }}
                     _active={{

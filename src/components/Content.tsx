@@ -8,6 +8,7 @@ import {
     Spacer,
     Tag,
     Text,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import useMediaQueryWidth from "hooks/useMediaQueryWidth";
 import { useTerm } from "hooks/useTerm";
@@ -21,9 +22,10 @@ const Content = ({ item }: ContentProps) => {
     const term = useTerm(Date.parse(item.createdAt));
     const updatedTerm = useTerm(Date.parse(item.updatedAt));
     const navigate = useNavigate();
-    // const toggleChoiceMode = () => {
-    //     const homeList = document.querySelector(".Home-list");
-    // };
+    const borderColor = useColorModeValue("gray.200", "pink.500");
+    const cardBackgroundColor = useColorModeValue("white", "gray.800");
+    const cardBottomBackgroundColor = useColorModeValue("gray.700", "gray.800");
+    const textColor = useColorModeValue("black", "gray.300");
 
     const goToChoiceInfo = () => {
         navigate(`/detail/${item.id}`);
@@ -38,7 +40,7 @@ const Content = ({ item }: ContentProps) => {
         <Flex
             align={"center"}
             p={2}
-            bg={"gray.700"}
+            bg={cardBottomBackgroundColor}
             borderBottomRadius={"lg"}
             color={"white"}
             fontSize={"xs"}
@@ -65,7 +67,6 @@ const Content = ({ item }: ContentProps) => {
                     px={2}
                     borderRadius={4}
                     align={"center"}
-                    // color={"red.200"}
                 >
                     <Icon as={RepeatIcon} marginRight={1} />
                     <Text
@@ -91,9 +92,11 @@ const Content = ({ item }: ContentProps) => {
                 as="article"
                 shadow={"md"}
                 borderRadius={"lg"}
+                bgColor={cardBackgroundColor}
                 h={300}
                 onClick={goToChoiceInfo}
                 cursor={"pointer"}
+                color={textColor}
             >
                 <Flex flexDir={"column"} h={"100%"}>
                     <Flex
@@ -101,7 +104,7 @@ const Content = ({ item }: ContentProps) => {
                         align={"baseline"}
                         p={4}
                         borderBottom={"2px"}
-                        borderColor={"gray.200"}
+                        borderColor={borderColor}
                     >
                         <Heading
                             as="h3"

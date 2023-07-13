@@ -2,13 +2,14 @@ import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "fb";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import "style.css";
 
 const App = () => {
     const [init, setInit] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userObj, setUserObj] = useState<global.User | null>(null);
+    const bgColor = useColorModeValue("gray.200", "gray.700");
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -34,7 +35,7 @@ const App = () => {
         <Flex
             align={"center"}
             justify={"center"}
-            bgColor={"gray.200"}
+            bgColor={bgColor}
             h={"full"}
             w={"full"}
             className="App"
