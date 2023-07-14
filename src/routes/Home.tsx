@@ -50,17 +50,7 @@ const Home = () => {
     );
 
     return (
-        <Flex
-            // className="Home"
-            pt={65}
-            w={"full"}
-            h={"full"}
-            align={"center"}
-            flexDir={"column"}
-        >
-            {/* <h2 className="Home-tip">
-                선택에 참여하여 고민하는 사람들을 도와주세요!
-            </h2> */}
+        <Flex pt={65} w={"full"} h={"full"} align={"center"} flexDir={"column"}>
             <Flex
                 flexDir={isLargerThan768 ? "row" : "column"}
                 align={"center"}
@@ -122,12 +112,7 @@ const Home = () => {
                             <Content key={item.id} item={item} />
                         ))
                     ) : (
-                        <Flex
-                            // justify={"center"}
-                            // align={"center"}
-                            w={"full"}
-                            h={"full"}
-                        >
+                        <Flex w={"full"} h={"full"}>
                             <Text fontSize={"3xl"} mt={8} ml={8}>
                                 업로드된 고민거리가 없어요...
                             </Text>

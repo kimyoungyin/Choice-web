@@ -114,7 +114,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                 status: "loading",
                 position: "bottom-left",
             });
-            // setAlertType("start");
             if (!toastIdRef.current) return;
             if (prevChoiceInDB === null) {
                 // 선택을 새로 하려 할 때
@@ -125,7 +124,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     title: "선택 완료!",
                     status: "success",
                 });
-                // setAlertType("select");
                 selectedChoice
                     ? setChoice2Users((prev) => prev + 1)
                     : setChoice1Users((prev) => prev + 1);
@@ -136,7 +134,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     title: "취소 완료!",
                     status: "success",
                 });
-                // setAlertType("delete");
                 prevChoiceInDB
                     ? setChoice2Users((prev) => prev - 1)
                     : setChoice1Users((prev) => prev - 1);
@@ -149,7 +146,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     title: "변경 완료!",
                     status: "success",
                 });
-                // setAlertType("change");
                 setChoice1Users((prev) =>
                     selectedChoice ? prev - 1 : prev + 1
                 );
