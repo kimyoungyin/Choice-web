@@ -16,6 +16,7 @@ import {
     StatNumber,
     Text,
     ToastId,
+    useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
 import { authorizedCustomAxios, customAxios } from "customAxios";
@@ -59,6 +60,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
         "image" | "delete" | null
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
+    const textColor = useColorModeValue("black", "gray.300");
 
     useEffect(() => {
         const getPostInfo = async () => {
@@ -200,10 +202,8 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                     pb={"40px"}
                     position={"relative"}
                     overflowY={"auto"}
+                    color={textColor}
                 >
-                    {/* <h2 className="ChoiceInfo-tip">
-                        이미지를 자세히 보고 싶으면 클릭해보세요!
-                    </h2> */}
                     <Flex
                         mt={8}
                         px={4}
@@ -437,7 +437,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             mt={16}
                             size={"lg"}
                             boxShadow={"md"}
-                            bg={"white"}
                             onClick={completeSelect}
                             visibility={
                                 !isSelectFetching ? "visible" : "hidden"
