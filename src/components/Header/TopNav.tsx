@@ -11,7 +11,8 @@ import {
     Portal,
 } from "@chakra-ui/react";
 import { auth } from "fb";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import useGoogleLogin from "hooks/useGoogleLogin";
 import { FcGoogle } from "react-icons/fc";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -24,19 +25,7 @@ interface CommonProps extends MediaQueryType {
 }
 
 const Common = ({ onLogin, device }: CommonProps) => {
-    const loginHandler = async () => {
-        let provider;
-        try {
-            provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
-            onLogin();
-        } catch (err) {
-            // error의 타입 정의하기
-            if (!(err instanceof Error)) return;
-            console.log(err);
-        }
-    };
-
+    const startGoogleLogin = useGoogleLogin(onLogin);
     if (device === "mobile")
         return (
             <IconButton
@@ -45,7 +34,7 @@ const Common = ({ onLogin, device }: CommonProps) => {
                 bgColor={"white"}
                 border={"1px"}
                 borderColor={"black"}
-                onClick={loginHandler}
+                onClick={startGoogleLogin}
             />
         );
 
@@ -55,7 +44,7 @@ const Common = ({ onLogin, device }: CommonProps) => {
             border={"1px"}
             borderColor={"black"}
             leftIcon={<FcGoogle />}
-            onClick={loginHandler}
+            onClick={startGoogleLogin}
         >
             Sign in with Google
         </Button>

@@ -69,6 +69,7 @@ const AppRouter = ({
                             <ChoiceInfo
                                 userObj={userObj}
                                 isLoggedIn={isLoggedIn}
+                                onLogin={() => setLoggedInState(true)}
                             />
                         }
                     />

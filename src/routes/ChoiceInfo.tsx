@@ -25,6 +25,7 @@ import FullImageModal from "components/FullImageModal";
 import DeleteWarningModal from "components/DeleteWarningModal";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import useGoogleLogin from "hooks/useGoogleLogin";
 export interface MatchParams {
     id: string;
 }
@@ -32,6 +33,7 @@ export interface MatchParams {
 interface ChoiceInfoProps {
     userObj: global.User | null;
     isLoggedIn: boolean;
+    onLogin: () => void;
 }
 
 const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
@@ -41,7 +43,7 @@ const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
     );
 };
 
-const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
+const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     const { id: idRef } = useParams();
     const navigate = useNavigate();
     const [init, setInit] = useState(false);
@@ -61,6 +63,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
     const textColor = useColorModeValue("black", "gray.300");
+    const startGoogleLogin = useGoogleLogin(onLogin);
 
     useEffect(() => {
         const getPostInfo = async () => {
@@ -458,7 +461,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn }: ChoiceInfoProps) => {
                             bg={"white"}
                             whiteSpace={"normal"}
                             wordBreak={"break-word"}
-                            onClick={() => {}}
+                            onClick={startGoogleLogin}
                             // 구글 로그인 연결
                         >
                             로그인하고 선택에 참여해보세요!
