@@ -1,23 +1,19 @@
 import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
-import customAxios from "customAixos";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "fb";
+import { Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import "style.css";
 
 const App = () => {
     const [init, setInit] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userObj, setUserObj] = useState<global.User | null>(null);
+    const bgColor = useColorModeValue("gray.200", "gray.700");
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                user.getIdToken().then((token) => {
-                    customAxios.defaults.headers.common[
-                        "Authorization"
-                    ] = `Bearer ${token}`;
-                });
                 setIsLoggedIn(true);
                 user.displayName &&
                     user.email &&
@@ -36,7 +32,14 @@ const App = () => {
         return unsubscribe;
     }, []);
     return (
-        <div className="App">
+        <Flex
+            align={"center"}
+            justify={"center"}
+            bgColor={bgColor}
+            h={"full"}
+            w={"full"}
+            className="App"
+        >
             {init ? (
                 <AppRouter
                     isLoggedIn={isLoggedIn}
@@ -44,9 +47,9 @@ const App = () => {
                     setLoggedInState={(state) => setIsLoggedIn(state)}
                 />
             ) : (
-                <div className="loader"></div>
+                <Spinner size={"xl"} />
             )}
-        </div>
+        </Flex>
     );
 };
 

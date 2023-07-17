@@ -1,16 +1,22 @@
+import { Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 import Content from "components/Content";
-import customAixos from "customAixos";
+import { authorizedCustomAxios } from "customAxios";
 import { useEffect, useState } from "react";
-import { Item } from "routes/ChoiceInfo";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
     const [writed, setWrited] = useState(0);
-    const [writedData, setWritedData] = useState<Item[]>([]);
+    const [writedData, setWritedData] = useState<global.PostWithChoiceCount[]>(
+        []
+    );
+
+    console.log(userObj.photoUrl);
 
     useEffect(() => {
         const getUserPost = async () => {
             try {
-                const { data } = await customAixos.get(`/posts/profile`);
+                const { data } = await authorizedCustomAxios.get<
+                    global.PostWithChoiceCount[]
+                >(`/posts/profile`);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {
@@ -21,26 +27,68 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     }, []);
 
     return (
-        <div className="Profile">
-            <h2 className="Profile-title">DASHBOARD</h2>
-            <h2 className="Profile-mail">
-                오류 및 개선사항 문의 :{" "}
-                <a href="mailto:yin199859@gmail.com">yin199859@gmail.com</a>
-            </h2>
-            <div className="Profile-userInfo">
-                <img src={userObj.photoUrl} alt="없음" />
-                <div className="Profile-text">
-                    <div>닉네임 : {userObj.displayName}</div>
-                    <div>업로드 : {writed}회</div>
-                </div>
-            </div>
-            <h3 className="Profile-myTitle">MY QUESTIONS</h3>
-            <div className="Profile-questions">
+        <Flex
+            bg={"gray.200"}
+            pt={"65px"}
+            flexDir={"column"}
+            align={"center"}
+            h={"full"}
+        >
+            <Heading mt={10} as={"h3"}>
+                DASHBOARD
+            </Heading>
+            <Link
+                href="mailto:yin199859@gmail.com"
+                mt={5}
+                textDecor={"underline"}
+            >
+                오류 및 개선사항 문의하기: yin199859@gmail.com
+            </Link>
+            <Flex
+                w={"full"}
+                justify={"space-around"}
+                align={"center"}
+                mt={5}
+                py={5}
+                bg={"white"}
+                borderRadius={"md"}
+            >
+                <Image
+                    src={userObj.photoUrl}
+                    alt="이미지가 없습니다."
+                    boxShadow={"md"}
+                />
+                <Flex flexDir={"column"} gap={2}>
+                    <Text fontWeight={"semibold"} fontSize={"lg"}>
+                        닉네임 : {userObj.displayName}
+                    </Text>
+                    <Text
+                        fontWeight={"semibold"}
+                        fontSize={"lg"}
+                        color={"pink.500"}
+                    >
+                        업로드 : {writed.toString()}회
+                    </Text>
+                </Flex>
+            </Flex>
+            <Heading as={"h4"} size={"lg"} mt={10}>
+                MY QUESTIONS
+            </Heading>
+            <Flex
+                as="section"
+                bg={"gray.200"}
+                w={"100%"}
+                h={"100%"}
+                overflow={"auto"}
+                p={8}
+                wrap={"wrap"}
+                alignContent={"flex-start"}
+            >
                 {writedData.map((item) => (
                     <Content key={item.id} item={item} />
                 ))}
-            </div>
-        </div>
+            </Flex>
+        </Flex>
     );
 };
 
