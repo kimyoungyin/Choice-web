@@ -9,6 +9,7 @@ import {
     MenuItem,
     MenuList,
     Portal,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import { auth } from "fb";
 import { signOut } from "firebase/auth";
@@ -26,6 +27,8 @@ interface CommonProps extends MediaQueryType {
 
 const Common = ({ onLogin, device }: CommonProps) => {
     const startGoogleLogin = useGoogleLogin(onLogin);
+    const googleButtonColor = useColorModeValue("white", "black");
+
     if (device === "mobile")
         return (
             <IconButton
@@ -40,7 +43,7 @@ const Common = ({ onLogin, device }: CommonProps) => {
 
     return (
         <Button
-            bgColor={"white"}
+            bgColor={googleButtonColor}
             border={"1px"}
             borderColor={"black"}
             leftIcon={<FcGoogle />}

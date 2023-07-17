@@ -63,6 +63,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
     const textColor = useColorModeValue("black", "gray.300");
+    const googleButtonColor = useColorModeValue("white", "black");
     const startGoogleLogin = useGoogleLogin(onLogin);
 
     useEffect(() => {
@@ -458,7 +459,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                             size={"lg"}
                             boxShadow={"md"}
                             leftIcon={<FcGoogle />}
-                            bg={"white"}
+                            bg={googleButtonColor}
                             whiteSpace={"normal"}
                             wordBreak={"break-word"}
                             onClick={startGoogleLogin}
