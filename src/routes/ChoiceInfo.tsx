@@ -62,6 +62,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         "image" | "delete" | null
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
+    const textColor = useColorModeValue("black", "gray.300");
     const googleButtonColor = useColorModeValue("white", "black");
     const startGoogleLogin = useGoogleLogin(onLogin);
 
@@ -205,6 +206,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                     pb={"40px"}
                     position={"relative"}
                     overflowY={"auto"}
+                    color={textColor}
                 >
                     <Flex
                         mt={8}

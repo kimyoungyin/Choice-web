@@ -15,6 +15,7 @@ const CategorySelect = ({
 }: CategorySelectProps) => {
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
     const buttonColor = useColorModeValue("white", "gray.800");
+    const textColor = useColorModeValue("black", "gray.300");
 
     const categoryClickHandler = (id: number) => {
         if (selectedId === id) {
@@ -35,6 +36,7 @@ const CategorySelect = ({
                     variant={"solid"}
                     size={"md"}
                     bgColor={buttonColor}
+                    color={textColor}
                     _hover={{
                         transform: "scale(1.05)",
                     }}
