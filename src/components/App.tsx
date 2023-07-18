@@ -10,6 +10,7 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userObj, setUserObj] = useState<global.User | null>(null);
     const bgColor = useColorModeValue("gray.200", "gray.700");
+    const textColor = useColorModeValue("black", "gray.300");
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -39,6 +40,7 @@ const App = () => {
             h={"full"}
             w={"full"}
             className="App"
+            color={textColor}
         >
             {init ? (
                 <AppRouter

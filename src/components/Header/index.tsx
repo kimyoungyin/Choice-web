@@ -25,7 +25,6 @@ const Header = ({ isLoggedIn, userObj, setLoggedInState }: HeaderProps) => {
     const bgColor = useColorModeValue("white", "gray.800");
     const headerBorderBottom = useColorModeValue("1px", "none");
     const colorModeIcon = useColorModeValue(MoonIcon, SunIcon);
-    const textColor = useColorModeValue("black", "gray.200");
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
     const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)");
 
@@ -42,7 +41,6 @@ const Header = ({ isLoggedIn, userObj, setLoggedInState }: HeaderProps) => {
             borderBottom={headerBorderBottom}
             borderColor={borderColor}
             bg={bgColor}
-            color={textColor}
         >
             <Flex align={"center"} gap={4} w={"100%"} maxW={1440}>
                 <Heading as={Link} to={"/"} display={"flex"}>

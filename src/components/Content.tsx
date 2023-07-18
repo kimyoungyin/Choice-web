@@ -25,7 +25,6 @@ const Content = ({ item }: ContentProps) => {
     const borderColor = useColorModeValue("gray.200", "pink.500");
     const cardBackgroundColor = useColorModeValue("white", "gray.800");
     const cardBottomBackgroundColor = useColorModeValue("gray.700", "gray.800");
-    const textColor = useColorModeValue("black", "gray.300");
 
     const goToChoiceInfo = () => {
         navigate(`/detail/${item.id}`);
@@ -96,7 +95,6 @@ const Content = ({ item }: ContentProps) => {
                 h={300}
                 onClick={goToChoiceInfo}
                 cursor={"pointer"}
-                color={textColor}
             >
                 <Flex flexDir={"column"} h={"100%"}>
                     <Flex
