@@ -291,6 +291,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                 size={"md"}
                                 textAlign={"center"}
                                 fontWeight={"semibold"}
+                                color={textColor}
                             >
                                 {item.choice1}
                             </Heading>
@@ -338,6 +339,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                 size={"md"}
                                 textAlign={"center"}
                                 fontWeight={"semibold"}
+                                color={textColor}
                             >
                                 {item.choice2}
                             </Heading>
