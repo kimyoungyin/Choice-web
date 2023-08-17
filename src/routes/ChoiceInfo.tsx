@@ -26,6 +26,7 @@ import DeleteWarningModal from "components/DeleteWarningModal";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import useGoogleLogin from "hooks/useGoogleLogin";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 export interface MatchParams {
     id: string;
 }
@@ -193,6 +194,14 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         setClickedImg(src);
     };
 
+    const shareData: ShareData = {
+        title: item?.title,
+        text: `${item?.choice1} vs ${item?.choice2}`,
+        url: window.location.href,
+    };
+
+    console.log(navigator.canShare(shareData) ? "가능" : "불가능");
+
     return (
         <>
             {init && item ? (
@@ -252,11 +261,29 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         </Button>
                                         <Divider
                                             orientation="vertical"
-                                            mx={3}
                                             borderColor={"gray.200"}
+                                            mx={3}
                                         />
                                     </>
                                 )}
+                            (
+                            {navigator.canShare() && (
+                                <Button
+                                    leftIcon={<ExternalLinkIcon />}
+                                    variant={"ghost"}
+                                    size={"small"}
+                                    colorScheme="blue"
+                                    onClick={() => {}}
+                                >
+                                    공유하기
+                                </Button>
+                            )}
+                            )
+                            <Divider
+                                orientation="vertical"
+                                borderColor={"gray.200"}
+                                mx={3}
+                            />
                             <Icon as={BsFillPersonFill} mr={1} />
                             {choice1Users + choice2Users}
                         </Card>
