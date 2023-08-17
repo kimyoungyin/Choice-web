@@ -194,6 +194,24 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         setClickedImg(src);
     };
 
+    const isShareSupported = () => navigator.share ?? false;
+
+    const share = () => {
+        const data: ShareData = {
+            url: window.location.href,
+            title: item?.title,
+            text: `${item?.choice1} vs ${item?.choice2}`,
+        };
+        return new Promise<boolean>(async (resolve) => {
+            if (isShareSupported()) {
+                await navigator.share(data);
+                resolve(true);
+                return;
+            }
+            resolve(false);
+        });
+    };
+
     return (
         <>
             {init && item ? (
@@ -258,17 +276,15 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         />
                                     </>
                                 )}
-                            ( (
                             <Button
                                 leftIcon={<ExternalLinkIcon />}
                                 variant={"ghost"}
                                 size={"small"}
                                 colorScheme="blue"
-                                onClick={() => {}}
+                                onClick={share}
                             >
                                 공유하기
                             </Button>
-                            ) )
                             <Divider
                                 orientation="vertical"
                                 borderColor={"gray.200"}
