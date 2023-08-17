@@ -1,4 +1,11 @@
-import { Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
+import {
+    Flex,
+    Heading,
+    Image,
+    Link,
+    Text,
+    useColorModeValue,
+} from "@chakra-ui/react";
 import Content from "components/Content";
 import { authorizedCustomAxios } from "customAxios";
 import { useEffect, useState } from "react";
@@ -8,8 +15,8 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     const [writedData, setWritedData] = useState<global.PostWithChoiceCount[]>(
         []
     );
-
-    console.log(userObj.photoUrl);
+    const descriptionBackgroundColor = useColorModeValue("white", "gray.800");
+    const textColor = useColorModeValue("black", "gray.300");
 
     useEffect(() => {
         const getUserPost = async () => {
@@ -28,11 +35,11 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
 
     return (
         <Flex
-            bg={"gray.200"}
             pt={"65px"}
             flexDir={"column"}
             align={"center"}
             h={"full"}
+            color={textColor}
         >
             <Heading mt={10} as={"h3"}>
                 DASHBOARD
@@ -50,13 +57,14 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
                 align={"center"}
                 mt={5}
                 py={5}
-                bg={"white"}
+                bg={descriptionBackgroundColor}
                 borderRadius={"md"}
             >
                 <Image
                     src={userObj.photoUrl}
                     alt="이미지가 없습니다."
                     boxShadow={"md"}
+                    borderRadius={"md"}
                 />
                 <Flex flexDir={"column"} gap={2}>
                     <Text fontWeight={"semibold"} fontSize={"lg"}>
@@ -76,7 +84,6 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
             </Heading>
             <Flex
                 as="section"
-                bg={"gray.200"}
                 w={"100%"}
                 h={"100%"}
                 overflow={"auto"}
