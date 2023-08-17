@@ -266,19 +266,17 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         />
                                     </>
                                 )}
-                            (
-                            {navigator.canShare() && (
-                                <Button
-                                    leftIcon={<ExternalLinkIcon />}
-                                    variant={"ghost"}
-                                    size={"small"}
-                                    colorScheme="blue"
-                                    onClick={() => {}}
-                                >
-                                    공유하기
-                                </Button>
-                            )}
-                            )
+                            ( (
+                            <Button
+                                leftIcon={<ExternalLinkIcon />}
+                                variant={"ghost"}
+                                size={"small"}
+                                colorScheme="blue"
+                                onClick={() => {}}
+                            >
+                                공유하기
+                            </Button>
+                            ) )
                             <Divider
                                 orientation="vertical"
                                 borderColor={"gray.200"}
