@@ -10,6 +10,7 @@ import {
     Radio,
     RadioGroup,
     Select,
+    useColorModeValue,
 } from "@chakra-ui/react";
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
@@ -62,6 +63,8 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     const choice2InputRef = useRef<HTMLInputElement>(null);
     const choice1ImageInputRef = useRef<HTMLInputElement>(null);
     const choice2ImageInputRef = useRef<HTMLInputElement>(null);
+    const labelBackgroundColor = useColorModeValue("white", "gray.800");
+    const textColor = useColorModeValue("black", "gray.300");
 
     const CHOICE_INPUT_LAYOUTS: {
         choiceNum: 1 | 2;
@@ -242,6 +245,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                 mx={"auto"}
                 overflow={"auto"}
                 gap={20}
+                color={textColor}
             >
                 <Heading pt={"1em"}>질문 업로드</Heading>
                 <FormControl w={"full"}>
@@ -255,7 +259,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                         value={categoryType}
                         mb={2}
                         p={2}
-                        bg={"white"}
+                        bg={labelBackgroundColor}
                         borderRadius={"md"}
                     >
                         <Radio
@@ -331,14 +335,13 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                             </FormLabel>
                             <FormLabel
                                 htmlFor={`AddForm-choice${layout.choiceNum}`}
-                                bg={"white"}
+                                bg={labelBackgroundColor}
                                 w={"full"}
                                 p={1.5}
                                 borderRadius={"md"}
+                                cursor={"pointer"}
                             >
-                                <Center>
-                                    선택 {layout.choiceNum} 이미지 올리기
-                                </Center>
+                                <Center>이미지 올리기</Center>
                             </FormLabel>
                             <Input
                                 display={"none"}
@@ -372,7 +375,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
                                         }
                                         type="reset"
                                         variant={"outline"}
-                                        color={"red"}
+                                        colorScheme="red"
                                     >
                                         CLEAR IMAGE
                                     </Button>
