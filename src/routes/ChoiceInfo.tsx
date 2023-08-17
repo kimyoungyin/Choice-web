@@ -194,14 +194,6 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         setClickedImg(src);
     };
 
-    const shareData: ShareData = {
-        title: item?.title,
-        text: `${item?.choice1} vs ${item?.choice2}`,
-        url: window.location.href,
-    };
-
-    console.log(navigator.canShare(shareData) ? "가능" : "불가능");
-
     return (
         <>
             {init && item ? (
