@@ -27,6 +27,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import useGoogleLogin from "hooks/useGoogleLogin";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import changePageMetaTags from "utils/changePageMetaTags";
 export interface MatchParams {
     id: string;
 }
@@ -103,6 +104,20 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         };
         getPostInfo();
     }, [idRef, isLoggedIn, navigate]);
+
+    useEffect(() => {
+        changePageMetaTags(
+            item?.title,
+            `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
+            item?.choice1Url || item?.choice2Url || undefined
+        );
+    }, [
+        item?.title,
+        item?.choice1,
+        item?.choice2,
+        item?.choice1Url,
+        item?.choice2Url,
+    ]);
 
     const choiceHandler = (selectedChoice: boolean) =>
         setSelectedChoice((prev) =>

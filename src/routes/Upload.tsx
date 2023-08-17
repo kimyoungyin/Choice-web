@@ -24,6 +24,7 @@ import {
     useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import changePageMetaTags from "utils/changePageMetaTags";
 import validateInputLength from "utils/validateInputLength";
 
 interface UploadProps {
@@ -95,6 +96,7 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
     ];
 
     useEffect(() => {
+        changePageMetaTags("업로드");
         const asyncFunction = async () => {
             try {
                 const { data: categories } = await customAxios.get(

@@ -9,6 +9,7 @@ import {
 import Content from "components/Content";
 import { authorizedCustomAxios } from "customAxios";
 import { useEffect, useState } from "react";
+import changePageMetaTags from "utils/changePageMetaTags";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
     const [writed, setWrited] = useState(0);
@@ -19,6 +20,11 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     const textColor = useColorModeValue("black", "gray.300");
 
     useEffect(() => {
+        changePageMetaTags(
+            `${userObj.displayName}님의 프로필`,
+            undefined,
+            userObj.photoUrl
+        );
         const getUserPost = async () => {
             try {
                 const { data } = await authorizedCustomAxios.get<

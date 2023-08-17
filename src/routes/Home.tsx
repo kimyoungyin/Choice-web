@@ -3,6 +3,7 @@ import Content from "../components/Content";
 import { Flex, Spinner, Text, useMediaQuery } from "@chakra-ui/react";
 import { customAxios } from "customAxios";
 import CategorySelect from "components/CategorySelect";
+import changePageMetaTags from "utils/changePageMetaTags";
 
 const Home = () => {
     const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -16,6 +17,7 @@ const Home = () => {
     );
 
     useEffect(() => {
+        changePageMetaTags();
         const asyncFunction = async () => {
             try {
                 const { data: posts } = await customAxios.get<
