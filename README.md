@@ -19,6 +19,7 @@
 ![yychoice구현](https://github.com/kimyoungyin/yychoice__server/assets/78777345/d724aa6c-f4dc-4428-b220-1cbd1ceacb9b)
 
 ## 구현 페이지: 반응형(모바일, pc), 다크모드 지원
+
 <details>
   <summary><h4>Home: 전체 혹은 특정 카테고리로 필터링하여 유저들의 고민들을 찾아보세요</h4></summary>
 <img width="1440" alt="스크린샷 2023-08-17 오후 5 34 01" src="https://github.com/kimyoungyin/yychoice__client/assets/78777345/26689ca1-7f45-41e1-bc95-00bbcd805d06">
@@ -39,10 +40,8 @@
 <img width="1440" alt="스크린샷 2023-08-17 오후 5 34 57" src="https://github.com/kimyoungyin/yychoice__client/assets/78777345/7275cb77-e434-4fe2-b776-647af6b02fe5">
 </details>
 
-
 ## 추후 구현 예정
 
 -   [ ] 카테고리 검색
 -   [ ] 게시물 검색
--   [ ] 공유하기: React의 한계로 Next.js로 이전 후 진행할 예정
 -   [ ] 전역 state 관리
