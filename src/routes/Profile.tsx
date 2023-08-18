@@ -20,7 +20,11 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
     const textColor = useColorModeValue("black", "gray.300");
 
     useEffect(() => {
-        changePageMetaTags(`${userObj.displayName}님의 프로필`);
+        changePageMetaTags(
+            `${userObj.displayName}님의 프로필`,
+            undefined,
+            userObj.photoUrl
+        );
         const getUserPost = async () => {
             try {
                 const { data } = await authorizedCustomAxios.get<

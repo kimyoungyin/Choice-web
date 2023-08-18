@@ -27,6 +27,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import useGoogleLogin from "hooks/useGoogleLogin";
 import changePageMetaTags from "utils/changePageMetaTags";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 export interface MatchParams {
     id: string;
 }
@@ -105,8 +106,18 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     }, [idRef, isLoggedIn, navigate]);
 
     useEffect(() => {
-        changePageMetaTags(item?.title);
-    }, [item?.title]);
+        changePageMetaTags(
+            item?.title,
+            `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
+            item?.choice1Url || item?.choice2Url || undefined
+        );
+    }, [
+        item?.title,
+        item?.choice1,
+        item?.choice2,
+        item?.choice1Url,
+        item?.choice2Url,
+    ]);
 
     const choiceHandler = (selectedChoice: boolean) =>
         setSelectedChoice((prev) =>
@@ -198,39 +209,39 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         setClickedImg(src);
     };
 
-    // const isShareSupported = () => navigator.share ?? false;
+    const isShareSupported = () => navigator.share ?? false;
 
-    // const share = () => {
-    //     const data: ShareData = {
-    //         url: window.location.href,
-    //         title: item?.title,
-    //         text: `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
-    //     };
-    //     return new Promise<boolean>(async (resolve) => {
-    //         if (isShareSupported()) {
-    //             await navigator.share(data);
-    //             resolve(true);
-    //             return;
-    //         } else if (navigator.clipboard) {
-    //             navigator.clipboard.writeText(window.location.href).then(() => {
-    //                 toast({
-    //                     title: "링크가 클립보드에 복사되었습니다.",
-    //                     status: "success",
-    //                     position: "bottom",
-    //                 });
-    //             });
-    //             resolve(true);
-    //             return;
-    //         } else {
-    //             toast({
-    //                 title: "공유하기가 지원되지 않는 환경입니다.",
-    //                 status: "error",
-    //                 position: "bottom",
-    //             });
-    //             resolve(false);
-    //         }
-    //     });
-    // };
+    const share = () => {
+        const data: ShareData = {
+            url: window.location.href,
+            title: item?.title,
+            text: `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
+        };
+        return new Promise<boolean>(async (resolve) => {
+            if (isShareSupported()) {
+                await navigator.share(data);
+                resolve(true);
+                return;
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    toast({
+                        title: "링크가 클립보드에 복사되었습니다.",
+                        status: "success",
+                        position: "bottom",
+                    });
+                });
+                resolve(true);
+                return;
+            } else {
+                toast({
+                    title: "공유하기가 지원되지 않는 환경입니다.",
+                    status: "error",
+                    position: "bottom",
+                });
+                resolve(false);
+            }
+        });
+    };
 
     return (
         <>
@@ -296,7 +307,20 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         />
                                     </>
                                 )}
-
+                            <Button
+                                leftIcon={<ExternalLinkIcon />}
+                                variant={"ghost"}
+                                size={"small"}
+                                colorScheme="blue"
+                                onClick={share}
+                            >
+                                공유하기
+                            </Button>
+                            <Divider
+                                orientation="vertical"
+                                borderColor={"gray.200"}
+                                mx={3}
+                            />
                             <Icon as={BsFillPersonFill} mr={1} />
                             {choice1Users + choice2Users}
                         </Card>
