@@ -111,6 +111,18 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         asyncFunction();
     }, [navigate]);
 
+    useEffect(() => {
+        const warnUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        window.addEventListener("beforeunload", warnUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", warnUnload);
+        };
+    }, []);
+
     const handleCategoryRadioChange = (value: string) => {
         setCategoryType(value === "current" ? "current" : "new");
     };
