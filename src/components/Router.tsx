@@ -1,16 +1,18 @@
+import { useState } from "react";
 import {
     BrowserRouter as Router,
     Route,
     Routes,
     Navigate,
 } from "react-router-dom";
+
+import { useDisclosure } from "@chakra-ui/react";
+
+import Layout from "layouts/Layout";
+import ChoiceInfo from "routes/ChoiceInfo";
 import Home from "routes/Home";
 import Profile from "routes/Profile";
-import ChoiceInfo from "routes/ChoiceInfo";
 import Upload from "routes/Upload";
-import { useState } from "react";
-import Layout from "layouts/Layout";
-import { useDisclosure } from "@chakra-ui/react";
 
 interface AppRouterProps {
     isLoggedIn: boolean;

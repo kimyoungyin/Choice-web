@@ -1,9 +1,11 @@
-import Notification from "components/Notification";
-import Header from "components/Header";
 import { Outlet } from "react-router";
-import { Box, IconButton, useMediaQuery } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
+
+import { AddIcon } from "@chakra-ui/icons";
+import { Box, IconButton, useMediaQuery } from "@chakra-ui/react";
+
+import Header from "components/Header";
+import Notification from "components/Notification";
 
 interface LayoutProps {
     isLoggedIn: boolean;

@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import Content from "../components/Content";
+
 import { Flex, Spinner, Text, useMediaQuery } from "@chakra-ui/react";
-import { customAxios } from "customAxios";
+
 import CategorySelect from "components/CategorySelect";
+import Content from "components/Content";
+import { customAxios } from "customAxios";
 import changePageMetaTags from "utils/changePageMetaTags";
 
 const Home = () => {
@@ -20,12 +22,12 @@ const Home = () => {
         changePageMetaTags();
         const asyncFunction = async () => {
             try {
-                const { data: posts } = await customAxios.get<
-                    global.PostWithChoiceCount[]
-                >("/posts");
-                const { data: categories } = await customAxios.get<
-                    global.Category[]
-                >("/categories");
+                const { data: posts } =
+                    await customAxios.get<global.PostWithChoiceCount[]>(
+                        "/posts"
+                    );
+                const { data: categories } =
+                    await customAxios.get<global.Category[]>("/categories");
                 setChoiceItems(posts);
                 setFilters(categories);
             } catch (error) {

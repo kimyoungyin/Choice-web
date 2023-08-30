@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
     Flex,
     Heading,
@@ -6,9 +8,9 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+
 import Content from "components/Content";
 import { authorizedCustomAxios } from "customAxios";
-import { useEffect, useState } from "react";
 import changePageMetaTags from "utils/changePageMetaTags";
 
 const Profile = ({ userObj }: { userObj: global.User }) => {
@@ -27,9 +29,10 @@ const Profile = ({ userObj }: { userObj: global.User }) => {
         );
         const getUserPost = async () => {
             try {
-                const { data } = await authorizedCustomAxios.get<
-                    global.PostWithChoiceCount[]
-                >(`/posts/profile`);
+                const { data } =
+                    await authorizedCustomAxios.get<
+                        global.PostWithChoiceCount[]
+                    >(`/posts/profile`);
                 setWrited(data.length);
                 setWritedData(data);
             } catch (error) {

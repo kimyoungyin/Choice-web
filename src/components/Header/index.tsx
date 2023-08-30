@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
     Flex,
@@ -10,8 +12,8 @@ import {
     useColorModeValue,
     useMediaQuery,
 } from "@chakra-ui/react";
+
 import TopNav from "components/Header/TopNav";
-import { Link } from "react-router-dom";
 
 interface HeaderProps {
     isLoggedIn: boolean;

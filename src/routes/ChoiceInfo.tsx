@@ -1,5 +1,7 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
     AspectRatio,
     Box,
@@ -19,15 +21,16 @@ import {
     useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
-import { authorizedCustomAxios, customAxios } from "customAxios";
-import { BsFillPersonFill } from "react-icons/bs";
-import FullImageModal from "components/FullImageModal";
-import DeleteWarningModal from "components/DeleteWarningModal";
-import { FcGoogle } from "react-icons/fc";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { BsFillPersonFill } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+
+import DeleteWarningModal from "components/DeleteWarningModal";
+import FullImageModal from "components/FullImageModal";
+import { authorizedCustomAxios, customAxios } from "customAxios";
 import useGoogleLogin from "hooks/useGoogleLogin";
 import changePageMetaTags from "utils/changePageMetaTags";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+
 export interface MatchParams {
     id: string;
 }
@@ -217,6 +220,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
             title: item?.title,
             text: `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
         };
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise<boolean>(async (resolve) => {
             if (isShareSupported()) {
                 await navigator.share(data);

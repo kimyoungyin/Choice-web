@@ -1,8 +1,10 @@
-import AppRouter from "components/Router";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "fb";
+
 import { Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
+
+import AppRouter from "components/Router";
+import { auth } from "fb";
+import { onAuthStateChanged } from "firebase/auth";
 import "style.css";
 
 const App = () => {

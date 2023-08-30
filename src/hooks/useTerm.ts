@@ -1,14 +1,14 @@
 export const useTerm = (when: number) => {
     let gap = Date.now() - when;
-    let years: number | string = Math.floor(
+    const years: number | string = Math.floor(
         gap / (1000 * 60 * 60 * 24 * 30 * 12)
     );
-    let months: number = Math.floor(gap / (1000 * 60 * 60 * 24 * 30));
-    let days: number = Math.floor(gap / (1000 * 60 * 60 * 24));
+    const months: number = Math.floor(gap / (1000 * 60 * 60 * 24 * 30));
+    const days: number = Math.floor(gap / (1000 * 60 * 60 * 24));
     gap -= days * 24 * 60 * 60 * 1000;
-    let hours: number = Math.floor(gap / (1000 * 60 * 60));
+    const hours: number = Math.floor(gap / (1000 * 60 * 60));
     gap -= hours * 60 * 60 * 1000;
-    let minutes: number = Math.floor(gap / (1000 * 60));
+    const minutes: number = Math.floor(gap / (1000 * 60));
 
     if (Number(years) !== 0) {
         return `${years}년 전`;
