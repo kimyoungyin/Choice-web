@@ -1,4 +1,14 @@
 import {
+    ChangeEvent,
+    FormEvent,
+    Fragment,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
+
+import {
     Button,
     Center,
     Flex,
@@ -12,18 +22,10 @@ import {
     Select,
     useColorModeValue,
 } from "@chakra-ui/react";
+
 import imageCompression, { Options } from "browser-image-compression";
 import { authorizedCustomAxios, customAxios } from "customAxios";
 import useInput from "hooks/useInput";
-import {
-    ChangeEvent,
-    FormEvent,
-    Fragment,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-import { useNavigate } from "react-router-dom";
 import changePageMetaTags from "utils/changePageMetaTags";
 import validateInputLength from "utils/validateInputLength";
 
@@ -99,9 +101,8 @@ const Upload = ({ userObj, onStartUpload, onCompleteUpload }: UploadProps) => {
         changePageMetaTags("업로드");
         const asyncFunction = async () => {
             try {
-                const { data: categories } = await customAxios.get(
-                    "/categories"
-                );
+                const { data: categories } =
+                    await customAxios.get("/categories");
                 setCategories(categories);
                 setIsCategoryFetching(false);
             } catch (error) {

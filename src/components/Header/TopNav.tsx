@@ -1,3 +1,5 @@
+import { NavLink, useLocation } from "react-router-dom";
+
 import {
     Avatar,
     Button,
@@ -11,11 +13,11 @@ import {
     Portal,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { FcGoogle } from "react-icons/fc";
+
 import { auth } from "fb";
 import { signOut } from "firebase/auth";
 import useGoogleLogin from "hooks/useGoogleLogin";
-import { FcGoogle } from "react-icons/fc";
-import { NavLink, useLocation } from "react-router-dom";
 
 interface MediaQueryType {
     device: "mobile" | "tablet" | "desktop";

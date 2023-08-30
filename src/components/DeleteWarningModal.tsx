@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
     Button,
     Modal,
@@ -7,7 +9,6 @@ import {
     ModalHeader,
     ModalOverlay,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 interface DeleteWarningModalProps {
     isOpen: boolean;

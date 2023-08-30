@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { EditIcon, RepeatIcon, TimeIcon } from "@chakra-ui/icons";
 import {
     Box,
@@ -10,9 +12,9 @@ import {
     Text,
     useColorModeValue,
 } from "@chakra-ui/react";
+
 import useMediaQueryWidth from "hooks/useMediaQueryWidth";
 import { useTerm } from "hooks/useTerm";
-import { useNavigate } from "react-router-dom";
 interface ContentProps {
     item: global.PostWithChoiceCount;
 }
