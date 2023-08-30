@@ -214,19 +214,18 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
 
     const isShareSupported = () => navigator.share ?? false;
 
-    const share = () => {
+    const share = async () => {
         const data: ShareData = {
             url: window.location.href,
             title: item?.title,
             text: `${item?.choice1} vs ${item?.choice2}: 당신의 선택은?`,
         };
-        // eslint-disable-next-line no-async-promise-executor
-        return new Promise<boolean>(async (resolve) => {
+        try {
             if (isShareSupported()) {
                 await navigator.share(data);
-                resolve(true);
                 return;
-            } else if (navigator.clipboard) {
+            }
+            if (navigator.clipboard) {
                 navigator.clipboard.writeText(window.location.href).then(() => {
                     toast({
                         title: "링크가 클립보드에 복사되었습니다.",
@@ -234,17 +233,21 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                         position: "bottom",
                     });
                 });
-                resolve(true);
                 return;
-            } else {
-                toast({
-                    title: "공유하기가 지원되지 않는 환경입니다.",
-                    status: "error",
-                    position: "bottom",
-                });
-                resolve(false);
             }
-        });
+            toast({
+                title: "공유하기가 지원되지 않는 환경입니다.",
+                status: "error",
+                position: "bottom",
+            });
+            return;
+        } catch (error) {
+            return toast({
+                title: "알 수 없는 에러가 발생했습니다.",
+                status: "error",
+                position: "bottom",
+            });
+        }
     };
 
     return (
