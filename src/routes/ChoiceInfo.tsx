@@ -1,7 +1,7 @@
 import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, SearchIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
     AspectRatio,
     Box,
@@ -18,6 +18,7 @@ import {
     StatNumber,
     Text,
     ToastId,
+    keyframes,
     useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
@@ -54,6 +55,22 @@ const CHOICE_2 = true;
 const getColor = (choiceType: boolean) =>
     choiceType === CHOICE_1 ? "green.400" : "orange.400";
 
+const upAndDown = keyframes`
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.8;
+    }
+    60% {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 0;
+    }
+`;
+const arrowAnimation = `${upAndDown} infinite 1.5s ease-in-out`;
+
 const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     const { id: idRef } = useParams();
     const navigate = useNavigate();
@@ -73,6 +90,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         "image" | "delete" | null
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
+
+    const choice1ImageButtonRef = useRef<HTMLButtonElement>(null);
+    const choice2ImageButtonRef = useRef<HTMLButtonElement>(null);
+
     const textColor = useColorModeValue("black", "gray.300");
     const googleButtonColor = useColorModeValue("white", "black");
     const startGoogleLogin = useGoogleLogin(onLogin);
@@ -128,10 +149,25 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         item?.choice2Url,
     ]);
 
-    const choiceHandler = (selectedChoice: boolean) =>
+    const choiceHandler = (
+        event: MouseEvent<HTMLDivElement>,
+        selectedChoice: boolean
+    ) => {
+        if (!isLoggedIn) return;
+        if (isSelectFetching) return;
+        if (!choice1ImageButtonRef.current || !choice2ImageButtonRef.current)
+            return;
+        if (
+            (selectedChoice === CHOICE_1 &&
+                choice1ImageButtonRef.current.contains(event.target as Node)) ||
+            (selectedChoice === CHOICE_2 &&
+                choice2ImageButtonRef.current.contains(event.target as Node))
+        )
+            return;
         setSelectedChoice((prev) =>
             prev === selectedChoice ? null : selectedChoice
         );
+    };
 
     const completeSelect = async () => {
         // db랑 현재 선택한 거랑 같으면 return
@@ -210,12 +246,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         }
     };
 
-    const toggleImgModal = (event: MouseEvent<HTMLImageElement>) => {
-        const {
-            currentTarget: { src },
-        } = event;
+    const toggleImgModal = (choiceUrl: string | null | undefined) => {
+        if (choiceUrl === null || choiceUrl === undefined) return;
         setActivatedModal("image");
-        setClickedImg(src);
+        setClickedImg(choiceUrl);
     };
 
     const isShareSupported = () => navigator.share ?? false;
@@ -262,12 +296,14 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
             isSelectedMore: choice1Users > choice2Users,
             choiceUrl: item?.choice1Url,
             choiceType: CHOICE_1,
+            ref: choice1ImageButtonRef,
         },
         {
             choice: item?.choice2,
             isSelectedMore: choice2Users > choice1Users,
             choiceUrl: item?.choice2Url,
             choiceType: CHOICE_2,
+            ref: choice2ImageButtonRef,
         },
     ];
 
@@ -363,66 +399,88 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                     >
                         Q. {item.title}
                     </Heading>
-                    <Flex align={"center"} w={"80%"} maxW={1024}>
+                    <Flex
+                        align={"flex-start"}
+                        w={"80%"}
+                        maxW={1024}
+                        justify={"space-between"}
+                    >
                         {itemObjArr.map((itemObj, index) => (
                             <Fragment key={itemObj.choice}>
-                                <Card
-                                    key={itemObj.choice}
-                                    border={"2px"}
-                                    borderColor={getColor(itemObj.choiceType)}
+                                <Flex
+                                    flexDir={"column"}
+                                    align={"center"}
+                                    gap={10}
                                     w={"40%"}
                                     maxW={"30vh"}
-                                    transform={
-                                        itemObj.isSelectedMore
-                                            ? "scale(1.1)"
-                                            : undefined
-                                    }
-                                    transition={"all 0.5s"}
                                 >
-                                    <Heading
-                                        p={4}
-                                        as={"h4"}
-                                        size={"md"}
-                                        textAlign={"center"}
-                                        fontWeight={"semibold"}
-                                        color={textColor}
-                                    >
-                                        {itemObj.choice}
-                                    </Heading>
-                                    {itemObj.choiceUrl && (
-                                        <AspectRatio
-                                            ratio={1}
-                                            cursor={"pointer"}
-                                        >
-                                            <Image
-                                                src={itemObj.choiceUrl}
-                                                onClick={toggleImgModal}
-                                            />
-                                        </AspectRatio>
-                                    )}
-                                    {isLoggedIn && (
-                                        <Button
-                                            borderTopRadius={0}
-                                            isDisabled={isSelectFetching}
-                                            onClick={() =>
-                                                choiceHandler(
-                                                    itemObj.choiceType
-                                                )
-                                            }
-                                            isActive={
-                                                selectedChoice ===
+                                    <Card
+                                        key={itemObj.choice}
+                                        border={"2px"}
+                                        w={"100%"}
+                                        borderColor={getColor(
+                                            itemObj.choiceType
+                                        )}
+                                        transform={
+                                            itemObj.isSelectedMore
+                                                ? "scale(1.3)"
+                                                : undefined
+                                        }
+                                        transition={"all 0.5s"}
+                                        cursor={
+                                            isLoggedIn
+                                                ? "pointer"
+                                                : "not-allowed"
+                                        }
+                                        onClick={(event) =>
+                                            choiceHandler(
+                                                event,
                                                 itemObj.choiceType
-                                            }
+                                            )
+                                        }
+                                    >
+                                        <Heading
+                                            p={4}
+                                            as={"h4"}
+                                            size={"md"}
+                                            textAlign={"center"}
+                                            fontWeight={"semibold"}
+                                            color={textColor}
                                         >
-                                            {isSelectFetching
-                                                ? "로딩중.."
-                                                : selectedChoice ===
-                                                  itemObj.choiceType
-                                                ? "선택됨"
-                                                : "선택하기"}
-                                        </Button>
-                                    )}
-                                </Card>
+                                            {itemObj.choice}
+                                        </Heading>
+                                        {itemObj.choiceUrl && (
+                                            <AspectRatio ratio={1}>
+                                                <Image
+                                                    src={itemObj.choiceUrl}
+                                                />
+                                            </AspectRatio>
+                                        )}
+                                        {itemObj.choiceUrl && (
+                                            <Button
+                                                ref={itemObj.ref}
+                                                leftIcon={<SearchIcon />}
+                                                borderTopRadius={0}
+                                                cursor={"pointer"}
+                                                onClick={() =>
+                                                    toggleImgModal(
+                                                        itemObj.choiceUrl
+                                                    )
+                                                }
+                                            >
+                                                이미지 확대
+                                            </Button>
+                                        )}
+                                    </Card>
+                                    {isLoggedIn &&
+                                        selectedChoice ===
+                                            itemObj.choiceType && (
+                                            <TriangleUpIcon
+                                                boxSize={10}
+                                                animation={arrowAnimation}
+                                            />
+                                        )}
+                                </Flex>
                                 {index === 0 && (
                                     <Text
                                         flex={1}
@@ -513,6 +571,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                     {isLoggedIn ? (
                         <Button
                             mt={16}
+                            minH={12}
                             size={"lg"}
                             boxShadow={"md"}
                             onClick={completeSelect}
