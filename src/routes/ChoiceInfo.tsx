@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { ExternalLinkIcon } from "@chakra-ui/icons";
@@ -47,6 +47,12 @@ const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
         ((type ? type2Users : type1Users) / (type1Users + type2Users)) * 100
     );
 };
+
+const CHOICE_1 = false;
+const CHOICE_2 = true;
+
+const getColor = (choiceType: boolean) =>
+    choiceType === CHOICE_1 ? "green.400" : "orange.400";
 
 const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     const { id: idRef } = useParams();
@@ -250,6 +256,21 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         }
     };
 
+    const itemObjArr = [
+        {
+            choice: item?.choice1,
+            isSelectedMore: choice1Users > choice2Users,
+            choiceUrl: item?.choice1Url,
+            choiceType: CHOICE_1,
+        },
+        {
+            choice: item?.choice2,
+            isSelectedMore: choice2Users > choice1Users,
+            choiceUrl: item?.choice2Url,
+            choiceType: CHOICE_2,
+        },
+    ];
+
     return (
         <>
             {init && item ? (
@@ -343,100 +364,76 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                         Q. {item.title}
                     </Heading>
                     <Flex align={"center"} w={"80%"} maxW={1024}>
-                        {/* 서버에서 보내주는 item을 객체 형태로 보내주고 map 처리하자 */}
-                        <Card
-                            border={"2px"}
-                            borderColor={"green.400"}
-                            w={"40%"}
-                            maxW={"30vh"}
-                            transform={
-                                choice1Users > choice2Users
-                                    ? "scale(1.1)"
-                                    : undefined
-                            }
-                            transition={"all 0.5s"}
-                        >
-                            <Heading
-                                p={4}
-                                as={"h4"}
-                                size={"md"}
-                                textAlign={"center"}
-                                fontWeight={"semibold"}
-                                color={textColor}
-                            >
-                                {item.choice1}
-                            </Heading>
-                            {item.choice1Url && (
-                                <AspectRatio ratio={1} cursor={"pointer"}>
-                                    <Image
-                                        src={item.choice1Url}
-                                        onClick={toggleImgModal}
-                                    />
-                                </AspectRatio>
-                            )}
-                            {isLoggedIn && (
-                                <Button
-                                    borderTopRadius={0}
-                                    isDisabled={isSelectFetching}
-                                    onClick={() => choiceHandler(false)}
-                                    isActive={selectedChoice === false}
+                        {itemObjArr.map((itemObj, index) => (
+                            <Fragment key={itemObj.choice}>
+                                <Card
+                                    key={itemObj.choice}
+                                    border={"2px"}
+                                    borderColor={getColor(itemObj.choiceType)}
+                                    w={"40%"}
+                                    maxW={"30vh"}
+                                    transform={
+                                        itemObj.isSelectedMore
+                                            ? "scale(1.1)"
+                                            : undefined
+                                    }
+                                    transition={"all 0.5s"}
                                 >
-                                    {isSelectFetching
-                                        ? "로딩중.."
-                                        : selectedChoice === false
-                                        ? "선택됨"
-                                        : "선택하기"}
-                                </Button>
-                            )}
-                        </Card>
-                        <Text flex={1} textAlign={"center"} fontSize={"3xl"}>
-                            VS
-                        </Text>
-                        <Card
-                            border={"2px"}
-                            borderColor={"orange.400"}
-                            w={"40%"}
-                            maxW={"30vh"}
-                            transform={
-                                choice1Users < choice2Users
-                                    ? "scale(1.1)"
-                                    : undefined
-                            }
-                            transition={"all 0.5s"}
-                        >
-                            <Heading
-                                p={4}
-                                as={"h4"}
-                                size={"md"}
-                                textAlign={"center"}
-                                fontWeight={"semibold"}
-                                color={textColor}
-                            >
-                                {item.choice2}
-                            </Heading>
-                            {item.choice2Url && (
-                                <AspectRatio ratio={1} cursor={"pointer"}>
-                                    <Image
-                                        src={item.choice2Url}
-                                        onClick={toggleImgModal}
-                                    />
-                                </AspectRatio>
-                            )}
-                            {isLoggedIn && (
-                                <Button
-                                    borderTopRadius={0}
-                                    isDisabled={isSelectFetching}
-                                    onClick={() => choiceHandler(true)}
-                                    isActive={selectedChoice === true}
-                                >
-                                    {isSelectFetching
-                                        ? "로딩중.."
-                                        : selectedChoice
-                                        ? "선택됨"
-                                        : "선택하기"}
-                                </Button>
-                            )}
-                        </Card>
+                                    <Heading
+                                        p={4}
+                                        as={"h4"}
+                                        size={"md"}
+                                        textAlign={"center"}
+                                        fontWeight={"semibold"}
+                                        color={textColor}
+                                    >
+                                        {itemObj.choice}
+                                    </Heading>
+                                    {itemObj.choiceUrl && (
+                                        <AspectRatio
+                                            ratio={1}
+                                            cursor={"pointer"}
+                                        >
+                                            <Image
+                                                src={itemObj.choiceUrl}
+                                                onClick={toggleImgModal}
+                                            />
+                                        </AspectRatio>
+                                    )}
+                                    {isLoggedIn && (
+                                        <Button
+                                            borderTopRadius={0}
+                                            isDisabled={isSelectFetching}
+                                            onClick={() =>
+                                                choiceHandler(
+                                                    itemObj.choiceType
+                                                )
+                                            }
+                                            isActive={
+                                                selectedChoice ===
+                                                itemObj.choiceType
+                                            }
+                                        >
+                                            {isSelectFetching
+                                                ? "로딩중.."
+                                                : selectedChoice ===
+                                                  itemObj.choiceType
+                                                ? "선택됨"
+                                                : "선택하기"}
+                                        </Button>
+                                    )}
+                                </Card>
+                                {index === 0 && (
+                                    <Text
+                                        flex={1}
+                                        textAlign={"center"}
+                                        fontSize={"3xl"}
+                                    >
+                                        VS
+                                    </Text>
+                                )}
+                            </Fragment>
+                        ))}
                     </Flex>
                     <Flex
                         w={"80%"}
@@ -445,7 +442,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                         mt={8}
                         position={"relative"}
                     >
-                        {[false, true].map((choiceType) => (
+                        {[CHOICE_1, CHOICE_2].map((choiceType) => (
                             <Box
                                 key={String(choiceType)}
                                 flex={getRatio(
@@ -453,11 +450,9 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                     choice2Users,
                                     choiceType
                                 )}
-                                bgColor={
-                                    !choiceType ? "green.400" : "orange.400"
-                                }
+                                bgColor={getColor(choiceType)}
                                 borderLeftRadius={
-                                    !choiceType
+                                    choiceType === CHOICE_1
                                         ? 4
                                         : getRatio(
                                               choice1Users,
@@ -468,11 +463,11 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         : 0
                                 }
                                 borderRightRadius={
-                                    !choiceType
+                                    choiceType === CHOICE_1
                                         ? getRatio(
                                               choice1Users,
                                               choice2Users,
-                                              false
+                                              choiceType
                                           ) === 100
                                             ? 4
                                             : 0
@@ -483,8 +478,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                 <Stat
                                     position={"absolute"}
                                     bottom={"-300%"}
-                                    left={!choiceType ? 0 : undefined}
-                                    right={!choiceType ? undefined : 0}
+                                    left={
+                                        choiceType === CHOICE_1 ? 0 : undefined
+                                    }
+                                    right={
+                                        choiceType === CHOICE_1 ? undefined : 0
+                                    }
                                 >
                                     <StatNumber fontSize={"xl"}>
                                         {(choice1Users > 0 ||
@@ -497,10 +496,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                     </StatNumber>
                                     <StatHelpText
                                         textAlign={
-                                            !choiceType ? "start" : "end"
+                                            choiceType === CHOICE_1
+                                                ? "start"
+                                                : "end"
                                         }
                                     >
-                                        {!choiceType
+                                        {choiceType === CHOICE_1
                                             ? choice1Users
                                             : choice2Users}
                                         명
