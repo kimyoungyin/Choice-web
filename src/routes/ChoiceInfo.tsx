@@ -423,7 +423,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         )}
                                         transform={
                                             itemObj.isSelectedMore
-                                                ? "scale(1.3)"
+                                                ? "scale(1.2)"
                                                 : undefined
                                         }
                                         transition={"all 0.5s"}
