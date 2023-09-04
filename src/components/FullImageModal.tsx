@@ -14,8 +14,13 @@ const FullImageModal = ({ isOpen, onClose, src }: FullImageModalProps) => {
                 onClick={onClose}
                 display={"flex"}
                 alignItems={"center"}
+                backgroundColor={"transparent"}
+                boxShadow={"none"}
+                w={"60%"}
+                maxH={"90%"}
+                overflow={"auto"}
             >
-                <Image src={src} boxSize={"60%"} />
+                <Image src={src} w={"full"} />
             </ModalContent>
         </Modal>
     );

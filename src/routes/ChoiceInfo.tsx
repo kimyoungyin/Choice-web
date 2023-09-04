@@ -1,7 +1,7 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { Fragment, MouseEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, SearchIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
     AspectRatio,
     Box,
@@ -18,6 +18,7 @@ import {
     StatNumber,
     Text,
     ToastId,
+    keyframes,
     useColorModeValue,
     useToast,
 } from "@chakra-ui/react";
@@ -48,6 +49,28 @@ const getRatio = (type1Users: number, type2Users: number, type: boolean) => {
     );
 };
 
+const CHOICE_1 = false;
+const CHOICE_2 = true;
+
+const getColor = (choiceType: boolean) =>
+    choiceType === CHOICE_1 ? "green.400" : "orange.400";
+
+const upAndDown = keyframes`
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0.8;
+    }
+    60% {
+        opacity: 0.8;
+    }
+    to {
+        opacity: 0;
+    }
+`;
+const arrowAnimation = `${upAndDown} infinite 1.5s ease-in-out`;
+
 const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     const { id: idRef } = useParams();
     const navigate = useNavigate();
@@ -67,6 +90,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         "image" | "delete" | null
     >(null);
     const [isSelectFetching, setIsSelectFetching] = useState(true);
+
+    const choice1ImageButtonRef = useRef<HTMLButtonElement>(null);
+    const choice2ImageButtonRef = useRef<HTMLButtonElement>(null);
+
     const textColor = useColorModeValue("black", "gray.300");
     const googleButtonColor = useColorModeValue("white", "black");
     const startGoogleLogin = useGoogleLogin(onLogin);
@@ -122,10 +149,25 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         item?.choice2Url,
     ]);
 
-    const choiceHandler = (selectedChoice: boolean) =>
+    const choiceHandler = (
+        event: MouseEvent<HTMLDivElement>,
+        selectedChoice: boolean
+    ) => {
+        if (!isLoggedIn) return;
+        if (isSelectFetching) return;
+        if (!choice1ImageButtonRef.current || !choice2ImageButtonRef.current)
+            return;
+        if (
+            (selectedChoice === CHOICE_1 &&
+                choice1ImageButtonRef.current.contains(event.target as Node)) ||
+            (selectedChoice === CHOICE_2 &&
+                choice2ImageButtonRef.current.contains(event.target as Node))
+        )
+            return;
         setSelectedChoice((prev) =>
             prev === selectedChoice ? null : selectedChoice
         );
+    };
 
     const completeSelect = async () => {
         // db랑 현재 선택한 거랑 같으면 return
@@ -204,12 +246,10 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
         }
     };
 
-    const toggleImgModal = (event: MouseEvent<HTMLImageElement>) => {
-        const {
-            currentTarget: { src },
-        } = event;
+    const toggleImgModal = (choiceUrl: string | null | undefined) => {
+        if (choiceUrl === null || choiceUrl === undefined) return;
         setActivatedModal("image");
-        setClickedImg(src);
+        setClickedImg(choiceUrl);
     };
 
     const isShareSupported = () => navigator.share ?? false;
@@ -249,6 +289,23 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
             });
         }
     };
+
+    const itemObjArr = [
+        {
+            choice: item?.choice1,
+            isSelectedMore: choice1Users > choice2Users,
+            choiceUrl: item?.choice1Url,
+            choiceType: CHOICE_1,
+            ref: choice1ImageButtonRef,
+        },
+        {
+            choice: item?.choice2,
+            isSelectedMore: choice2Users > choice1Users,
+            choiceUrl: item?.choice2Url,
+            choiceType: CHOICE_2,
+            ref: choice2ImageButtonRef,
+        },
+    ];
 
     return (
         <>
@@ -342,101 +399,99 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                     >
                         Q. {item.title}
                     </Heading>
-                    <Flex align={"center"} w={"80%"} maxW={1024}>
-                        {/* 서버에서 보내주는 item을 객체 형태로 보내주고 map 처리하자 */}
-                        <Card
-                            border={"2px"}
-                            borderColor={"green.400"}
-                            w={"40%"}
-                            maxW={"30vh"}
-                            transform={
-                                choice1Users > choice2Users
-                                    ? "scale(1.1)"
-                                    : undefined
-                            }
-                            transition={"all 0.5s"}
-                        >
-                            <Heading
-                                p={4}
-                                as={"h4"}
-                                size={"md"}
-                                textAlign={"center"}
-                                fontWeight={"semibold"}
-                                color={textColor}
-                            >
-                                {item.choice1}
-                            </Heading>
-                            {item.choice1Url && (
-                                <AspectRatio ratio={1} cursor={"pointer"}>
-                                    <Image
-                                        src={item.choice1Url}
-                                        onClick={toggleImgModal}
-                                    />
-                                </AspectRatio>
-                            )}
-                            {isLoggedIn && (
-                                <Button
-                                    borderTopRadius={0}
-                                    isDisabled={isSelectFetching}
-                                    onClick={() => choiceHandler(false)}
-                                    isActive={selectedChoice === false}
+                    <Flex
+                        align={"center"}
+                        w={"80%"}
+                        maxW={1024}
+                        justify={"space-between"}
+                    >
+                        {itemObjArr.map((itemObj, index) => (
+                            <Fragment key={itemObj.choice}>
+                                <Flex
+                                    flexDir={"column"}
+                                    align={"center"}
+                                    gap={10}
+                                    w={"40%"}
+                                    maxW={"30vh"}
                                 >
-                                    {isSelectFetching
-                                        ? "로딩중.."
-                                        : selectedChoice === false
-                                        ? "선택됨"
-                                        : "선택하기"}
-                                </Button>
-                            )}
-                        </Card>
-                        <Text flex={1} textAlign={"center"} fontSize={"3xl"}>
-                            VS
-                        </Text>
-                        <Card
-                            border={"2px"}
-                            borderColor={"orange.400"}
-                            w={"40%"}
-                            maxW={"30vh"}
-                            transform={
-                                choice1Users < choice2Users
-                                    ? "scale(1.1)"
-                                    : undefined
-                            }
-                            transition={"all 0.5s"}
-                        >
-                            <Heading
-                                p={4}
-                                as={"h4"}
-                                size={"md"}
-                                textAlign={"center"}
-                                fontWeight={"semibold"}
-                                color={textColor}
-                            >
-                                {item.choice2}
-                            </Heading>
-                            {item.choice2Url && (
-                                <AspectRatio ratio={1} cursor={"pointer"}>
-                                    <Image
-                                        src={item.choice2Url}
-                                        onClick={toggleImgModal}
-                                    />
-                                </AspectRatio>
-                            )}
-                            {isLoggedIn && (
-                                <Button
-                                    borderTopRadius={0}
-                                    isDisabled={isSelectFetching}
-                                    onClick={() => choiceHandler(true)}
-                                    isActive={selectedChoice === true}
-                                >
-                                    {isSelectFetching
-                                        ? "로딩중.."
-                                        : selectedChoice
-                                        ? "선택됨"
-                                        : "선택하기"}
-                                </Button>
-                            )}
-                        </Card>
+                                    <Card
+                                        key={itemObj.choice}
+                                        border={"2px"}
+                                        w={"100%"}
+                                        borderColor={getColor(
+                                            itemObj.choiceType
+                                        )}
+                                        transform={
+                                            itemObj.isSelectedMore
+                                                ? "scale(1.2)"
+                                                : undefined
+                                        }
+                                        transition={"all 0.5s"}
+                                        cursor={
+                                            isLoggedIn
+                                                ? "pointer"
+                                                : "not-allowed"
+                                        }
+                                        onClick={(event) =>
+                                            choiceHandler(
+                                                event,
+                                                itemObj.choiceType
+                                            )
+                                        }
+                                    >
+                                        <Heading
+                                            p={4}
+                                            as={"h4"}
+                                            size={"md"}
+                                            textAlign={"center"}
+                                            fontWeight={"semibold"}
+                                            color={textColor}
+                                        >
+                                            {itemObj.choice}
+                                        </Heading>
+                                        {itemObj.choiceUrl && (
+                                            <AspectRatio ratio={1}>
+                                                <Image
+                                                    src={itemObj.choiceUrl}
+                                                />
+                                            </AspectRatio>
+                                        )}
+                                        {itemObj.choiceUrl && (
+                                            <Button
+                                                ref={itemObj.ref}
+                                                leftIcon={<SearchIcon />}
+                                                borderTopRadius={0}
+                                                cursor={"pointer"}
+                                                onClick={() =>
+                                                    toggleImgModal(
+                                                        itemObj.choiceUrl
+                                                    )
+                                                }
+                                            >
+                                                이미지 확대
+                                            </Button>
+                                        )}
+                                    </Card>
+                                    {isLoggedIn &&
+                                        selectedChoice ===
+                                            itemObj.choiceType && (
+                                            <TriangleUpIcon
+                                                boxSize={10}
+                                                animation={arrowAnimation}
+                                            />
+                                        )}
+                                </Flex>
+                                {index === 0 && (
+                                    <Text
+                                        flex={1}
+                                        textAlign={"center"}
+                                        fontSize={"3xl"}
+                                    >
+                                        VS
+                                    </Text>
+                                )}
+                            </Fragment>
+                        ))}
                     </Flex>
                     <Flex
                         w={"80%"}
@@ -445,7 +500,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                         mt={8}
                         position={"relative"}
                     >
-                        {[false, true].map((choiceType) => (
+                        {[CHOICE_1, CHOICE_2].map((choiceType) => (
                             <Box
                                 key={String(choiceType)}
                                 flex={getRatio(
@@ -453,11 +508,9 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                     choice2Users,
                                     choiceType
                                 )}
-                                bgColor={
-                                    !choiceType ? "green.400" : "orange.400"
-                                }
+                                bgColor={getColor(choiceType)}
                                 borderLeftRadius={
-                                    !choiceType
+                                    choiceType === CHOICE_1
                                         ? 4
                                         : getRatio(
                                               choice1Users,
@@ -468,11 +521,11 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                         : 0
                                 }
                                 borderRightRadius={
-                                    !choiceType
+                                    choiceType === CHOICE_1
                                         ? getRatio(
                                               choice1Users,
                                               choice2Users,
-                                              false
+                                              choiceType
                                           ) === 100
                                             ? 4
                                             : 0
@@ -483,8 +536,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                 <Stat
                                     position={"absolute"}
                                     bottom={"-300%"}
-                                    left={!choiceType ? 0 : undefined}
-                                    right={!choiceType ? undefined : 0}
+                                    left={
+                                        choiceType === CHOICE_1 ? 0 : undefined
+                                    }
+                                    right={
+                                        choiceType === CHOICE_1 ? undefined : 0
+                                    }
                                 >
                                     <StatNumber fontSize={"xl"}>
                                         {(choice1Users > 0 ||
@@ -497,10 +554,12 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                     </StatNumber>
                                     <StatHelpText
                                         textAlign={
-                                            !choiceType ? "start" : "end"
+                                            choiceType === CHOICE_1
+                                                ? "start"
+                                                : "end"
                                         }
                                     >
-                                        {!choiceType
+                                        {choiceType === CHOICE_1
                                             ? choice1Users
                                             : choice2Users}
                                         명
@@ -512,6 +571,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                     {isLoggedIn ? (
                         <Button
                             mt={16}
+                            minH={12}
                             size={"lg"}
                             boxShadow={"md"}
                             onClick={completeSelect}
