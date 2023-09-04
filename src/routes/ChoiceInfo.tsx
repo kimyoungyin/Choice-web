@@ -400,7 +400,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                         Q. {item.title}
                     </Heading>
                     <Flex
-                        align={"flex-start"}
+                        align={"center"}
                         w={"80%"}
                         maxW={1024}
                         justify={"space-between"}
