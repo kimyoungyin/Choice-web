@@ -155,13 +155,11 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
     ) => {
         if (!isLoggedIn) return;
         if (isSelectFetching) return;
-        if (!choice1ImageButtonRef.current || !choice2ImageButtonRef.current)
-            return;
         if (
             (selectedChoice === CHOICE_1 &&
-                choice1ImageButtonRef.current.contains(event.target as Node)) ||
+                choice1ImageButtonRef.current?.contains(event.target as Node)) ||
             (selectedChoice === CHOICE_2 &&
-                choice2ImageButtonRef.current.contains(event.target as Node))
+                choice2ImageButtonRef.current?.contains(event.target as Node))
         )
             return;
         setSelectedChoice((prev) =>
@@ -453,6 +451,7 @@ const ChoiceInfo = ({ userObj, isLoggedIn, onLogin }: ChoiceInfoProps) => {
                                             <AspectRatio ratio={1}>
                                                 <Image
                                                     src={itemObj.choiceUrl}
+													draggable={false}
                                                 />
                                             </AspectRatio>
                                         )}
